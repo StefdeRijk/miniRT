@@ -1,0 +1,96 @@
+#include "miniRT.h"
+
+void	parse_ambient(t_parse_line *line, t_scene *scene)
+{
+	t_ambient	*a;
+
+	if (scene->ambient)
+		error("Found multiple ambient sources in file");
+	scene->ambient = malloc(sizeof(*scene->ambient));
+	a = scene->ambient;
+	parse_float(line, &a->brightness);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3i(line, &a->color);
+	skip_one_char(line, '\n');
+}
+
+void	parse_camera(t_parse_line *line, t_scene *scene)
+{
+	t_camera	*c;
+
+	if (scene->camera)
+		error("Found multiple camera sources in file");
+	scene->camera = malloc(sizeof(*scene->camera));
+	c = scene->camera;
+	parse_vec3f(line, &c->pos);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3f(line, &c->dir);
+	skip_one_or_more_char(line, ' ');
+	parse_float(line, &c->fov);
+	skip_one_char(line, '\n');
+}
+
+void	parse_light(t_parse_line *line, t_scene *scene)
+{
+	t_light	*l;
+
+	if (scene->light)
+		error("Found multiple light sources in file");
+	scene->light = malloc(sizeof(*scene->light));
+	l = scene->light;
+	parse_vec3f(line, &l->pos);
+	skip_one_or_more_char(line, ' ');
+	parse_float(line, &l->brightness);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3i(line, &l->color);
+	skip_one_or_more_char(line, '\n');
+}
+
+void	parse_sphere(t_parse_line *line, t_scene *scene)
+{
+	t_sphere	s;
+
+	if (!scene->spheres.data)
+		vec_init(&scene->spheres, sizeof(t_sphere));
+	parse_vec3f(line, &s.pos);
+	skip_one_or_more_char(line, ' ');
+	parse_float(line, &s.diameter);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3i(line, &s.color);
+	skip_one_or_more_char(line, '\n');
+	vec_push(&scene->spheres, &s);
+}
+
+void	parse_plane(t_parse_line *line, t_scene *scene)
+{
+	t_plane	p;
+
+	if (!scene->planes.data)
+		vec_init(&scene->planes, sizeof(t_plane));
+	parse_vec3f(line, &p.pos);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3f(line, &p.dir);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3i(line, &p.color);
+	skip_one_or_more_char(line, '\n');
+	vec_push(&scene->planes, &p);
+}
+
+void	parse_cylinder(t_parse_line *line, t_scene *scene)
+{
+	t_cylinder	c;
+
+	if (!scene->cylinders.data)
+		vec_init(&scene->cylinders, sizeof(t_cylinder));
+	parse_vec3f(line, &c.pos);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3f(line, &c.dir);
+	skip_one_or_more_char(line, ' ');
+	parse_float(line, &c.diameter);
+	skip_one_or_more_char(line, ' ');
+	parse_float(line, &c.height);
+	skip_one_or_more_char(line, ' ');
+	parse_vec3i(line, &c.color);
+	skip_one_or_more_char(line, '\n');
+	vec_push(&scene->cylinders, &c);
+}
