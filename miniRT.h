@@ -6,7 +6,6 @@
 # include "vec/vec.h"
 # include "fcntl.h"
 # include "get_next_line/get_next_line.h"
-# include "ft_printf/ft_printf.h"
 
 typedef struct s_ambient {
 	float	brightness;
@@ -97,4 +96,11 @@ void	parse_vec3f(t_parse_line *line, t_vec3f *v);
 char	line_next(t_parse_line *line);
 void	check_range_f(t_parse_line *line, float f, float min, float max);
 void	check_range_vec3f(t_parse_line *line, t_vec3f v, float min, float max);
+void	check_range_i(t_parse_line *line, int i, int min, int max);
+void	check_range_vec3i(t_parse_line *line, t_vec3i v, int min, int max);
+void	parse_check_float(t_parse_line *line, float *f, float min, float max);
+void	parse_check_int(t_parse_line *line, int *i, int min, int max);
+void	parse_check_vec3f(t_parse_line *line, t_vec3f *f, float min, float max);
+void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
+
 #endif

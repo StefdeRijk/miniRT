@@ -8,10 +8,9 @@ void	parse_ambient(t_parse_line *line, t_scene *scene)
 		error("Found multiple ambient sources in file");
 	scene->ambient = malloc(sizeof(*scene->ambient));
 	a = scene->ambient;
-	parse_float(line, &a->brightness);
-	check_range_f(line, a->brightness, 0.0, 1.0);
+	parse_check_float(line, &a->brightness, 0.0, 1.0);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3i(line, &a->color);
+	parse_check_vec3i(line, &a->color, 0, 255);
 	skip_one_char(line, '\n');
 }
 
@@ -25,9 +24,9 @@ void	parse_camera(t_parse_line *line, t_scene *scene)
 	c = scene->camera;
 	parse_vec3f(line, &c->pos);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3f(line, &c->dir);
+	parse_check_vec3f(line, &c->dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &c->fov);
+	parse_check_float(line, &c->fov, 0, 180);
 	skip_one_char(line, '\n');
 }
 
@@ -41,9 +40,9 @@ void	parse_light(t_parse_line *line, t_scene *scene)
 	l = scene->light;
 	parse_vec3f(line, &l->pos);
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &l->brightness);
+	parse_check_float(line, &l->brightness, 0, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3i(line, &l->color);
+	parse_check_vec3i(line, &l->color, 0, 255);
 	skip_one_or_more_char(line, '\n');
 }
 
@@ -57,7 +56,7 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &s.diameter);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3i(line, &s.color);
+	parse_check_vec3i(line, &s.color, 0, 255);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
 }
@@ -70,9 +69,9 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 		vec_init(&scene->planes, sizeof(t_plane));
 	parse_vec3f(line, &p.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3f(line, &p.dir);
+	parse_check_vec3f(line, &p.dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3i(line, &p.color);
+	parse_check_vec3i(line, &p.color, 0, 255);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);
 }
@@ -85,13 +84,13 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 		vec_init(&scene->cylinders, sizeof(t_cylinder));
 	parse_vec3f(line, &c.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3f(line, &c.dir);
+	parse_check_vec3f(line, &c.dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &c.diameter);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &c.height);
 	skip_one_or_more_char(line, ' ');
-	parse_vec3i(line, &c.color);
+	parse_check_vec3i(line, &c.color, 0, 255);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->cylinders, &c);
 }
@@ -119,8 +118,9 @@ void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t)
 		*t = CYLINDER;
 	else
 	{
-		ft_printf("Expected element type at line %d, column %d, found %c");
+		printf("Expected element type at line %d, column %d, found %c\n");
 		error("Parse error");
 	}
+	line->i++;
 	skip_one_or_more_char(line, ' ');
 }

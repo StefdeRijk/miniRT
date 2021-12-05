@@ -2,7 +2,7 @@
 
 void	digit_error(t_parse_line *line)
 {
-	ft_printf("Expected digit at line %d, column %d, found %c",
+	printf("Expected digit at line %d, column %d, found '%c'\n",
 		line->line_nr, line->i, line->line[line->i]);
 	error("Parse error");
 }
@@ -19,6 +19,8 @@ void	parse_int(t_parse_line *line, int *i)
 		sign = -1;
 	if (c == '-' || c == '+')
 		c = line_next(line);
+	if (!ft_isdigit(c))
+		digit_error(line);
 	while (ft_isdigit(c))
 	{
 		*i = *i * 10 + sign * (c - '0');
@@ -40,6 +42,8 @@ void	parse_float(t_parse_line *line, float *f)
 		sign = -1;
 	if (c == '-' || c == '+')
 		c = line_next(line);
+	if (!ft_isdigit(c))
+		digit_error(line);
 	while (ft_isdigit(c))
 	{
 		*f = *f * 10 + sign * (c - '0');

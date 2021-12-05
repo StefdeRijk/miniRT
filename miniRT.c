@@ -14,7 +14,6 @@ void	parse_line(t_parse_line line, t_scene *scene)
 		parse_cylinder,
 	};
 	parse_elem_type(&line, &et);
-	skip_one_or_more_char(&line, ' ');
 	parse_elem[et](&line, scene);
 }
 

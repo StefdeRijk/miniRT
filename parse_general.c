@@ -10,8 +10,8 @@ void	skip_one_char(t_parse_line *line, char c)
 {
 	if (line->line[line->i] != c)
 	{
-		ft_printf("Expected %c at line %d, column %d, found %c",
-			c, line->line_nr, line->i, line->line[line->i]);
+		printf("Expected '%c' (as number: %d) at line %d, column %d, found '%c' (as number: %d) \n",
+			c, c, line->line_nr, line->i, line->line[line->i], line->line[line->i]);
 		error("Parse error");
 	}
 	line->i++;
