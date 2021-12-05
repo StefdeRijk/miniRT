@@ -8,6 +8,11 @@ typedef struct s_list
 	struct s_list	*next;
 }	t_list;
 
+typedef union u_modf_union {
+	double			f;
+	unsigned long	l;
+}	t_modf_union;
+
 int		ft_isalpha(int c);
 int		ft_isdigit(int c);
 int		ft_isalnum(int c);
@@ -66,5 +71,9 @@ int		ft_atoi_base(const char *str, int base, char ten);
 int		ft_absi(int a);
 float	ft_absf(float a);
 int		ft_strcmp(const char *s1, const char *s2);
+void	ft_print_bits(long a);
+double	ft_modf(double a, double *intpart);
+int		ft_sign(long a);
+int		ft_atoi_skip(char **str);
 
 #endif
