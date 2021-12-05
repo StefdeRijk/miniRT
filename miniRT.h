@@ -6,6 +6,7 @@
 # include "vec/vec.h"
 # include "fcntl.h"
 # include "get_next_line/get_next_line.h"
+# include <stdio.h>
 
 typedef struct s_ambient {
 	float	brightness;

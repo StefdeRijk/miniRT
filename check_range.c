@@ -25,7 +25,7 @@ void	check_range_f(t_parse_line *line, float f, float min, float max)
 
 void	check_range_vec3i(t_parse_line *line, t_vec3i v, int min, int max)
 {
-	float	j;
+	int		j;
 	int		i;
 
 	i = 0;
