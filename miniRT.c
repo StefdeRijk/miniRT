@@ -13,13 +13,12 @@ void	parse_line(t_parse_line line, t_scene *scene)
 		parse_plane,
 		parse_cylinder,
 	};
-
 	parse_elem_type(&line, &et);
 	skip_one_or_more_char(&line, ' ');
 	parse_elem[et](&line, scene);
 }
 
-t_scene	get_scene(char *filename, t_scene *scene)
+void	get_scene(char *filename, t_scene *scene)
 {
 	int				fd;
 	t_parse_line	line;

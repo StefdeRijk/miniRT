@@ -9,6 +9,7 @@ void	parse_ambient(t_parse_line *line, t_scene *scene)
 	scene->ambient = malloc(sizeof(*scene->ambient));
 	a = scene->ambient;
 	parse_float(line, &a->brightness);
+	check_range_f(line, a->brightness, 0.0, 1.0);
 	skip_one_or_more_char(line, ' ');
 	parse_vec3i(line, &a->color);
 	skip_one_char(line, '\n');
@@ -93,4 +94,33 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	parse_vec3i(line, &c.color);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->cylinders, &c);
+}
+
+void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t)
+{
+	char	c;
+	char	c2;
+
+	c2 = 0;
+	c = line->line[line->i];
+	if (c)
+		c2 = line->line[line->i];
+	if (c == 'A')
+		*t = AMBIENT;
+	else if (c == 'C')
+		*t = CAMERA;
+	else if (c == 'L')
+		*t = LIGHT;
+	else if (c == 's' && c2 == 'p')
+		*t = SPHERE;
+	else if (c == 'p' && c2 == 'l')
+		*t = PLANE;
+	else if (c == 'c' && c2 == 'y')
+		*t = CYLINDER;
+	else
+	{
+		ft_printf("Expected element type at line %d, column %d, found %c");
+		error("Parse error");
+	}
+	skip_one_or_more_char(line, ' ');
 }
