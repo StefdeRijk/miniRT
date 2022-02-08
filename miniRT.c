@@ -3,8 +3,7 @@
 void	parse_line(t_parse_line line, t_scene *scene)
 {
 	t_scene_elem_type		et;
-	static t_elem_parser	parse_elem[NR_ELEM_TYPES] =
-	{
+	static t_elem_parser	parse_elem[NR_ELEM_TYPES] = {
 		parse_ambient,
 		parse_camera,
 		parse_light,
@@ -12,6 +11,7 @@ void	parse_line(t_parse_line line, t_scene *scene)
 		parse_plane,
 		parse_cylinder,
 	};
+
 	parse_elem_type(&line, &et);
 	parse_elem[et](&line, scene);
 }
