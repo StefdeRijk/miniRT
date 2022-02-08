@@ -2,15 +2,13 @@ SRC = miniRT.c check_range.c parse_elements.c parse_general.c parse_number.c\
 	parse_vec.c parse_check.c
 
 NAME = miniRT
-MLX_DIR = minilibx_macos
-MLX = $(MLX_DIR)/libmlx.a
 GNL_DIR = get_next_line
 GNL = $(GNL_DIR)/get_next_line.a
 VEC_DIR = vec
 VEC = $(VEC_DIR)/vec.a
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
-INCLUDES = -framework OpenGL -framework AppKit
+INCLUDES = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror
@@ -20,8 +18,8 @@ endif
 
 all: libft get_next_line vec $(NAME)
 
-$(NAME): $(SRC) $(GNL) $(LIBFT) $(MLX) $(NAME).h
-	gcc $(FLAGS) -I. $(SRC) $(LIBFT) $(VEC) $(GNL) $(MLX) $(INCLUDES) -o $(NAME)
+$(NAME): $(SRC) $(GNL) $(LIBFT) $(NAME).h
+	gcc $(FLAGS) -I. $(SRC) $(LIBFT) $(VEC) $(GNL) $(INCLUDES) -o $(NAME)
 
 libft:
 	$(MAKE) bonus -C $(LIBFT_DIR)
@@ -32,14 +30,10 @@ get_next_line:
 vec:
 	$(MAKE) -C $(VEC_DIR)
 
-$(MLX):
-	$(MAKE) -C $(MLX_DIR)
-
 clean:
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(MAKE) clean -C $(GNL_DIR)
 	$(MAKE) clean -C $(VEC_DIR)
-	$(MAKE) clean -C $(MLX_DIR)
 
 fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
