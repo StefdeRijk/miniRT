@@ -1,6 +1,5 @@
 #include "miniRT.h"
 
-
 void	parse_line(t_parse_line line, t_scene *scene)
 {
 	t_scene_elem_type		et;

@@ -119,7 +119,7 @@ void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t)
 	else
 	{
 		printf("Expected element type at line %d, column %d, found '%c' (\n",
-				line->line_nr, line->i, c);
+		line->line_nr, line->i, c);
 		error("Parse error");
 	}
 	line->i++;
