@@ -35,7 +35,7 @@ t_vec3f	vec3f_trans(t_vec3f v, t_direction dir, float distance)
 	return (v);
 }
 
-float vec3f_dot(t_vec3f v1, t_vect3f v2)
+float vec3f_dot(t_vec3f v1, t_vec3f v2)
 {
 	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
