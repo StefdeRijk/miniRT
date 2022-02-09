@@ -105,4 +105,5 @@ void	parse_check_int(t_parse_line *line, int *i, int min, int max);
 void	parse_check_vec3f(t_parse_line *line, t_vec3f *f, float min, float max);
 void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 
+void init_mlx();
 #endif

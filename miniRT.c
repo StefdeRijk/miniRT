@@ -58,8 +58,9 @@ void	check_args(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	static t_scene	scene = {0};
+	//static t_scene	scene = {0};
 
 	check_args(argc, argv);
-	get_scene(argv[1], &scene);
+	//get_scene(argv[1], &scene);
+	init_mlx();
 }
