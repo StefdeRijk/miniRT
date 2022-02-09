@@ -29,7 +29,9 @@ void	get_scene(char *filename, t_scene *scene)
 	while (line.line)
 	{
 		line.i = 0;
-		parse_line(line, scene);
+		printf("line: %s", line.line);
+		if (ft_strcmp(line.line, "\n"))
+			parse_line(line, scene);
 		free(line.line);
 		line.line = get_next_line(fd);
 		line.line_nr++;
@@ -58,9 +60,9 @@ void	check_args(int argc, char **argv)
 
 int	main(int argc, char **argv)
 {
-	//static t_scene	scene = {0};
+	static t_scene	scene = {0};
 
 	check_args(argc, argv);
-	//get_scene(argv[1], &scene);
+	get_scene(argv[1], &scene);
 	init_mlx();
 }

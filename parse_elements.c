@@ -104,7 +104,7 @@ void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t)
 	c2 = 0;
 	c = line->line[line->i];
 	if (c)
-		c2 = line->line[line->i];
+		c2 = line->line[line->i + 1];
 	if (c == 'A')
 		*t = AMBIENT;
 	else if (c == 'C')
@@ -124,5 +124,7 @@ void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t)
 		error("Parse error");
 	}
 	line->i++;
+	if (*t == SPHERE || *t == PLANE || *t == CYLINDER)
+		line->i++;
 	skip_one_or_more_char(line, ' ');
 }
