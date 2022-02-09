@@ -1,5 +1,5 @@
-
 #include "vec/vec.h"
+
 int	trgb_to_int(int t, int r, int g, int b)
 {
 	return (t << 24 | r << 16 | g << 8 | b);
@@ -19,5 +19,3 @@ t_vec3i	color_to_rgb(int color)
 	rgb.b = color & 0xFF;
 	return (rgb);
 }
-
-
