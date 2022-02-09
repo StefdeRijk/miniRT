@@ -1,6 +1,7 @@
 #include "miniRT.h"
+#include <math.h>
 
-int	hit_sphere(t_sphere sphere, t_ray r)
+float	hit_sphere(t_sphere sphere, t_ray r)
 {
 	t_vec3f	oc;
 	float	a;
@@ -13,5 +14,8 @@ int	hit_sphere(t_sphere sphere, t_ray r)
 	b = 2.0 * vec3f_dot(oc, r.dir);
 	c = vec3f_len_sq(oc) - (sphere.radius * sphere.radius);
 	d = b * b - 4 * a * c;
-	return (d > 0);
+	if (d < 0)
+		return (-1.0);
+	else
+		return ((-b - sqrt(d)) / (2.0 * a));
 }
