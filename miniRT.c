@@ -64,5 +64,5 @@ int	main(int argc, char **argv)
 
 	check_args(argc, argv);
 	get_scene(argv[1], &scene);
-	init_mlx();
+	init_mlx(&scene);
 }
