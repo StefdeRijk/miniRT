@@ -16,7 +16,7 @@ INCLUDES = -Lmlx -lmlx -framework OpenGL -framework AppKit
 ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror
 else
-	FLAGS = -Wall -Wextra
+	FLAGS = -Wall -Wextra -fsanitize=address -g 
 endif
 
 all: libft get_next_line vec $(NAME)
