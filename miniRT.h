@@ -55,6 +55,25 @@ typedef struct s_scene {
 	t_vec		cylinders;
 }	t_scene;
 
+typedef struct s_arr2di {
+	int	*data;
+	int	size_x;
+	int	size_y;
+}	t_arr2di;
+
+typedef struct s_info {
+	void			*mlx_ptr;
+	void			*win_ptr;
+	void			*mlximg_ptr;
+	t_arr2di		img;
+}	t_info;
+
+typedef struct s_ray {
+	t_vec3f origin;
+	t_vec3f dir;
+} t_ray;
+
+
 typedef enum e_error {
 	MRT_SUCCESS,
 	MRT_ERROR
@@ -104,6 +123,8 @@ void	parse_check_float(t_parse_line *line, float *f, float min, float max);
 void	parse_check_int(t_parse_line *line, int *i, int min, int max);
 void	parse_check_vec3f(t_parse_line *line, t_vec3f *f, float min, float max);
 void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
+int		rgb_to_color(t_vec3i color);
+int		trgb_to_int(int t, int r, int g, int b);
 
 void init_mlx();
 #endif

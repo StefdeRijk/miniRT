@@ -8,23 +8,6 @@
 # define ASPECT_RATIO (16./9.)
 # define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 # define DESTROY_NOTIFY 17
-typedef struct s_arr2di {
-	int	*data;
-	int	size_x;
-	int	size_y;
-}	t_arr2di;
-
-typedef struct s_info {
-	void			*mlx_ptr;
-	void			*win_ptr;
-	void			*mlximg_ptr;
-	t_arr2di		img;
-}	t_info;
-
-typedef struct s_ray {
-	t_vec3f origin;
-	t_vec3f dir;
-} t_ray;
 
 void	init_image(t_info *info)
 {
@@ -61,49 +44,6 @@ void	pixel_put_image(t_arr2di *image, int x, int y, int color)
 {
 	*(unsigned int *)(image->data + x + y * image->size_x)
 		= color;
-}
-
-int	trgb_to_int(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
-
-int	rgb_to_color(t_vec3i color)
-{
-	return (trgb_to_int(0, color.r, color.g, color.b));
-}
-
-t_vec3i	color_to_rgb(int color)
-{
-	t_vec3i	rgb;
-
-	rgb.r = (color & (0xFF << 16)) >> 16;
-	rgb.g = (color & (0xFF << 8)) >> 8;
-	rgb.b = color & 0xFF;
-	return (rgb);
-}
-
-
-int	hit_sphere(t_sphere sphere, t_ray r)
-{
-	t_vec3f oc = vec3f_sub(r.origin, sphere.pos);
-	float a = vec3f_len_sq(r.dir);
-	float b = 2.0 * vec3f_dot(oc, r.dir);
-	float c = vec3f_len_sq(oc) - (sphere.radius * sphere.radius);
-	float d = b*b - 4*a*c;
-
-	return (d > 0);
-}
-
-int ray_color(t_ray r, t_sphere sphere)
-{
-	if (hit_sphere(sphere, r))
-	{
-		return(rgb_to_color(sphere.color));
-	}
-	t_vec3f unit_dir = vec3f_unit(r.dir);
-	printf("%f ", unit_dir.x);
-	return (trgb_to_int(0, fabs(unit_dir.x) * 255, fabs(unit_dir.y) * 255, fabs(unit_dir.z) * 255));
 }
 
 void init_mlx() {

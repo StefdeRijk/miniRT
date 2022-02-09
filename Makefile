@@ -1,5 +1,5 @@
 SRC = miniRT.c check_range.c parse_elements.c parse_general.c parse_number.c\
-	parse_vec.c parse_check.c init_mlx.c
+	parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c
 
 NAME = miniRT
 MLX_DIR = mlx
