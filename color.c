@@ -19,3 +19,33 @@ t_vec3i	color_to_rgb(int color)
 	rgb.b = color & 0xFF;
 	return (rgb);
 }
+
+float	color_to_float(int color)
+{
+	return ((float)color / 255.);
+}
+
+t_vec3f	color_to_float_vec(t_vec3i color)
+{
+	t_vec3f	ret;
+
+	ret.x = color_to_float(color.x);
+	ret.y = color_to_float(color.y);
+	ret.z = color_to_float(color.z);
+	return (ret);
+}
+
+int	float_to_color(float color)
+{
+	return (color * 255.);
+}
+
+t_vec3i	float_to_color_vec(t_vec3f color)
+{
+	t_vec3i	ret;
+
+	ret.x = float_to_color(color.x);
+	ret.y = float_to_color(color.y);
+	ret.z = float_to_color(color.z);
+	return (ret);
+}

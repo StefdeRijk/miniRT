@@ -73,6 +73,9 @@ t_vec3f		vec3f_unit(t_vec3f v);
 float		vec3f_len(t_vec3f v);
 float		vec3f_len_sq(t_vec3f v);
 float		vec3f_dot(t_vec3f v1, t_vec3f v2);
+t_vec3f 	vec3f_mul_v(t_vec3f v1, t_vec3f v2);
+t_vec3f		color_to_float_vec(t_vec3i color);
+float		color_to_float(int color);
 
 t_vec2i		vec2i_trans(t_vec2i v, t_direction dir);
 
