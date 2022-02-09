@@ -28,7 +28,7 @@ typedef struct s_light {
 
 typedef struct s_sphere {
 	t_vec3f	pos;
-	float	diameter;
+	float	radius;
 	t_vec3i	color;
 }	t_sphere;
 

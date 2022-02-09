@@ -54,7 +54,8 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 		vec_init(&scene->spheres, sizeof(t_sphere));
 	parse_vec3f(line, &s.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &s.diameter);
+	parse_float(line, &s.radius);
+	s.radius /= 2;
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3i(line, &s.color, 0, 255);
 	skip_one_or_more_char(line, '\n');
