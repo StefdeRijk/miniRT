@@ -131,7 +131,7 @@ void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 int		rgb_to_color(t_vec3i color);
 int		trgb_to_int(int t, int r, int g, int b);
 float	hit_sphere(t_sphere sphere, t_ray r);
-int		ray_color(t_ray r, t_sphere sphere);
+int		ray_color(t_ray r, t_info *info, t_scene *scene);
 
 void	init_mlx(t_scene *scene);
 #endif

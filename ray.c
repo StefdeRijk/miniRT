@@ -12,14 +12,14 @@ int	vec_to_color(t_vec3f v)
 			fabs(v.z) * 255));
 }
 
-int	ray_color(t_ray r, t_sphere sphere)
+int	ray_color(t_ray r, t_info *info, t_scene *scene)
 {
 	t_vec3f	unit_dir;
 	float	hit;
 
 	unit_dir = vec3f_unit(r.dir);
-	hit = hit_sphere(sphere, r);
+	hit = hit_sphere(*(t_sphere *)scene->spheres.data, r);
 	if (hit > 0)
-		unit_dir = vec3f_unit(vec3f_sub(at(r, hit), sphere.pos));
+		unit_dir = vec3f_unit(vec3f_sub(at(r, hit), ((t_sphere *)scene->spheres.data)->pos));
 	return (vec_to_color(unit_dir));
 }

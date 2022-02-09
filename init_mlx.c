@@ -82,7 +82,7 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 			direction = get_ray_direction(info, i, j, camera);
 			r.origin = camera;
 			r.dir = direction;
-			color = ray_color(r, *(t_sphere *)scene->spheres.data);
+			color = ray_color(r, info, scene);
 			pixel_put_image(&info->img, i, j, color);
 			i++;
 		}
