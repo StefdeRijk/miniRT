@@ -1,6 +1,6 @@
 SRC = miniRT.c check_range.c parse_elements.c parse_general.c parse_number.c\
 	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
-	  parse_objects.c
+	  parse_objects.c spot_light.c
 
 NAME = miniRT
 MLX_DIR = mlx
@@ -14,9 +14,9 @@ LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -Lmlx -lmlx -framework OpenGL -framework AppKit
 
 ifndef DEBUG
-	FLAGS = -Wall -Wextra -Werror
+	FLAGS = -Wall -Wextra -Werror -O3
 else
-	FLAGS = -Wall -Wextra -fsanitize=address -g 
+	FLAGS = -Wall -Wextra -fsanitize=address -g -O3
 endif
 
 all: libft get_next_line vec $(NAME)

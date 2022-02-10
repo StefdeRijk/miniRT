@@ -35,9 +35,14 @@ t_vec3f	color_to_float_vec(t_vec3i color)
 	return (ret);
 }
 
+float	tone_mapping(float i)
+{
+	return (i / (i + 1.));
+}
+
 int	float_to_color(float color)
 {
-	return (color * 255.);
+	return (tone_mapping(color) * 255.);
 }
 
 t_vec3i	float_to_color_vec(t_vec3f color)
