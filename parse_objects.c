@@ -13,8 +13,7 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &s.color, 0, 255);
 	skip_one_or_more_char(line, '\n');
-	vec_push(&scene->spheres, &s);
-}
+	vec_push(&scene->spheres, &s);}
 
 void	parse_plane(t_parse_line *line, t_scene *scene)
 {

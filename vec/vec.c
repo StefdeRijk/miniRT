@@ -79,6 +79,6 @@ void	vec_push(t_vec *vec, void *i)
 				vec->cap * vec->elem_size);
 		vec->cap = new_cap;
 	}
-	ft_memcpy((char *)vec->data + vec->len, i, vec->elem_size);
+	ft_memcpy((char *)vec->data + (vec->len * vec->elem_size), i, vec->elem_size);
 	vec->len++;
 }
