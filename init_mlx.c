@@ -4,7 +4,7 @@
 #include <math.h>
 #include "miniRT.h"
 
-#define WIN_WIDTH 1920
+#define WIN_WIDTH 2560
 #define ASPECT_RATIO (16. / 9.)
 #define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 #define DESTROY_NOTIFY 17
@@ -110,7 +110,7 @@ void init_mlx(t_scene *scene)
 	info.viewport_height = 2.0;
 	info.viewport_width = ASPECT_RATIO * info.viewport_height;
 	info.focal_length = 10;
-	camera = vec3f_init(0, 0, 0);
+	camera = vec3f_init(0, -0.15, 0);
 	info.horizontal = vec3f_init(info.viewport_width, 0, 0);
 	info.vertical = vec3f_init(0, info.viewport_height, 0);
 	left_edge = vec3f_sub(camera, vec3f_div(info.horizontal, 2));

@@ -14,7 +14,7 @@ t_vec3f spot_light(t_ray r, t_scene *scene)
     spot_unit = vec3f_sub(scene->light->pos, r.origin);
     distance_sq = vec3f_len_sq(spot_unit);
     spot_unit = vec3f_unit(spot_unit);
-    ray_unit = vec3f_unit(r.origin);
+    ray_unit = vec3f_unit(r.dir);
     in_product = vec3f_dot(spot_unit, ray_unit);
     if (in_product < 0)
         in_product = 0;

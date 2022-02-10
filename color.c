@@ -20,6 +20,11 @@ t_vec3i	color_to_rgb(int color)
 	return (rgb);
 }
 
+float	tone_mapping(float i)
+{
+	return (i / (i + 1.));
+}
+
 float	color_to_float(int color)
 {
 	return ((float)color / 255.);
@@ -33,11 +38,6 @@ t_vec3f	color_to_float_vec(t_vec3i color)
 	ret.y = color_to_float(color.y);
 	ret.z = color_to_float(color.z);
 	return (ret);
-}
-
-float	tone_mapping(float i)
-{
-	return (i / (i + 1.));
 }
 
 int	float_to_color(float color)
