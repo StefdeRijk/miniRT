@@ -4,7 +4,7 @@
 #include <math.h>
 #include "miniRT.h"
 
-#define WIN_WIDTH 2000
+#define WIN_WIDTH 400
 #define ASPECT_RATIO (16. / 9.)
 #define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 #define DESTROY_NOTIFY 17
@@ -88,7 +88,7 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 			sphere_color = ray_color(r, info, scene);
 			color_int = float_to_color_vec(sphere_color);
 			color = rgb_to_color(color_int);
-			pixel_put_image(&info->img, i, j, color);
+			pixel_put_image(&info->img, i, WIN_HEIGHT - j - 1, color);
 			i++;
 		}
 		j--;
