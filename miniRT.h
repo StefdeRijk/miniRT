@@ -77,6 +77,7 @@ typedef struct s_info {
 typedef struct s_ray {
 	t_vec3f	origin;
 	t_vec3f	dir;
+	int		bounces;
 }	t_ray;
 
 typedef enum e_error {
@@ -131,7 +132,7 @@ void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 int		rgb_to_color(t_vec3i color);
 int		trgb_to_int(int t, int r, int g, int b);
 float	hit_sphere(t_sphere sphere, t_ray r);
-int		ray_color(t_ray r, t_info *info, t_scene *scene);
+t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 t_vec3i	float_to_color_vec(t_vec3f color);
 int		float_to_color(float color);

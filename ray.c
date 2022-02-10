@@ -1,6 +1,8 @@
 #include "miniRT.h"
 #include <math.h>
 
+#define MAX_BOUNCES 5
+
 t_vec3f	at(t_ray r, float t)
 {
 	return (vec3f_add(r.origin, vec3f_mul(r.dir, t)));
@@ -12,14 +14,12 @@ int	vec_to_color(t_vec3f v)
 			fabs(v.z) * 255));
 }
 
-int	ray_color(t_ray r, t_info *info, t_scene *scene)
+t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene)
 {
 	t_vec3f		unit_dir;
 	float		hit;
 	float		hit_min;
-	int			color;
 	t_vec3f		sphere_color;
-	t_vec3i		color_int;
 	t_sphere	*spheres;
 	t_sphere	sphere;
 	int			sphere_num;
@@ -29,7 +29,7 @@ int	ray_color(t_ray r, t_info *info, t_scene *scene)
 	spheres = scene->spheres.data;
 	hit_min = 0.;
 	i = 0;
-	while (i < scene->spheres.len)
+	while (i < scene->spheres.len && r.bounces < MAX_BOUNCES)
 	{
 		sphere = spheres[i];
 		hit = hit_sphere(sphere, r);
@@ -40,15 +40,14 @@ int	ray_color(t_ray r, t_info *info, t_scene *scene)
 		}
 		i++;
 	}
-	if (hit_min > 0)
+	if (hit_min > 0 && r.bounces < MAX_BOUNCES)
 	{
 		sphere = spheres[sphere_num];
 		unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
-		sphere_color = vec3f_mul_v(sphere.color, scene->ambient->color);
-		sphere_color = vec3f_mul(sphere_color, scene->ambient->brightness);
-		color_int = float_to_color_vec(sphere_color);
-		color = rgb_to_color(color_int);
-		return (color);
+		r.origin = at(r, hit_min);
+		r.dir = unit_dir;
+		r.bounces++;
+		return (vec3f_mul_v(sphere.color, ray_color(r, info, scene)));
 	}
-	return (vec_to_color(unit_dir));
+	return (vec3f_mul(scene->ambient->color, scene->ambient->brightness));
 }
