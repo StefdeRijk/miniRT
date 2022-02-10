@@ -22,10 +22,15 @@ t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene)
 	t_sphere	*spheres;
 	t_sphere	sphere;
 	int			sphere_num;
+	t_plane		*planes;
+	t_plane		plane;
+	int			plane_num;
 	int			i;
+	t_scene_elem_type	hit_type;
 
 	unit_dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
+	planes = scene->planes.data;
 	hit_min = 0.;
 	i = 0;
 	while (i < scene->spheres.len && r.bounces < MAX_BOUNCES)
@@ -36,13 +41,35 @@ t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene)
 		{
 			hit_min = hit;
 			sphere_num = i;
+			hit_type = SPHERE;
+		}
+		i++;
+	}
+	i = 0;
+	while (i < scene->planes.len && r.bounces < MAX_BOUNCES)
+	{
+		plane = planes[i];
+		hit = hit_plane(plane, r);
+		if (hit > 0 && (hit < hit_min || hit_min == 0.))
+		{
+			hit_min = hit;
+			plane_num = i;
+			hit_type = PLANE;
 		}
 		i++;
 	}
 	if (hit_min > 0 && r.bounces < MAX_BOUNCES)
 	{
-		sphere = spheres[sphere_num];
-		unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
+		if (hit_type == SPHERE)
+		{
+			sphere = spheres[sphere_num];
+			unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
+		}
+		if (hit_type == PLANE)
+		{
+			plane = planes[plane_num];
+			unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), plane.pos));
+		}
 		r.origin = at(r, hit_min);
 		r.dir = unit_dir;
 		r.bounces++;
