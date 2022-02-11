@@ -4,7 +4,7 @@
 #include <math.h>
 #include "miniRT.h"
 
-#define WIN_WIDTH 256
+#define WIN_WIDTH 2560
 #define ASPECT_RATIO (16. / 9.)
 #define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 #define DESTROY_NOTIFY 17
@@ -79,11 +79,13 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 {
 	int		i;
 	int		j;
+	int		k;
 	t_vec3f	direction;
 	t_ray	r;
-	t_vec3f	ray_colour;
+	t_vec3f	ray_colour = {0, 0, 0};
 	// t_vec3i	color_int;
 	int		color;
+	t_vec3f	added_ray_color;
 
 	j = WIN_HEIGHT - 1;
 	while (j >= 0)
@@ -91,19 +93,22 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 		i = 0;
 		while (i < WIN_WIDTH)
 		{
-			direction = get_ray_direction(info, i, j, camera);
-			r.origin = camera;
-			r.dir = direction;
-			r.bounces = 0;
-			ray_colour = ray_color(r, scene);
+			k = 0;
+			added_ray_color = vec3f_init(0, 0, 0);
+			while (k < 5)
+			{
+				direction = get_ray_direction(info, i, j, camera);
+				r.origin = camera;
+				r.dir = direction;
+				r.bounces = 0;
+				ray_colour = ray_color(r, scene);
+				added_ray_color = vec3f_add(added_ray_color, ray_colour);
+				k++;
+			}
+			ray_colour = vec3f_div(added_ray_color, 5);
 			// color_int = float_to_color_vec(ray_colour);
 			// color = rgb_to_color(color_int);
 			color = sphere_to_pixel_color(ray_colour);
-			if (color > 0 && color != 15420)
-			{
-				printf("%i\n", color);
-				vec3f_print(r.dir);
-			}
 			pixel_put_image(&info->img, i, WIN_HEIGHT - j - 1, color);
 			i++;
 		}
@@ -126,7 +131,7 @@ void init_mlx(t_scene *scene)
 	info.viewport_height = 2.0;
 	info.viewport_width = ASPECT_RATIO * info.viewport_height;
 	info.focal_length = 10;
-	camera = vec3f_init(0, 0, 0);
+	camera = vec3f_init(0, -0.15, 0);
 	info.horizontal = vec3f_init(info.viewport_width, 0, 0);
 	info.vertical = vec3f_init(0, info.viewport_height, 0);
 	left_edge = vec3f_sub(camera, vec3f_div(info.horizontal, 2));

@@ -27,11 +27,32 @@ t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
 	return (vec3f_unit(vec3f_sub(hit_point, sphere_center)));
 }
 
+t_vec3f	random_in_sphere(void)
+{
+	t_vec3f	random_point;
+	float	x;
+	float	y;
+	float	z;
+
+	while (1)
+	{
+		x = (float)rand()/(float)(RAND_MAX) * 2 - 1;
+		y = (float)rand()/(float)(RAND_MAX) * 2 - 1;
+		z = (float)rand()/(float)(RAND_MAX) * 2 - 1;
+		random_point = vec3f_init(x, y, z);
+		if (vec3f_len_sq(random_point) <= 1)
+			break ;
+	}
+	return (vec3f_unit(random_point));
+}
+
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f		unit_dir;
 	t_vec3f		norm_dir;
 	t_vec3f		reflection;
+	t_vec3f		target;
+	t_vec3f		direction;
 	float		hit;
 	float		hit_min;
 	t_sphere	*spheres;
@@ -78,16 +99,25 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		if (hit_type == SPHERE)
 		{
 			sphere = spheres[sphere_num];
-			// if (sphere.material == 's')
-			// {
+			if (sphere.material == 's')
+			{
 				// norm_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
-				// reflection = = vec3f_sub(r.dir, (vec3f_mul(norm_dir, 2 * vec3f_dot(r.dir, norm_dir))));
+				// reflection = vec3f_sub(r.dir, (vec3f_mul(norm_dir, 2 * vec3f_dot(r.dir, norm_dir))));
 				norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
 				reflection = f_reflection(r.dir, norm_dir);
-			// }
-			r.origin = at(r, hit_min);
-			r.dir = reflection;
-			vec3f_print(r.dir);
+				r.origin = at(r, hit_min);
+				r.dir = reflection;
+			}
+			else if (sphere.material == 'm')
+			{
+				norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
+				target = random_in_sphere();
+				direction = vec3f_add(norm_dir, target);
+				r.origin = at(r, hit_min);
+				r.dir = direction;
+			}
+			// Print for the tests
+			// vec3f_print(r.dir);
 			r.bounces++;
 			return (vec3f_mul_v(sphere.color, ray_color(r, scene)));
 		}
