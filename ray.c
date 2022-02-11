@@ -87,6 +87,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			// }
 			r.origin = at(r, hit_min);
 			r.dir = reflection;
+			vec3f_print(r.dir);
 			r.bounces++;
 			return (vec3f_mul_v(sphere.color, ray_color(r, scene)));
 		}

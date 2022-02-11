@@ -29,7 +29,7 @@ void	get_scene(char *filename, t_scene *scene)
 	while (line.line)
 	{
 		line.i = 0;
-		printf("line: %s", line.line);
+		// printf("line: %s", line.line);
 		if (ft_strcmp(line.line, "\n"))
 			parse_line(line, scene);
 		free(line.line);

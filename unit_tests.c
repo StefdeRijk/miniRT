@@ -7,7 +7,9 @@ void    test_reflection(void)
     t_vec3f result;
 
     result = f_reflection(incoming, normal);
+    printf("------ Reflection -----\n");
     vec3f_print(result);
+    printf("\n");
 }
 
 void    test_normal(void)
@@ -17,7 +19,9 @@ void    test_normal(void)
     t_vec3f normal;
 
     normal = get_normal_sphere(hit_point, sphere_center);
+    printf("------ Normal -----\n");
     vec3f_print(normal);
+    printf("\n");
 }
 
 void    test_at(void)
@@ -30,7 +34,9 @@ void    test_at(void)
     r.dir = vec3f_init(1, 1, 0);
     distance = 5;
     new_at = at(r, distance);
+    printf("------ AT -----\n");
     vec3f_print(new_at);
+    printf("\n");
 }
 
 void    test_ray_color(void)
@@ -41,9 +47,11 @@ void    test_ray_color(void)
 
     get_scene("test_light.rt", &scene);
     r.origin = vec3f_init(0, 0, 0);
-    r.dir = vec3f_init(0.829630, -0.706294, -10.000000);
+    r.dir = vec3f_init(0, 0, -1);
     color = ray_color(r, &scene);
+    printf("------ Ray Color -----\n");
     vec3f_print(color);
+    printf("\n");
 }
 
 void    test_ray_to_color(void)
@@ -52,7 +60,22 @@ void    test_ray_to_color(void)
     int     color;
 
     color = sphere_to_pixel_color(ray_color);
+    printf("------ Ray color to color int -----\n");
     printf("color = %i\n", color);
+    printf("\n");
+}
+
+void    test_ray_bounce(void)
+{
+    t_ray   r;
+    t_scene scene = {};
+
+    get_scene("test_light.rt", &scene);
+    r.origin = vec3f_init(0, 0, 0);
+    r.dir = vec3f_init(0, 0, -1);
+    printf("------ Ray Bounce -----\n");
+    ray_color(r, &scene);
+    printf("\n");
 }
 
 int main(void)
@@ -62,4 +85,5 @@ int main(void)
     test_at();
     test_ray_color();
     test_ray_to_color();
+    test_ray_bounce();
 }
