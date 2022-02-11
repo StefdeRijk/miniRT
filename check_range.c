@@ -66,3 +66,13 @@ void	check_range_vec3f(t_parse_line *line, t_vec3f v, float min, float max)
 		i++;
 	}
 }
+
+void	check_in_set(t_parse_line *line, char *c, char *set)
+{
+	if (!ft_strchr(set, *c))
+	{
+		printf("Expected char in \"%s\" at line %d, at column %d, found %c", \
+		set, line->line_nr, line->i, *c);
+		exit(1);
+	}
+}

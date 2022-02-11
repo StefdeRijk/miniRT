@@ -23,3 +23,9 @@ void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max)
 	parse_vec3i(line, i);
 	check_range_vec3i(line, *i, min, max);
 }
+
+void	parse_check_char(t_parse_line *line, char *c, char *set)
+{
+	parse_char(line, c);
+	check_in_set(line, c, set);
+}

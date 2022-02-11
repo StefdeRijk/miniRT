@@ -14,9 +14,24 @@ int	vec_to_color(t_vec3f v)
 			v.z * 255));
 }
 
-t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene)
+t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal)
+{
+	t_vec3f	refl;
+
+	refl = vec3f_sub(incoming, (vec3f_mul(normal, 2 * vec3f_dot(incoming, normal))));
+	return (refl);
+}
+
+t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
+{
+	return (vec3f_unit(vec3f_sub(hit_point, sphere_center)));
+}
+
+t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f		unit_dir;
+	t_vec3f		norm_dir;
+	t_vec3f		reflection;
 	float		hit;
 	float		hit_min;
 	t_sphere	*spheres;
@@ -63,17 +78,27 @@ t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene)
 		if (hit_type == SPHERE)
 		{
 			sphere = spheres[sphere_num];
-			unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
+			// if (sphere.material == 's')
+			// {
+				// norm_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
+				// reflection = = vec3f_sub(r.dir, (vec3f_mul(norm_dir, 2 * vec3f_dot(r.dir, norm_dir))));
+				norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
+				reflection = f_reflection(r.dir, norm_dir);
+			// }
+			r.origin = at(r, hit_min);
+			r.dir = reflection;
+			r.bounces++;
+			return (vec3f_mul_v(sphere.color, ray_color(r, scene)));
 		}
 		if (hit_type == PLANE)
 		{
 			plane = planes[plane_num];
 			unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), plane.pos));
+			r.origin = at(r, hit_min);
+			r.dir = unit_dir;
+			r.bounces++;
+			return (vec3f_mul_v(plane.color, ray_color(r, scene)));
 		}
-		r.origin = at(r, hit_min);
-		r.dir = unit_dir;
-		r.bounces++;
-		return (vec3f_mul_v(sphere.color, ray_color(r, info, scene)));
 	}
 	if (scene->light && r.bounces > 0)
 		return (spot_light(r, scene));

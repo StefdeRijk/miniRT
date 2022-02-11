@@ -30,12 +30,14 @@ typedef struct s_sphere {
 	t_vec3f	pos;
 	float	radius;
 	t_vec3f	color;
+	char	material;
 }	t_sphere;
 
 typedef struct s_plane {
 	t_vec3f	pos;
 	t_vec3f	dir;
 	t_vec3f	color;
+	char	material;
 }	t_plane;
 
 typedef struct s_cylinder {
@@ -44,6 +46,7 @@ typedef struct s_cylinder {
 	float	diameter;
 	float	height;
 	t_vec3f	color;
+	char	material;
 }	t_cylinder;
 
 typedef struct s_scene {
@@ -132,12 +135,23 @@ void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 int		rgb_to_color(t_vec3i color);
 int		trgb_to_int(int t, int r, int g, int b);
 float	hit_sphere(t_sphere sphere, t_ray r);
-t_vec3f	ray_color(t_ray r, t_info *info, t_scene *scene);
+t_vec3f	ray_color(t_ray r, t_scene *scene);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 t_vec3i	float_to_color_vec(t_vec3f color);
 int		float_to_color(float color);
 t_vec3f spot_light(t_ray r, t_scene *scene);
 float   hit_plane(t_plane plane, t_ray r);
+void	parse_check_char(t_parse_line *line, char *c, char *set);
+void	parse_char(t_parse_line *line, char *c);
+void	check_in_set(t_parse_line *line, char *c, char *set);
+void	get_scene(char *filename, t_scene *scene);
+void	parse_line(t_parse_line line, t_scene *scene);
 
 void	init_mlx(t_scene *scene);
+void	error(char *str);
+
+t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal);
+t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center);
+t_vec3f	at(t_ray r, float t);
+int		sphere_to_pixel_color(t_vec3f ray_colour);
 #endif

@@ -7,6 +7,12 @@ void	digit_error(t_parse_line *line)
 	error("Parse error");
 }
 
+void	parse_char(t_parse_line *line, char *c)
+{
+	*c = line->line[line->i];
+	line->i++;
+}
+
 void	parse_int(t_parse_line *line, int *i)
 {
 	int		sign;

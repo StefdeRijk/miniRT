@@ -1,8 +1,3 @@
-SRC = miniRT.c check_range.c parse_elements.c parse_general.c parse_number.c\
-	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
-	  parse_objects.c spot_light.c plane.c
-
-NAME = miniRT
 MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx.a
 GNL_DIR = get_next_line
@@ -19,9 +14,21 @@ else
 	FLAGS = -Wall -Wextra -fsanitize=address -g -O3
 endif
 
+ifndef TEST
+	NAME = miniRT
+	SRC = miniRT.c check_range.c parse_elements.c parse_general.c parse_number.c\
+	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
+	  parse_objects.c spot_light.c plane.c error.c get_scene.c
+else
+	NAME = tester
+	SRC = unit_tests.c check_range.c parse_elements.c parse_general.c parse_number.c\
+	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
+	  parse_objects.c spot_light.c plane.c error.c get_scene.c
+endif
+
 all: libft get_next_line vec $(NAME)
 
-$(NAME): $(SRC) $(GNL) $(LIBFT) $(MLX) $(NAME).h
+$(NAME): $(SRC) $(GNL) $(LIBFT) $(MLX) miniRT.h
 	gcc $(FLAGS) -I. $(SRC) $(LIBFT) $(VEC) $(GNL) $(INCLUDES) -o $(NAME)
 
 libft:
