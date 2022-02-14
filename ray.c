@@ -103,8 +103,6 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		{
 			sphere = spheres[sphere_num];
 			norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
-			// target = random_in_sphere();
-			// direction = vec3f_add(norm_dir, target);
 			direction = f_reflection(r.dir, norm_dir);
 			r.origin = at(r, hit_min);
 			r.dir = direction;
