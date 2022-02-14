@@ -34,7 +34,7 @@ void	parse_camera(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &c->dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_check_float(line, &c->fov, 0, 180);
+	parse_check_float_exc(line, &c->fov, 0, 180);
 	skip_one_char(line, '\n');
 }
 
