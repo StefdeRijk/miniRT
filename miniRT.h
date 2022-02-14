@@ -137,6 +137,7 @@ void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 int		rgb_to_color(t_vec3i color);
 int		trgb_to_int(int t, int r, int g, int b);
 float	hit_sphere(t_sphere sphere, t_ray r);
+float   hit_cylinder(t_cylinder cylinder, t_ray r);
 t_vec3f	ray_color(t_ray r, t_scene *scene);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 t_vec3i	float_to_color_vec(t_vec3f color);

@@ -61,6 +61,9 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_plane		*planes;
 	t_plane		plane;
 	int			plane_num;
+	t_cylinder	*cylinders;
+	t_cylinder	cylinder;
+	int			cylinder_num;
 	int			i;
 	int			hit_light;
 	t_vec3f		spot_color;
@@ -69,6 +72,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	unit_dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
 	planes = scene->planes.data;
+	cylinders = scene->cylinders.data;
 	hit_min = 0.;
 	hit_light = 1;
 	i = 0;
@@ -94,6 +98,18 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			hit_min = hit;
 			plane_num = i;
 			hit_type = PLANE;
+		}
+		i++;
+	}
+	while (i < scene->cylinders.len)
+	{
+		cylinder = cylinders[i];
+		hit = hit_cylinder(cylinder, r);
+		if (hit > 0 && (hit < hit_min || hit_min == 0.))
+		{
+			hit_min = hit;
+			cylinder_num = i;
+			hit_type = CYLINDER;
 		}
 		i++;
 	}
