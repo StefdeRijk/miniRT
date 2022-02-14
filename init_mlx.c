@@ -5,7 +5,7 @@
 #include "miniRT.h"
 
 #define WIN_WIDTH 256
-#define ASPECT_RATIO (16. / 9.)
+#define ASPECT_RATIO (16. / 16.)
 #define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 #define DESTROY_NOTIFY 17
 
@@ -83,7 +83,6 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 	t_vec3f	direction;
 	t_ray	r;
 	t_vec3f	ray_colour = {0, 0, 0};
-	// t_vec3i	color_int;
 	int		color;
 	t_vec3f	added_ray_color;
 
@@ -106,8 +105,6 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 				k++;
 			}
 			ray_colour = vec3f_div(added_ray_color, 5);
-			// color_int = float_to_color_vec(ray_colour);
-			// color = rgb_to_color(color_int);
 			color = sphere_to_pixel_color(ray_colour);
 			pixel_put_image(&info->img, i, WIN_HEIGHT - j - 1, color);
 			i++;
@@ -121,6 +118,8 @@ void init_mlx(t_scene *scene)
 	t_info		info;
 	t_vec3f		left_edge;
 	t_vec3f		lower_left_corner1;
+	t_vec3f		right;
+	t_vec3f		up;
 
 	info.mlx_ptr = mlx_init();
 	info.win_ptr = mlx_new_window(info.mlx_ptr, WIN_WIDTH, WIN_HEIGHT, \
@@ -130,12 +129,17 @@ void init_mlx(t_scene *scene)
 	info.viewport_height = 2.0;
 	info.viewport_width = ASPECT_RATIO * info.viewport_height;
 	info.focal_length = (info.viewport_width / tan(((scene->camera->fov / 180) * M_PI) / 2)) / 2;
-	info.horizontal = vec3f_init(info.viewport_width, 0, 0);
-	info.vertical = vec3f_init(0, info.viewport_height, 0);
+	scene->camera->dir = vec3f_unit(scene->camera->dir);
+	up = vec3f_init(0, 1, 0);
+	right = vec3f_cross(scene->camera->dir, up);
+	right = vec3f_unit(right);
+	up = vec3f_cross(right, scene->camera->dir);
+	info.horizontal = vec3f_mul(right, info.viewport_width);
+	info.vertical = vec3f_mul(up, info.viewport_height);
 	left_edge = vec3f_sub(scene->camera->pos, vec3f_div(info.horizontal, 2));
 	lower_left_corner1 = vec3f_sub(left_edge, vec3f_div(info.vertical, 2));
 	info.lower_left_corner = vec3f_sub(lower_left_corner1, \
-	vec3f_init(0, 0, info.focal_length));
+		vec3f_mul(scene->camera->dir, info.focal_length));
 	paint_img(&info, scene->camera->pos, scene);
 	mlx_hook(info.win_ptr, DESTROY_NOTIFY, 0, handle_destroy, NULL);
 	mlx_expose_hook(info.win_ptr, draw_to_window, &info);
