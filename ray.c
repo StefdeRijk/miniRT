@@ -119,11 +119,16 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		if (hit_type == PLANE)
 		{
 			plane = planes[plane_num];
-			unit_dir = vec3f_unit(vec3f_sub(at(r, hit_min), plane.pos));
+			// norm_dir = vec3f_unit(vec3f_sub(at(r, hit_min), plane.pos));
+			direction = f_reflection(r.dir, vec3f_unit(plane.dir));
 			r.origin = at(r, hit_min);
-			r.dir = unit_dir;
+			r.dir = direction;
 			r.bounces++;
-			return (vec3f_mul_v(plane.color, ray_color(r, scene)));
+			spot_color = spot_light(r, scene);
+			spot_color = vec3f_mul_v(spot_color, plane.color);
+			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
+			ambient_color = vec3f_mul_v(ambient_color, plane.color);
+			return (vec3f_add(spot_color, ambient_color));
 		}
 	}
 	// if (scene->light && hit_light)
