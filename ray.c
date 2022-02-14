@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 
-#define MAX_BOUNCES 5
+#define MAX_BOUNCES 1
 
 t_vec3f	at(t_ray r, float t)
 {
@@ -50,9 +50,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f		unit_dir;
 	t_vec3f		norm_dir;
-	t_vec3f		reflection;
-	t_vec3f		target;
 	t_vec3f		direction;
+	t_vec3f		ambient_color;
 	float		hit;
 	float		hit_min;
 	t_sphere	*spheres;
@@ -63,6 +62,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	int			plane_num;
 	int			i;
 	int			hit_light;
+	t_vec3f		spot_color;
 	t_scene_elem_type	hit_type;
 
 	unit_dir = vec3f_unit(r.dir);
@@ -71,7 +71,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	hit_min = 0.;
 	hit_light = 1;
 	i = 0;
-	while (i < scene->spheres.len && r.bounces < MAX_BOUNCES)
+	while (i < scene->spheres.len)
 	{
 		sphere = spheres[i];
 		hit = hit_sphere(sphere, r);
@@ -84,7 +84,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		i++;
 	}
 	i = 0;
-	while (i < scene->planes.len && r.bounces < MAX_BOUNCES)
+	while (i < scene->planes.len)
 	{
 		plane = planes[i];
 		hit = hit_plane(plane, r);
@@ -96,32 +96,25 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		}
 		i++;
 	}
-	if (hit_min > 0 && r.bounces < MAX_BOUNCES)
+	if (hit_min > 0)
 	{
 		if (hit_type == SPHERE)
 		{
 			sphere = spheres[sphere_num];
-			if (sphere.material == 's')
-			{
-				// norm_dir = vec3f_unit(vec3f_sub(at(r, hit_min), sphere.pos));
-				// reflection = vec3f_sub(r.dir, (vec3f_mul(norm_dir, 2 * vec3f_dot(r.dir, norm_dir))));
-				norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
-				reflection = f_reflection(r.dir, norm_dir);
-				r.origin = at(r, hit_min);
-				r.dir = reflection;
-			}
-			else if (sphere.material == 'm')
-			{
-				norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
-				target = random_in_sphere();
-				direction = vec3f_add(norm_dir, target);
-				r.origin = at(r, hit_min);
-				r.dir = direction;
-			}
+			norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
+			// target = random_in_sphere();
+			// direction = vec3f_add(norm_dir, target);
+			direction = f_reflection(r.dir, norm_dir);
+			r.origin = at(r, hit_min);
+			r.dir = direction;
 			// Print for the tests
 			// vec3f_print(r.dir);
 			r.bounces++;
-			return (vec3f_mul_v(sphere.color, ray_color(r, scene)));
+			spot_color = spot_light(r, scene);
+			spot_color = vec3f_mul_v(spot_color, sphere.color);
+			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
+			ambient_color = vec3f_mul_v(ambient_color, sphere.color);
+			return (vec3f_add(spot_color, ambient_color));
 		}
 		if (hit_type == PLANE)
 		{
@@ -133,7 +126,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			return (vec3f_mul_v(plane.color, ray_color(r, scene)));
 		}
 	}
-	if (scene->light && r.bounces > 0 && hit_light)
-		return (spot_light(r, scene));
-	return (vec3f_mul(scene->ambient->color, scene->ambient->brightness));
+	// if (scene->light && hit_light)
+	// 	return (spot_light(r, scene));
+	return (vec3f_init(0, 0, 0));
 }

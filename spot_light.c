@@ -6,7 +6,6 @@ t_vec3f spot_light(t_ray r, t_scene *scene)
 {
 	t_vec3f		spot_unit;
 	t_vec3f		ray_unit;
-    t_vec3f		ambient_color;
 	t_vec3f		spot_color;
     float       distance_sq;
 	float		in_product;
@@ -19,6 +18,5 @@ t_vec3f spot_light(t_ray r, t_scene *scene)
     if (in_product < 0)
         in_product = 0;
     spot_color = vec3f_mul(scene->light->color, ((scene->light->brightness * in_product) / distance_sq) * SPOT_BRIGHTNESS);
-    ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
-    return (vec3f_add(spot_color, ambient_color));
+    return (spot_color);
 }
