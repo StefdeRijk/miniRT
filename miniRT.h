@@ -141,7 +141,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 t_vec3i	float_to_color_vec(t_vec3f color);
 int		float_to_color(float color);
-t_vec3f spot_light(t_ray r, t_scene *scene);
+t_vec3f spot_light(t_vec3f pos, t_vec3f dir, t_scene *scene);
 float   hit_plane(t_plane plane, t_ray r);
 void	parse_check_char(t_parse_line *line, char *c, char *set);
 void	parse_char(t_parse_line *line, char *c);

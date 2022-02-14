@@ -2,7 +2,7 @@
 
 #define SPOT_BRIGHTNESS 70
 
-t_vec3f spot_light(t_ray r, t_scene *scene)
+t_vec3f spot_light(t_vec3f pos, t_vec3f dir, t_scene *scene)
 {
 	t_vec3f		spot_unit;
 	t_vec3f		ray_unit;
@@ -10,10 +10,10 @@ t_vec3f spot_light(t_ray r, t_scene *scene)
     float       distance_sq;
 	float		in_product;
 
-    spot_unit = vec3f_sub(scene->light->pos, r.origin);
+    spot_unit = vec3f_sub(scene->light->pos, pos);
     distance_sq = vec3f_len_sq(spot_unit);
     spot_unit = vec3f_unit(spot_unit);
-    ray_unit = vec3f_unit(r.dir);
+    ray_unit = vec3f_unit(dir);
     in_product = vec3f_dot(spot_unit, ray_unit);
     if (in_product < 0)
         in_product = 0;

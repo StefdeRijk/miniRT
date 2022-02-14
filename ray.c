@@ -52,6 +52,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_vec3f		norm_dir;
 	t_vec3f		direction;
 	t_vec3f		ambient_color;
+	float		which_side;
 	float		hit;
 	float		hit_min;
 	t_sphere	*spheres;
@@ -110,7 +111,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			// Print for the tests
 			// vec3f_print(r.dir);
 			r.bounces++;
-			spot_color = spot_light(r, scene);
+			spot_color = spot_light(r.origin, norm_dir, scene);
 			spot_color = vec3f_mul_v(spot_color, sphere.color);
 			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
 			ambient_color = vec3f_mul_v(ambient_color, sphere.color);
@@ -119,12 +120,16 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		if (hit_type == PLANE)
 		{
 			plane = planes[plane_num];
-			// norm_dir = vec3f_unit(vec3f_sub(at(r, hit_min), plane.pos));
-			direction = f_reflection(r.dir, vec3f_unit(plane.dir));
+			which_side = vec3f_dot(plane.dir, r.dir);
+			if (which_side > 0.)
+				norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir));
+			else
+				norm_dir = vec3f_unit(plane.dir);
+			direction = f_reflection(r.dir, norm_dir);
 			r.origin = at(r, hit_min);
 			r.dir = direction;
 			r.bounces++;
-			spot_color = spot_light(r, scene);
+			spot_color = spot_light(r.origin, norm_dir, scene);
 			spot_color = vec3f_mul_v(spot_color, plane.color);
 			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
 			ambient_color = vec3f_mul_v(ambient_color, plane.color);
