@@ -131,6 +131,8 @@ void init_mlx(t_scene *scene)
 	info.focal_length = (info.viewport_width / tan(((scene->camera->fov / 180) * M_PI) / 2)) / 2;
 	scene->camera->dir = vec3f_unit(scene->camera->dir);
 	up = vec3f_init(0, 1, 0);
+	if (scene->camera->dir.x == 0 && scene->camera->dir.z == 0)
+		up = vec3f_init(0, 0, 1);
 	right = vec3f_cross(scene->camera->dir, up);
 	right = vec3f_unit(right);
 	up = vec3f_cross(right, scene->camera->dir);
@@ -138,7 +140,7 @@ void init_mlx(t_scene *scene)
 	info.vertical = vec3f_mul(up, info.viewport_height);
 	left_edge = vec3f_sub(scene->camera->pos, vec3f_div(info.horizontal, 2));
 	lower_left_corner1 = vec3f_sub(left_edge, vec3f_div(info.vertical, 2));
-	info.lower_left_corner = vec3f_sub(lower_left_corner1, \
+	info.lower_left_corner = vec3f_add(lower_left_corner1, \
 		vec3f_mul(scene->camera->dir, info.focal_length));
 	paint_img(&info, scene->camera->pos, scene);
 	mlx_hook(info.win_ptr, DESTROY_NOTIFY, 0, handle_destroy, NULL);
