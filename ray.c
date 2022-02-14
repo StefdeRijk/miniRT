@@ -62,12 +62,14 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_plane		plane;
 	int			plane_num;
 	int			i;
+	int			hit_light;
 	t_scene_elem_type	hit_type;
 
 	unit_dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
 	planes = scene->planes.data;
 	hit_min = 0.;
+	hit_light = 1;
 	i = 0;
 	while (i < scene->spheres.len && r.bounces < MAX_BOUNCES)
 	{
@@ -131,7 +133,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			return (vec3f_mul_v(plane.color, ray_color(r, scene)));
 		}
 	}
-	if (scene->light && r.bounces > 0)
+	if (scene->light && r.bounces > 0 && hit_light)
 		return (spot_light(r, scene));
 	return (vec3f_mul(scene->ambient->color, scene->ambient->brightness));
 }
