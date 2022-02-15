@@ -97,6 +97,17 @@ void	test_rotate_ray(void)
 	printf("\nray dir: ");
 	vec3f_print(r.dir);
     printf("\n");
+	cylinder.dir.x = 0;
+	cylinder.dir.y = 1;
+	cylinder.dir.z = 0;
+    r.origin = vec3f_init(0, 0, 0);
+    r.dir = vec3f_init(0, 0, -1);
+	r = rotate_ray(r, cylinder);
+	printf("ray origin: ");
+	vec3f_print(r.origin);
+	printf("\nray dir: ");
+	vec3f_print(r.dir);
+    printf("\n");
 }
 
 void	test_ray_in_right_dir(void)
@@ -177,8 +188,8 @@ int main(void)
     test_ray_to_color();
     test_ray_bounce();
 	*/
-	//test_rotate_ray();
+	test_rotate_ray();
 	//test_ray_in_right_dir();
 	//test_hit_top_or_bottom();
-	test_hit_infinite_cylinder();
+	//test_hit_infinite_cylinder();
 }
