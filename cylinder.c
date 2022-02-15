@@ -138,8 +138,6 @@ float   hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 		return (-1.0);
 	}
 	t_plane = hit_top_or_bottom(rot_ray, cylinder);
-	if (t_plane > 0.)
-		return (t_plane);
 	t = hit_infinite_cylinder(rot_ray, cylinder);
 	//printf("t: %f\n", t);
 	if (t < 0)
@@ -151,10 +149,15 @@ float   hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 	//printf("p2.y: %f\n", p2.y);
 	if (fabsf(p2.y) < cylinder.height / 2)
 	{
+		if (t_plane < 0 || t < t_plane)
+		{
 		//printf("hit cylinder\n");
-		*hit_side = 1;
-		return (t);
+			*hit_side = 1;
+			return (t);
+		}
 	}
+	if (t_plane > 0)
+		return (t_plane);
 	//printf("end of function\n");
 	return (-1.0);
 }
