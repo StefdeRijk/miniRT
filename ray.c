@@ -48,7 +48,6 @@ t_vec3f	random_in_sphere(void)
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
-	t_vec3f		unit_dir;
 	t_vec3f		norm_dir;
 	t_vec3f		direction;
 	t_vec3f		ambient_color;
@@ -69,7 +68,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_vec3f		spot_color;
 	t_scene_elem_type	hit_type;
 
-	unit_dir = vec3f_unit(r.dir);
+	r.dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
 	planes = scene->planes.data;
 	cylinders = scene->cylinders.data;
@@ -98,6 +97,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			hit_min = hit;
 			plane_num = i;
 			hit_type = PLANE;
+			//printf("hit plane, %f\n", hit_min);
 		}
 		i++;
 	}
@@ -111,7 +111,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			hit_min = hit;
 			cylinder_num = i;
 			hit_type = CYLINDER;
-			printf("hit\n");
+			//printf("hit cylinder, %f\n", hit_min);
 		}
 		i++;
 	}

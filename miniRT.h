@@ -160,4 +160,6 @@ int		sphere_to_pixel_color(t_vec3f ray_colour);
 
 float	abc(float a, float b, float c, int *solved);
 t_ray	rotate_ray(t_ray r, t_cylinder cylinder);
+int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
+float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 #endif

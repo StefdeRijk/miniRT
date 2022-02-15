@@ -99,6 +99,49 @@ void	test_rotate_ray(void)
     printf("\n");
 }
 
+void	test_ray_in_right_dir(void)
+{
+	t_ray r;
+	t_cylinder *c;
+	t_cylinder cylinder;
+	t_scene scene = {};
+
+    printf("------ Ray in right dir-----\n");
+	get_scene("test_cylinder2.rt", &scene);
+	c = scene.cylinders.data;
+	cylinder = *c;
+    r.origin = vec3f_init(0, -4, 0);
+    r.dir = vec3f_init(0, 1, 0);
+	printf("ray in right dir: %d\n", ray_in_right_dir(r, cylinder));
+    r.dir = vec3f_init(0, -1, 0);
+	printf("ray in right dir: %d\n", ray_in_right_dir(r, cylinder));
+    r.dir = vec3f_init(1, 0.1, 1);
+	printf("ray in right dir: %d\n", ray_in_right_dir(r, cylinder));
+}
+
+void	test_hit_top_or_bottom(void)
+{
+	t_ray r;
+	t_cylinder *c;
+	t_cylinder cylinder;
+	t_scene scene = {};
+
+    printf("------ Hit top or bottom ----\n");
+	get_scene("test_cylinder2.rt", &scene);
+	c = scene.cylinders.data;
+	cylinder = *c;
+    r.origin = vec3f_init(0, -4, 0);
+    r.dir = vec3f_init(0, 1, 0);
+	printf("ray in right dir: %f\n", hit_top_or_bottom(r, cylinder));
+    r.dir = vec3f_init(0, -1, 0);
+	printf("ray in right dir: %f\n", hit_top_or_bottom(r, cylinder));
+    r.dir = vec3f_init(1, 1, 1);
+	printf("ray in right dir: %f\n", hit_top_or_bottom(r, cylinder));
+    r.origin = vec3f_init(0, -0.6, 0);
+	printf("ray in right dir: %f\n", hit_top_or_bottom(r, cylinder));
+}
+
+
 int main(void)
 {
 	/*
@@ -109,5 +152,7 @@ int main(void)
     test_ray_to_color();
     test_ray_bounce();
 	*/
-	test_rotate_ray();
+	//test_rotate_ray();
+	//test_ray_in_right_dir();
+	test_hit_top_or_bottom();
 }
