@@ -132,7 +132,6 @@ float   hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 	p2 = at(rot_ray, t);
 	if (fabsf(p2.y) < cylinder.height / 2)
 	{
-		printf("hit side\n");
 		*hit_side = 1;
 		return (t);
 	}

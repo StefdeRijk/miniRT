@@ -95,7 +95,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	while (i < scene->planes.len)
 	{
 		plane = planes[i];
-		hit = hit_plane(plane, r);
+		hit = hit_plane(plane.dir, plane.pos, r);
 		if (hit > 0 && (hit < hit_min || hit_min == 0.))
 		{
 			hit_min = hit;
@@ -160,8 +160,41 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		{
 			cylinder = cylinders[cylinder_num];
 			if (hit_side_cylinder)
-				return (vec3f_init(1,0,0));
-			return (vec3f_init(0,1,1));
+			{
+				t_vec3f hit_pos;
+				float distance_to_cylinder_plane;
+				t_vec3f hit_pos_in_cylinder_plane;
+				t_ray along_cylinder;
+				hit_pos = at(r, hit_min);
+				along_cylinder.origin = hit_pos;
+				along_cylinder.dir = cylinder.dir;
+				distance_to_cylinder_plane = hit_plane(cylinder.dir, cylinder.pos, along_cylinder);
+				hit_pos_in_cylinder_plane = at(along_cylinder, distance_to_cylinder_plane);
+				norm_dir = vec3f_sub(hit_pos_in_cylinder_plane, cylinder.pos);
+				direction = f_reflection(r.dir, norm_dir);
+				r.origin = at(r, hit_min);
+				r.dir = direction;
+				r.bounces++;
+				spot_color = spot_light(r.origin, norm_dir, scene);
+				spot_color = vec3f_mul_v(spot_color, cylinder.color);
+				ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
+				ambient_color = vec3f_mul_v(ambient_color, cylinder.color);
+				return (vec3f_add(spot_color, ambient_color));
+			}
+			which_side = vec3f_dot(cylinder.dir, r.dir);
+			if (which_side > 0.)
+				norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(cylinder.dir));
+			else
+				norm_dir = vec3f_unit(cylinder.dir);
+			direction = f_reflection(r.dir, norm_dir);
+			r.origin = at(r, hit_min);
+			r.dir = direction;
+			r.bounces++;
+			spot_color = spot_light(r.origin, norm_dir, scene);
+			spot_color = vec3f_mul_v(spot_color, cylinder.color);
+			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
+			ambient_color = vec3f_mul_v(ambient_color, cylinder.color);
+			return (vec3f_add(spot_color, ambient_color));
 		}
 	}
 	// if (scene->light && hit_light)
