@@ -7,15 +7,15 @@ float	hit_sphere(t_sphere sphere, t_ray r)
 	float	a;
 	float	b;
 	float	c;
-	float	d;
+	float	solution;
+	int solved;
 
 	oc = vec3f_sub(r.origin, sphere.pos);
 	a = vec3f_len_sq(r.dir);
 	b = 2.0 * vec3f_dot(oc, r.dir);
 	c = vec3f_len_sq(oc) - (sphere.radius * sphere.radius);
-	d = b * b - 4 * a * c;
-	if (d < 0)
+	solution = abc(a, b, c, &solved);
+	if (!solved)
 		return (-1.0);
-	else
-		return ((-b - sqrt(d)) / (2.0 * a));
+	return (solution);
 }

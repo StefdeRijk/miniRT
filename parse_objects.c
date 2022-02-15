@@ -47,7 +47,8 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &c.dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &c.diameter);
+	parse_float(line, &c.radius);
+	c.radius /= 2;
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &c.height);
 	skip_one_or_more_char(line, ' ');
@@ -56,5 +57,6 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	// skip_one_or_more_char(line, ' ');
 	// parse_check_char(line, &c.material, "ms");
 	skip_one_or_more_char(line, '\n');
+	c.dir = vec3f_unit(c.dir);
 	vec_push(&scene->cylinders, &c);
 }

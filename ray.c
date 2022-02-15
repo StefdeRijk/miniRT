@@ -101,6 +101,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		}
 		i++;
 	}
+	i = 0;
 	while (i < scene->cylinders.len)
 	{
 		cylinder = cylinders[i];
@@ -110,6 +111,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			hit_min = hit;
 			cylinder_num = i;
 			hit_type = CYLINDER;
+			printf("hit\n");
 		}
 		i++;
 	}

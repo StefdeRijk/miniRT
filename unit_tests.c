@@ -78,12 +78,36 @@ void    test_ray_bounce(void)
     printf("\n");
 }
 
+void	test_rotate_ray(void)
+{
+	t_ray r;
+	t_cylinder *c;
+	t_cylinder cylinder;
+	t_scene scene = {};
+
+    printf("------ Rotate ray-----\n");
+	get_scene("test_cylinder.rt", &scene);
+	c = scene.cylinders.data;
+	cylinder = *c;
+    r.origin = vec3f_init(0, 0, 1);
+    r.dir = vec3f_init(0, 0, -1);
+	r = rotate_ray(r, cylinder);
+	printf("ray origin: ");
+	vec3f_print(r.origin);
+	printf("\nray dir: ");
+	vec3f_print(r.dir);
+    printf("\n");
+}
+
 int main(void)
 {
+	/*
     test_reflection();
     test_normal();
     test_at();
     test_ray_color();
     test_ray_to_color();
     test_ray_bounce();
+	*/
+	test_rotate_ray();
 }

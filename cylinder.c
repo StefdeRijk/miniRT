@@ -16,29 +16,94 @@ t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle)
 	return (rotated);
 }
 
-float   hit_cylinder(t_cylinder cylinder, t_ray r)
+float	abc(float a, float b, float c, int *solved)
 {
-	t_vec3f	k;
-	t_vec3f	norm_ray_dir;
-	t_vec3f	norm_cyl_dir;
+	float d;
+
+	d = b * b - 4 * a * c;
+	if (d < 0)
+	{
+		*solved = 0;
+		return (0);
+	}
+	else
+	{
+		*solved = 1;
+		return ((-b - sqrt(d)) / (2.0 * a));
+	}
+}
+
+float signf(float a) {
+	if (a < 0)
+		return (-1.0);
+	return (1.0);
+}
+
+t_ray rotate_ray(t_ray r, t_cylinder cylinder)
+{
+	t_ray rot_ray;
 	t_vec3f	rotated_dir;
 	t_vec3f	rotated_origin;
+	t_vec3f	rotated_cylinder;
+	t_vec3f	k;
 	t_vec3f	rot_plane;
 	t_vec3f	shifted_origin;
 	float	len_rot_plane;
 	float	angle;
 
-	norm_cyl_dir = vec3f_unit(cylinder.dir);
-	norm_ray_dir = vec3f_unit(r.dir);
+	r.dir = vec3f_unit(r.dir);
 	rot_plane = vec3f_cross(cylinder.dir, vec3f_init(0, 1, 0));
 	len_rot_plane = vec3f_len(rot_plane);
 	angle = asin(len_rot_plane);
 	k = vec3f_unit(rot_plane);
 	rotated_dir = ft_rodrigues(r.dir, k, angle);
+	printf("rotated dir:");
+	vec3f_print(rotated_dir);
 	rotated_origin = ft_rodrigues(r.origin, k, angle);
-	shifted_origin = vec3f_sub(rotated_origin, cylinder.pos);
-	if (shifted_origin.y > cylinder.height / 2 || shifted_origin.y < -(cylinder.height / 2))
-		if (shifted_origin.y * rotated_dir.y < 0)
+	printf("rotated origin:");
+	vec3f_print(rotated_origin);
+	rotated_cylinder= ft_rodrigues(cylinder.pos, k, angle);
+	shifted_origin = vec3f_sub(rotated_origin, rotated_cylinder);
+	rot_ray.dir = rotated_dir;
+	rot_ray.origin = shifted_origin;
+	return (rot_ray);
+}
+
+float   hit_cylinder(t_cylinder cylinder, t_ray r)
+{
+	float	t_plane;
+	t_vec3f p1;
+	t_vec3f p2;
+	t_ray	rot_ray;
+	float	a;
+	float	b;
+	float	c;
+	int		solved;
+	float	t;
+
+	rot_ray = rotate_ray(r, cylinder);
+	if (rot_ray.origin.y > cylinder.height / 2 || rot_ray.origin.y < -(cylinder.height / 2))
+		if (rot_ray.origin.y * rot_ray.dir.y < 0)
+		{
+			printf("not right height and direction\n");
+
 			return (-1);
-	return (0.8);
+		}
+	t_plane = - (rot_ray.origin.y - signf(rot_ray.origin.y) * (cylinder.height / 2)) / rot_ray.dir.y;
+	p1 = at(rot_ray, t_plane);
+	if (p1.x * p1.x + p1.z * p1.z <= cylinder.radius * cylinder.radius)
+	{
+		printf("hit top or bottom: %f\n", t_plane);
+		return (t_plane);
+	}
+	a = vec3f_len_sq(rot_ray.dir);
+	b = 2.0 * (vec3f_dot(rot_ray.origin, rot_ray.dir));
+	c = vec3f_len_sq(rot_ray.origin) - (cylinder.radius * cylinder.radius);
+	t = abc(a,b,c, &solved);
+	if (!solved)
+		return (-1.0);
+	p2 = at(rot_ray, t);
+	if (fabsf(p2.y) < cylinder.height / 2)
+		return (t);
+	return (-1.0);
 }

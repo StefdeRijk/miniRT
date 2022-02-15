@@ -43,7 +43,7 @@ typedef struct s_plane {
 typedef struct s_cylinder {
 	t_vec3f	pos;
 	t_vec3f	dir;
-	float	diameter;
+	float	radius;
 	float	height;
 	t_vec3f	color;
 	char	material;
@@ -157,4 +157,7 @@ t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal);
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center);
 t_vec3f	at(t_ray r, float t);
 int		sphere_to_pixel_color(t_vec3f ray_colour);
+
+float	abc(float a, float b, float c, int *solved);
+t_ray	rotate_ray(t_ray r, t_cylinder cylinder);
 #endif
