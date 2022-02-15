@@ -141,6 +141,31 @@ void	test_hit_top_or_bottom(void)
 	printf("ray in right dir: %f\n", hit_top_or_bottom(r, cylinder));
 }
 
+void	test_hit_infinite_cylinder(void)
+{
+	t_ray r;
+	t_cylinder *c;
+	t_cylinder cylinder;
+	t_scene scene = {};
+
+    printf("------ Hit infinite cylinder ----\n");
+	get_scene("test_cylinder3.rt", &scene);
+	c = scene.cylinders.data;
+	cylinder = *c;
+    r.origin = vec3f_init(0, 0, 4);
+    r.dir = vec3f_init(0, 0, -1);
+	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+    r.dir = vec3f_init(0, -1, 0);
+	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+    r.dir = vec3f_init(1, 1, 1);
+	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+    r.dir = vec3f_init(0, -1.6, -1);
+	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+    r.dir = vec3f_init(0, -10.6, -1);
+	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+}
+
+
 
 int main(void)
 {
@@ -154,5 +179,6 @@ int main(void)
 	*/
 	//test_rotate_ray();
 	//test_ray_in_right_dir();
-	test_hit_top_or_bottom();
+	//test_hit_top_or_bottom();
+	test_hit_infinite_cylinder();
 }

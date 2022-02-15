@@ -91,31 +91,50 @@ float hit_top_or_bottom(t_ray ray, t_cylinder cylinder)
 	return (-1.0);
 }
 
-float   hit_cylinder(t_cylinder cylinder, t_ray r)
+float hit_infinite_cylinder(t_ray r, t_cylinder cylinder)
 {
-	float	t_plane;
-	t_vec3f p2;
-	t_ray	rot_ray;
 	float	a;
 	float	b;
 	float	c;
 	int		solved;
 	float	t;
 
+	if (r.dir.x == 0 && r.dir.z == 0)
+		return (-1.0);
+	r.dir.y = 0;
+	r.origin.y = 0;
+	a = vec3f_len_sq(r.dir);
+	b = 2.0 * (vec3f_dot(r.origin, r.dir));
+	c = vec3f_len_sq(r.origin) - (cylinder.radius * cylinder.radius);
+	t = abc(a,b,c, &solved);
+	if (!solved)
+		return (-1.0);
+	return (t);
+}
+
+float   hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
+{
+	float	t_plane;
+	t_vec3f p2;
+	t_ray	rot_ray;
+	float	t;
+
+	*hit_side = 0;
 	rot_ray = rotate_ray(r, cylinder);
 	if (!ray_in_right_dir(rot_ray, cylinder))
 		return (-1.0);
 	t_plane = hit_top_or_bottom(rot_ray, cylinder);
 	if (t_plane > 0.)
 		return (t_plane);
-	a = vec3f_len_sq(rot_ray.dir);
-	b = 2.0 * (vec3f_dot(rot_ray.origin, rot_ray.dir));
-	c = vec3f_len_sq(rot_ray.origin) - (cylinder.radius * cylinder.radius);
-	t = abc(a,b,c, &solved);
-	if (!solved)
+	t = hit_infinite_cylinder(rot_ray, cylinder);
+	if (t < 0)
 		return (-1.0);
 	p2 = at(rot_ray, t);
 	if (fabsf(p2.y) < cylinder.height / 2)
+	{
+		printf("hit side\n");
+		*hit_side = 1;
 		return (t);
+	}
 	return (-1.0);
 }
