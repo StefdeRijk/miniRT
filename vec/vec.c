@@ -16,35 +16,6 @@ void	vec_pop_n(t_vec *vec, int i, int n)
 	vec->len -= n;
 }
 
-/*
-void	vec_print(t_vec *vec)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	while (i < vec->len)
-	{
-		j = vec->data[i];
-		if (j == PA)
-			ft_putstr_fd("pa", 1);
-		else if (j == PB)
-			ft_putstr_fd("pb", 1);
-		else if (j == RA)
-			ft_putstr_fd("ra", 1);
-		else if (j == RB)
-			ft_putstr_fd("rb", 1);
-		else
-		{
-			ft_putstr_fd("Unknown symbol found", 1);
-			ft_putnbr_fd(j, 1);
-		}
-		ft_putstr_fd("\n", 1);
-		i++;
-	}
-}
-*/
-
 void	vec_init(t_vec *vec, int elem_size)
 {
 	vec->cap = 10;
@@ -79,6 +50,7 @@ void	vec_push(t_vec *vec, void *i)
 				vec->cap * vec->elem_size);
 		vec->cap = new_cap;
 	}
-	ft_memcpy((char *)vec->data + (vec->len * vec->elem_size), i, vec->elem_size);
+	ft_memcpy((char *)vec->data + (vec->len * vec->elem_size), \
+		i, vec->elem_size);
 	vec->len++;
 }
