@@ -114,6 +114,7 @@ typedef struct s_hits {
 	float				hit_min;
 	int					object_index;
 	t_scene_elem_type	hit_type;
+	int					hit_side_cylinder;
 }	t_hits;
 
 typedef void	(*t_elem_parser)(t_parse_line *line, t_scene *scene);
