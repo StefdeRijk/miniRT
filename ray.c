@@ -24,6 +24,15 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
 	return (vec3f_add(spot_color, ambient_color));
 }
 
+void	get_hit(t_hits *hit, t_scene *scene, t_ray r)
+{
+	hit->hit_min = 0.;
+	hit->hit_side_cylinder = 0;
+	sphere_loop(r, scene, hit);
+	plane_loop(r, scene, hit);
+	cylinder_loop(r, scene, hit);
+}
+
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f				norm_dir;
@@ -31,11 +40,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_hits				hit;
 
 	r.dir = vec3f_unit(r.dir);
-	hit.hit_min = 0.;
-	hit.hit_side_cylinder = 0;
-	sphere_loop(r, scene, &hit);
-	plane_loop(r, scene, &hit);
-	cylinder_loop(r, scene, &hit);
+	get_hit(&hit, scene, r);
 	if (hit.hit_min > 0)
 	{
 		if (hit.hit_type == SPHERE)

@@ -187,6 +187,7 @@ float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
 void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere *spheres, t_vec3f *norm_dir);
