@@ -160,6 +160,7 @@ void	get_scene(char *filename, t_scene *scene);
 float	hit_sphere(t_sphere sphere, t_ray r);
 float	hit_plane(t_vec3f plane_dir, t_vec3f plane_pos, t_ray r);
 float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side);
+t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir);
 
