@@ -95,54 +95,57 @@ void	sphere_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit
 	}
 }
 
+void	cylinder_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num, int *hit_side_cylinder)
+{
+	int			i;
+	t_cylinder	cylinder;
+	t_cylinder	*cylinders;
+	float		hit;
+	int			hit_side;
+
+	hit_side = 0;
+	cylinders = scene->cylinders.data;
+	i = 0;
+	while (i < scene->cylinders.len)
+	{
+		cylinder = cylinders[i];
+		hit = hit_cylinder(cylinder, r, &hit_side);
+		if (check_hit(hit, hit_min, num, i))
+		{
+			*hit_type = CYLINDER;
+			*hit_side_cylinder = hit_side;
+		}
+		i++;
+	}
+}
+
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
-	t_vec3f		norm_dir;
-	t_vec3f		direction;
-	t_vec3f		ambient_color;
-	float		which_side;
-	float		hit;
-	float		hit_min;
-	t_sphere	*spheres;
-	t_sphere	sphere;
-	int			num;
-	t_plane		*planes;
-	t_plane		plane;
-	t_cylinder	*cylinders;
-	t_cylinder	cylinder;
-	int			i;
-	int			hit_light;
-	t_vec3f		spot_color;
+	t_vec3f				norm_dir;
+	t_vec3f				direction;
+	t_vec3f				ambient_color;
+	float				which_side;
+	float				hit_min;
+	t_sphere			*spheres;
+	t_sphere			sphere;
+	int					num;
+	t_plane				*planes;
+	t_plane				plane;
+	t_cylinder			*cylinders;
+	t_cylinder			cylinder;
+	t_vec3f				spot_color;
 	t_scene_elem_type	hit_type;
-	int			hit_side;
-	int			hit_side_cylinder;
+	int					hit_side_cylinder;
 
 	r.dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
 	planes = scene->planes.data;
 	cylinders = scene->cylinders.data;
 	hit_min = 0.;
-	hit_light = 1;
-	i = 0;
-	hit_side = 0;
 	hit_side_cylinder = 0;
 	sphere_loop(r, scene, &hit_min, &hit_type, &num);
 	plane_loop(r, scene, &hit_min, &hit_type, &num);
-	i = 0;
-	while (i < scene->cylinders.len)
-	{
-		cylinder = cylinders[i];
-		hit = hit_cylinder(cylinder, r, &hit_side);
-		if (hit > 0 && (hit < hit_min || hit_min == 0.))
-		{
-			if (check_hit(hit, &hit_min, &num, i))
-			{
-				hit_type = CYLINDER;
-				hit_side_cylinder = hit_side;
-			}
-		}
-		i++;
-	}
+	cylinder_loop(r, scene, &hit_min, &hit_type, &num, &hit_side_cylinder);
 	if (hit_min > 0)
 	{
 		if (hit_type == SPHERE)
