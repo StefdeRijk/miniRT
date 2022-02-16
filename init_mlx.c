@@ -4,7 +4,7 @@
 #include <math.h>
 #include "miniRT.h"
 
-#define WIN_WIDTH 560
+#define WIN_WIDTH 2560
 #define ASPECT_RATIO (16. / 9.)
 #define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 #define DESTROY_NOTIFY 17

@@ -8,7 +8,7 @@ float	hit_sphere(t_sphere sphere, t_ray r)
 	float	b;
 	float	c;
 	float	solution;
-	int solved;
+	int 	solved;
 
 	oc = vec3f_sub(r.origin, sphere.pos);
 	a = vec3f_len_sq(r.dir);

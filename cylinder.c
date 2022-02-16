@@ -78,7 +78,7 @@ int	ray_in_right_dir(t_ray r, t_cylinder cylinder)
 	{
 		if (r.origin.y * r.dir.y >= 0)
 		{
-			printf("not right height and direction\n");
+			// printf("not right height and direction\n");
 			return (0);
 		}
 	}
