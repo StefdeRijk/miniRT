@@ -12,9 +12,6 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	s.radius /= 2;
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &s.color, 0, 255);
-	// smooth and matt objects
-	// skip_one_or_more_char(line, ' ');
-	// parse_check_char(line, &s.material, "ms");
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
 }
@@ -28,11 +25,15 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	parse_vec3f(line, &p.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &p.dir, -1, 1);
+	if (vec3f_len_sq(p.dir) == 0)
+	{
+		printf("Plane direction at line %d is a null vector, "
+			"cannot be normalized.", line->line_nr);
+		exit(1);
+	}
+	p.dir = vec3f_unit(p.dir);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &p.color, 0, 255);
-	// smooth and matt objects
-	// skip_one_or_more_char(line, ' ');
-	// parse_check_char(line, &p.material, "ms");
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);
 }
@@ -53,10 +54,13 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	parse_float(line, &c.height);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &c.color, 0, 255);
-	// smooth and matt objects
-	// skip_one_or_more_char(line, ' ');
-	// parse_check_char(line, &c.material, "ms");
 	skip_one_or_more_char(line, '\n');
+	if (vec3f_len_sq(c.dir) == 0)
+	{
+		printf("Cylinder direction at line %d is a null vector, "
+			"cannot be normalized.", line->line_nr);
+		exit(1);
+	}
 	c.dir = vec3f_unit(c.dir);
 	vec_push(&scene->cylinders, &c);
 }
