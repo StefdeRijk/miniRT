@@ -111,9 +111,9 @@ typedef struct s_angle {
 }	t_angle;
 
 typedef struct s_hits {
-	float				*hit_min;
+	float				hit_min;
 	int					object_index;
-	t_scene_elem_type	*hit_type;
+	t_scene_elem_type	hit_type;
 }	t_hits;
 
 typedef void	(*t_elem_parser)(t_parse_line *line, t_scene *scene);
