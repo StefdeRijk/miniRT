@@ -5,10 +5,12 @@ OBJ = $(SRC:.c=.o)
 
 NAME = vec.a
 
+ifndef FLAGS
 ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror
 else
 	FLAGS = -Wall -Wextra
+endif
 endif
 
 all: $(NAME)

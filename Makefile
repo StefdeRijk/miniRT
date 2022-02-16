@@ -1,3 +1,4 @@
+export
 MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx.a
 GNL_DIR = get_next_line
@@ -12,12 +13,17 @@ SRC_BASE = check_range.c parse_elements.c parse_general.c parse_number.c\
 	  parse_objects.c spot_light.c plane.c error.c get_scene.c cylinder.c\
 	  parse_check_floats.c parse_element_type.c mlx_utils.c math_utils.c\
 	  cylinder_utils.c color_utils.c reflections.c check_hits.c norm_and_color.c
-
+CC = gcc
 
 ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror -O3
 else
 	FLAGS = -Wall -Wextra -fsanitize=address -g -O3
+endif
+
+ifdef PROFILE
+	FLAGS := $(FLAGS) -fprofile-instr-generate -fcoverage-mapping -DPROFILE=1
+	CC = clang
 endif
 
 ifndef TEST
@@ -31,7 +37,7 @@ endif
 all: libft get_next_line vec $(NAME)
 
 $(NAME): $(SRC) $(GNL) $(LIBFT) $(MLX) miniRT.h
-	gcc $(FLAGS) -I. $(SRC) $(LIBFT) $(VEC) $(GNL) $(INCLUDES) -o $(NAME)
+	$(CC) $(FLAGS) -I. $(SRC) $(LIBFT) $(VEC) $(GNL) $(INCLUDES) -o $(NAME)
 
 libft:
 	$(MAKE) bonus -C $(LIBFT_DIR)

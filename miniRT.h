@@ -9,6 +9,10 @@
 # include <stdio.h>
 # include "mlx/mlx.h"
 
+# ifndef PROFILE
+# define PROFILE 0
+# endif
+
 typedef struct s_ambient {
 	float	brightness;
 	t_vec3f	color;
