@@ -110,6 +110,12 @@ typedef struct s_angle {
 	float	angle;
 }	t_angle;
 
+typedef struct s_hits {
+	float				*hit_min;
+	int					object_index;
+	t_scene_elem_type	*hit_type;
+}	t_hits;
+
 typedef void	(*t_elem_parser)(t_parse_line *line, t_scene *scene);
 
 void	skip_one_char(t_parse_line *line, char c);
@@ -177,6 +183,10 @@ t_ray	rotate_ray(t_ray r, t_cylinder cylinder);
 int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
 float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
+void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits, \
+	int *hit_side_cylinder);
 
 float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);
@@ -185,7 +195,4 @@ t_vec3f	at(t_ray r, float t);
 
 void	error(char *str);
 void	digit_error(t_parse_line *line);
-void	plane_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num);
-void	sphere_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num);
-void	cylinder_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num, int *hit_side_cylinder);
 #endif
