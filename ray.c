@@ -54,17 +54,11 @@ void	get_cylinder_norm_color(t_hits hit, t_ray r, t_cylinder *cylinders, t_vec3f
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f				norm_dir;
-	t_sphere			*spheres;
-	t_plane				*planes;
-	t_cylinder			*cylinders;
 	int					hit_side_cylinder;
 	t_vec3f				object_color;
 	t_hits				hit;
 
 	r.dir = vec3f_unit(r.dir);
-	spheres = scene->spheres.data;
-	planes = scene->planes.data;
-	cylinders = scene->cylinders.data;
 	hit.hit_min = 0.;
 	hit_side_cylinder = 0;
 	sphere_loop(r, scene, &hit);
@@ -73,11 +67,11 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	if (hit.hit_min > 0)
 	{
 		if (hit.hit_type == SPHERE)
-			get_sphere_norm_color(hit, r, spheres, &norm_dir, &object_color);
+			get_sphere_norm_color(hit, r, scene->spheres.data, &norm_dir, &object_color);
 		if (hit.hit_type == PLANE)
-			get_plane_norm_color(hit, r, planes, &norm_dir, &object_color);
+			get_plane_norm_color(hit, r, scene->planes.data, &norm_dir, &object_color);
 		if (hit.hit_type == CYLINDER)
-			get_cylinder_norm_color(hit, r, cylinders, &norm_dir, &object_color, hit_side_cylinder);
+			get_cylinder_norm_color(hit, r, scene->cylinders.data, &norm_dir, &object_color, hit_side_cylinder);
 		r = new_ray(r, norm_dir, hit.hit_min);
 		return (spot_and_ambient(r, object_color, scene, norm_dir));
 	}
