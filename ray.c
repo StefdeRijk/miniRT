@@ -136,6 +136,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_vec3f				spot_color;
 	t_scene_elem_type	hit_type;
 	int					hit_side_cylinder;
+	t_vec3f				color;
+
 
 	r.dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
@@ -152,15 +154,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		{
 			sphere = spheres[num];
 			norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
-			direction = f_reflection(r.dir, norm_dir);
-			r.origin = at(r, hit_min);
-			r.dir = direction;
-			r.bounces++;
-			spot_color = spot_light(r.origin, norm_dir, scene);
-			spot_color = vec3f_mul_v(spot_color, sphere.color);
-			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
-			ambient_color = vec3f_mul_v(ambient_color, sphere.color);
-			return (vec3f_add(spot_color, ambient_color));
+			color = sphere.color;
 		}
 		if (hit_type == PLANE)
 		{
@@ -170,15 +164,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 				norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir));
 			else
 				norm_dir = vec3f_unit(plane.dir);
-			direction = f_reflection(r.dir, norm_dir);
-			r.origin = at(r, hit_min);
-			r.dir = direction;
-			r.bounces++;
-			spot_color = spot_light(r.origin, norm_dir, scene);
-			spot_color = vec3f_mul_v(spot_color, plane.color);
-			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
-			ambient_color = vec3f_mul_v(ambient_color, plane.color);
-			return (vec3f_add(spot_color, ambient_color));
+			color = plane.color;
 		}
 		if (hit_type == CYLINDER)
 		{
@@ -195,31 +181,25 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 				distance_to_cylinder_plane = hit_plane(cylinder.dir, cylinder.pos, along_cylinder);
 				hit_pos_in_cylinder_plane = at(along_cylinder, distance_to_cylinder_plane);
 				norm_dir = vec3f_sub(hit_pos_in_cylinder_plane, cylinder.pos);
-				direction = f_reflection(r.dir, norm_dir);
-				r.origin = at(r, hit_min);
-				r.dir = direction;
-				r.bounces++;
-				spot_color = spot_light(r.origin, norm_dir, scene);
-				spot_color = vec3f_mul_v(spot_color, cylinder.color);
-				ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
-				ambient_color = vec3f_mul_v(ambient_color, cylinder.color);
-				return (vec3f_add(spot_color, ambient_color));
 			}
-			which_side = vec3f_dot(cylinder.dir, r.dir);
-			if (which_side > 0.)
-				norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(cylinder.dir));
 			else
-				norm_dir = vec3f_unit(cylinder.dir);
-			direction = f_reflection(r.dir, norm_dir);
-			r.origin = at(r, hit_min);
-			r.dir = direction;
-			r.bounces++;
-			spot_color = spot_light(r.origin, norm_dir, scene);
-			spot_color = vec3f_mul_v(spot_color, cylinder.color);
-			ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
-			ambient_color = vec3f_mul_v(ambient_color, cylinder.color);
-			return (vec3f_add(spot_color, ambient_color));
+			{
+				which_side = vec3f_dot(cylinder.dir, r.dir);
+				if (which_side > 0.)
+					norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(cylinder.dir));
+				else
+					norm_dir = vec3f_unit(cylinder.dir);
+			}
+			color = cylinder.color;
 		}
+		direction = f_reflection(r.dir, norm_dir);
+		r.origin = at(r, hit_min);
+		r.dir = direction;
+		spot_color = spot_light(r.origin, norm_dir, scene);
+		spot_color = vec3f_mul_v(spot_color, color);
+		ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
+		ambient_color = vec3f_mul_v(ambient_color, color);
+		return (vec3f_add(spot_color, ambient_color));
 	}
 	// if (scene->light && hit_light)
 	// 	return (spot_light(r, scene));
