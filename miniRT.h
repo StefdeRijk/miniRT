@@ -161,6 +161,8 @@ float	hit_sphere(t_sphere sphere, t_ray r);
 float	hit_plane(t_vec3f plane_dir, t_vec3f plane_pos, t_ray r);
 float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side);
 
+t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir);
+
 void	init_mlx(t_scene *scene);
 void	init_image(t_info *info);
 int		handle_key(int keycode, void *param);

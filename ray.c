@@ -124,7 +124,6 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_vec3f				norm_dir;
 	t_vec3f				direction;
 	t_vec3f				ambient_color;
-	float				which_side;
 	float				hit_min;
 	t_sphere			*spheres;
 	t_sphere			sphere;
@@ -159,11 +158,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		if (hit_type == PLANE)
 		{
 			plane = planes[num];
-			which_side = vec3f_dot(plane.dir, r.dir);
-			if (which_side > 0.)
-				norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir));
-			else
-				norm_dir = vec3f_unit(plane.dir);
+			norm_dir = plane_normal(plane.dir, r.dir);
 			color = plane.color;
 		}
 		if (hit_type == CYLINDER)
@@ -183,13 +178,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 				norm_dir = vec3f_sub(hit_pos_in_cylinder_plane, cylinder.pos);
 			}
 			else
-			{
-				which_side = vec3f_dot(cylinder.dir, r.dir);
-				if (which_side > 0.)
-					norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(cylinder.dir));
-				else
-					norm_dir = vec3f_unit(cylinder.dir);
-			}
+				norm_dir = plane_normal(cylinder.dir, r.dir);
 			color = cylinder.color;
 		}
 		direction = f_reflection(r.dir, norm_dir);
