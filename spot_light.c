@@ -18,35 +18,34 @@ void	do_loop(int i, t_ray r, t_scene *scene, t_hits *hit)
 	if (i == 0)
 	{
 		scene->prev_hit = SPHERE;
-		sphere_loop(r, scene, hit);
+		sphere_loop_shadow(r, scene, hit);
 	}
 	else if (i == 1)
 	{
 		scene->prev_hit = PLANE;
-		plane_loop(r, scene, hit);
+		plane_loop_shadow(r, scene, hit);
 	}
 	else if (i == 2)
 	{
 		scene->prev_hit = CYLINDER;
-		cylinder_loop(r, scene, hit);
+		cylinder_loop_shadow(r, scene, hit);
 	}
 }
 
 int	get_hit_shadow(t_hits *hit, t_scene *scene, t_ray r, t_vec3f pos)
 {
-	float	distance_to_spot;
 	int		loop_index;
 	int		i;
 
 	hit->hit_min = 0.;
 	hit->hit_side_cylinder = 0;
-	distance_to_spot = vec3f_len(vec3f_sub(scene->light->pos, pos));
+	scene->distance_to_spot = vec3f_len(vec3f_sub(scene->light->pos, pos));
 	i = 0;
 	loop_index = get_prev_ray_hit(scene);
 	while (i < 3)
 	{
 		do_loop(loop_index, r, scene, hit);
-		if (hit->hit_min > 0 && hit->hit_min < distance_to_spot)
+		if (hit->hit_min > 0 && hit->hit_min < scene->distance_to_spot)
 			return (1);
 		loop_index = (loop_index + 1) % 3;
 		i++;
