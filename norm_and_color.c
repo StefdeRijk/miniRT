@@ -1,24 +1,27 @@
 #include "miniRT.h"
 
-void	get_sphere_norm_color(t_hits hit, t_ray r, t_sphere *spheres, t_vec3f *norm_dir, t_vec3f *object_color)
+t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
+	t_sphere *spheres, t_vec3f *norm_dir)
 {
 	t_sphere			sphere;
 
 	sphere = spheres[hit.object_index];
 	*norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-	*object_color = sphere.color;
+	return (sphere.color);
 }
 
-void	get_plane_norm_color(t_hits hit, t_ray r, t_plane *planes, t_vec3f *norm_dir, t_vec3f *object_color)
+t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
+	t_plane *planes, t_vec3f *norm_dir)
 {
 	t_plane	plane;
 
 	plane = planes[hit.object_index];
 	*norm_dir = plane_normal(plane.dir, r.dir);
-	*object_color = plane.color;
+	return (plane.color);
 }
 
-void	get_cylinder_norm_color(t_hits hit, t_ray r, t_cylinder *cylinders, t_vec3f *norm_dir, t_vec3f *object_color, int hit_side_cylinder)
+t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
+	t_cylinder *cylinders, t_vec3f *norm_dir, int hit_side_cylinder)
 {
 	t_cylinder	cylinder;
 
@@ -27,5 +30,5 @@ void	get_cylinder_norm_color(t_hits hit, t_ray r, t_cylinder *cylinders, t_vec3f
 		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
 	else
 		*norm_dir = plane_normal(cylinder.dir, r.dir);
-	*object_color = cylinder.color;
+	return (cylinder.color);
 }
