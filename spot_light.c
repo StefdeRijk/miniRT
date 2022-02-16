@@ -10,7 +10,7 @@ int	in_shadow(t_vec3f spot_unit, t_vec3f pos, t_scene *scene, t_vec3f normal)
 	float	distance_to_spot;
 
 	to_spot.dir = spot_unit;
-	offset = vec3f_mul(normal, 0.00001);
+	offset = vec3f_mul(normal, 0.000001);
 	to_spot.origin = vec3f_add(pos, offset);
 	get_hit(&hit, scene, to_spot);
 	distance_to_spot = vec3f_len(vec3f_sub(scene->light->pos, pos));

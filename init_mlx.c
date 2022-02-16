@@ -4,7 +4,7 @@
 #include <math.h>
 #include "miniRT.h"
 
-#define WIN_WIDTH 560
+#define WIN_WIDTH 2560
 #define ASPECT_RATIO 1.7777777777
 #define DESTROY_NOTIFY 17
 
@@ -28,26 +28,19 @@ t_vec3f	get_ray_direction(t_info *info, int i, int j, t_vec3f camera)
 
 t_vec3f	shoot_rays(int i, int j, t_info *info, t_scene *scene)
 {
-	int		k;
 	t_vec3f	direction;
 	t_ray	r;
 	t_vec3f	ray_colour;
-	t_vec3f	added_ray_color;
+	float	multiplier;
 
+	multiplier = 5;
 	ray_colour = vec3f_init(0, 0, 0);
-	added_ray_color = vec3f_init(0, 0, 0);
-	k = 0;
-	while (k < 5)
-	{
-		direction = get_ray_direction(info, i, j, scene->camera->pos);
-		r.origin = scene->camera->pos;
-		r.dir = direction;
-		r.bounces = 0;
-		ray_colour = ray_color(r, scene);
-		added_ray_color = vec3f_add(added_ray_color, ray_colour);
-		k++;
-	}
-	return (added_ray_color);
+	direction = get_ray_direction(info, i, j, scene->camera->pos);
+	r.origin = scene->camera->pos;
+	r.dir = direction;
+	r.bounces = 0;
+	ray_colour = ray_color(r, scene);
+	return (vec3f_mul(ray_colour, multiplier));
 }
 
 void	paint_img(t_info *info, t_scene *scene)
