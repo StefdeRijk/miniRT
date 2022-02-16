@@ -49,13 +49,25 @@ typedef struct s_cylinder {
 	char	material;
 }	t_cylinder;
 
+typedef enum e_scene_elem_type {
+	AMBIENT,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	NR_ELEM_TYPES
+}	t_scene_elem_type;
+
 typedef struct s_scene {
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_light		*light;
-	t_vec		spheres;
-	t_vec		planes;
-	t_vec		cylinders;
+	t_ambient			*ambient;
+	t_camera			*camera;
+	t_light				*light;
+	t_vec				spheres;
+	t_vec				planes;
+	t_vec				cylinders;
+
+	t_scene_elem_type	prev_hit;
 }	t_scene;
 
 typedef struct s_arr2di {
@@ -88,16 +100,6 @@ typedef enum e_error {
 	MRT_SUCCESS,
 	MRT_ERROR
 }	t_error;
-
-typedef enum e_scene_elem_type {
-	AMBIENT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER,
-	NR_ELEM_TYPES
-}	t_scene_elem_type;
 
 typedef struct s_parse_line {
 	char	*line;
