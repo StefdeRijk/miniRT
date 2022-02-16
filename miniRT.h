@@ -143,6 +143,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 t_vec3i	float_to_color_vec(t_vec3f color);
 int		float_to_color(float color);
+int		ray_to_pixel_color(t_vec3f ray_colour);
 t_vec3f	spot_light(t_vec3f pos, t_vec3f dir, t_scene *scene);
 float	hit_plane(t_vec3f plane_dir, t_vec3f plane_pos, t_ray r);
 void	parse_check_char(t_parse_line *line, char *c, char *set);
@@ -152,6 +153,11 @@ void	get_scene(char *filename, t_scene *scene);
 void	parse_line(t_parse_line line, t_scene *scene);
 
 void	init_mlx(t_scene *scene);
+void	init_image(t_info *info);
+int		handle_key(int keycode, void *param);
+int		handle_destroy(void *param);
+int		draw_to_window(t_info *info);
+void	pixel_put_image(t_arr2di *image, int x, int y, int color);
 void	error(char *str);
 
 t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal);

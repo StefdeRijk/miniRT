@@ -54,3 +54,13 @@ t_vec3i	float_to_color_vec(t_vec3f color)
 	ret.z = float_to_color(color.z);
 	return (ret);
 }
+
+int	ray_to_pixel_color(t_vec3f ray_colour)
+{
+	t_vec3i	color_int;
+	int		color;
+
+	color_int = float_to_color_vec(ray_colour);
+	color = rgb_to_color(color_int);
+	return (color);
+}

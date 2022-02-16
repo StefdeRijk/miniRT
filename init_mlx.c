@@ -5,47 +5,9 @@
 #include "miniRT.h"
 
 #define WIN_WIDTH 2560
-#define ASPECT_RATIO (16. / 9.)
+#define ASPECT_RATIO 1.7777777777
 #define WIN_HEIGHT (WIN_WIDTH / ASPECT_RATIO)
 #define DESTROY_NOTIFY 17
-
-void	init_image(t_info *info)
-{
-	int	bits_per_pixel;
-	int	line_length;
-	int	endian;
-
-	info->img.data = (int *)mlx_get_data_addr(info->mlximg_ptr, &bits_per_pixel,
-			&line_length, &endian);
-	info->img.size_x = line_length / sizeof(int);
-}
-
-int	handle_key(int keycode, void *param)
-{
-	(void)param;
-	if (keycode == 53)
-		exit(0);
-	return (0);
-}
-
-int	handle_destroy(void *param)
-{
-	(void)param;
-	exit(0);
-}
-
-int	draw_to_window(t_info *info)
-{
-	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, info->mlximg_ptr,
-		0, 0);
-	return (0);
-}
-
-void	pixel_put_image(t_arr2di *image, int x, int y, int color)
-{
-	*(unsigned int *)(image->data + x + y * image->size_x)
-		= color;
-}
 
 t_vec3f	get_ray_direction(t_info *info, int i, int j, t_vec3f camera)
 {
@@ -63,16 +25,6 @@ t_vec3f	get_ray_direction(t_info *info, int i, int j, t_vec3f camera)
 	direction = vec3f_add(direction, ver_offset);
 	direction = vec3f_sub(direction, camera);
 	return (direction);
-}
-
-int	sphere_to_pixel_color(t_vec3f ray_colour)
-{
-	t_vec3i	color_int;
-	int		color;
-
-	color_int = float_to_color_vec(ray_colour);
-	color = rgb_to_color(color_int);
-	return (color);
 }
 
 void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
@@ -105,7 +57,7 @@ void	paint_img(t_info *info, t_vec3f camera, t_scene *scene)
 				k++;
 			}
 			ray_colour = vec3f_div(added_ray_color, 5);
-			color = sphere_to_pixel_color(ray_colour);
+			color = ray_to_pixel_color(ray_colour);
 			pixel_put_image(&info->img, i, WIN_HEIGHT - j - 1, color);
 			i++;
 		}
@@ -128,7 +80,8 @@ void init_mlx(t_scene *scene)
 	init_image(&info);
 	info.viewport_height = 2.0;
 	info.viewport_width = ASPECT_RATIO * info.viewport_height;
-	info.focal_length = (info.viewport_width / tan(((scene->camera->fov / 180) * M_PI) / 2)) / 2;
+	info.focal_length = (info.viewport_width / \
+		tan(((scene->camera->fov / 180) * M_PI) / 2)) / 2;
 	scene->camera->dir = vec3f_unit(scene->camera->dir);
 	up = vec3f_init(0, 1, 0);
 	if (scene->camera->dir.x == 0 && scene->camera->dir.z == 0)
