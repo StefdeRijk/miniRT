@@ -36,14 +36,25 @@ t_vec3f	random_in_sphere(void)
 
 	while (1)
 	{
-		x = (float)rand()/(float)(RAND_MAX) * 2 - 1;
-		y = (float)rand()/(float)(RAND_MAX) * 2 - 1;
-		z = (float)rand()/(float)(RAND_MAX) * 2 - 1;
+		x = (float)rand() / (float)RAND_MAX * 2 - 1;
+		y = (float)rand() / (float)RAND_MAX * 2 - 1;
+		z = (float)rand() / (float)RAND_MAX * 2 - 1;
 		random_point = vec3f_init(x, y, z);
 		if (vec3f_len_sq(random_point) <= 1)
 			break ;
 	}
 	return (vec3f_unit(random_point));
+}
+
+int	check_hit(float hit, float *hit_min, int *num, int i)
+{
+	if (hit > 0 && (hit < *hit_min || *hit_min == 0.))
+	{
+		*hit_min = hit;
+		*num = i;
+		return (1);
+	}
+	return (0);
 }
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
@@ -83,12 +94,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	{
 		sphere = spheres[i];
 		hit = hit_sphere(sphere, r);
-		if (hit > 0 && (hit < hit_min || hit_min == 0.))
-		{
-			hit_min = hit;
-			sphere_num = i;
+		if (check_hit(hit, &hit_min, &sphere_num, i))
 			hit_type = SPHERE;
-		}
 		i++;
 	}
 	i = 0;
@@ -98,10 +105,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		hit = hit_plane(plane.dir, plane.pos, r);
 		if (hit > 0 && (hit < hit_min || hit_min == 0.))
 		{
-			hit_min = hit;
-			plane_num = i;
-			hit_type = PLANE;
-			//printf("hit plane, %f\n", hit_min);
+			if (check_hit(hit, &hit_min, &plane_num, i))
+				hit_type = PLANE;
 		}
 		i++;
 	}
@@ -112,11 +117,11 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		hit = hit_cylinder(cylinder, r, &hit_side);
 		if (hit > 0 && (hit < hit_min || hit_min == 0.))
 		{
-			hit_side_cylinder = hit_side;
-			hit_min = hit;
-			cylinder_num = i;
-			hit_type = CYLINDER;
-			//printf("hit cylinder, %f\n", hit_min);
+			if (check_hit(hit, &hit_min, &cylinder_num, i))
+			{
+				hit_type = CYLINDER;
+				hit_side_cylinder = hit_side;
+			}
 		}
 		i++;
 	}
@@ -129,8 +134,6 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			direction = f_reflection(r.dir, norm_dir);
 			r.origin = at(r, hit_min);
 			r.dir = direction;
-			// Print for the tests
-			// vec3f_print(r.dir);
 			r.bounces++;
 			spot_color = spot_light(r.origin, norm_dir, scene);
 			spot_color = vec3f_mul_v(spot_color, sphere.color);
