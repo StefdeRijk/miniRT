@@ -75,6 +75,7 @@ typedef struct s_info {
 	float			viewport_height;
 	float			viewport_width;
 	float			focal_length;
+	float			win_height;
 }	t_info;
 
 typedef struct s_ray {
