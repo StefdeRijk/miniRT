@@ -7,6 +7,11 @@ VEC = $(VEC_DIR)/vec.a
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -Lmlx -lmlx -framework OpenGL -framework AppKit
+SRC_BASE = check_range.c parse_elements.c parse_general.c parse_number.c\
+	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
+	  parse_objects.c spot_light.c plane.c error.c get_scene.c cylinder.c\
+	  parse_check_floats.c
+
 
 ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror -O3
@@ -16,14 +21,10 @@ endif
 
 ifndef TEST
 	NAME = miniRT
-	SRC = miniRT.c check_range.c parse_elements.c parse_general.c parse_number.c\
-	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
-	  parse_objects.c spot_light.c plane.c error.c get_scene.c cylinder.c
+	SRC = $(SRC_BASE) miniRT.c
 else
 	NAME = tester
-	SRC = unit_tests.c check_range.c parse_elements.c parse_general.c parse_number.c\
-	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
-	  parse_objects.c spot_light.c plane.c error.c get_scene.c cylinder.c
+	SRC = $(SRC_BASE) unit_tests.c
 endif
 
 all: libft get_next_line vec $(NAME)
