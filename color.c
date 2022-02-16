@@ -1,9 +1,5 @@
+#include "miniRT.h"
 #include "vec/vec.h"
-
-int	trgb_to_int(int t, int r, int g, int b)
-{
-	return (t << 24 | r << 16 | g << 8 | b);
-}
 
 int	rgb_to_color(t_vec3i color)
 {
@@ -20,16 +16,6 @@ t_vec3i	color_to_rgb(int color)
 	return (rgb);
 }
 
-float	tone_mapping(float i)
-{
-	return (i / (i + 1.));
-}
-
-float	color_to_float(int color)
-{
-	return ((float)color / 255.);
-}
-
 t_vec3f	color_to_float_vec(t_vec3i color)
 {
 	t_vec3f	ret;
@@ -38,11 +24,6 @@ t_vec3f	color_to_float_vec(t_vec3i color)
 	ret.y = color_to_float(color.y);
 	ret.z = color_to_float(color.z);
 	return (ret);
-}
-
-int	float_to_color(float color)
-{
-	return (tone_mapping(color) * 255.);
 }
 
 t_vec3i	float_to_color_vec(t_vec3f color)
