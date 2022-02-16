@@ -16,6 +16,17 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
 	t_vec3f				spot_color;
 	t_vec3f				ambient_color;
 
+	if (!scene->light->brightness)
+	{
+		ambient_color = vec3f_mul(scene->ambient->color, \
+			scene->ambient->brightness);
+		return (vec3f_mul_v(ambient_color, object_color));
+	}
+	if (!scene->ambient->brightness)
+	{
+		spot_color = spot_light(r.origin, norm_dir, scene);
+		return (vec3f_mul_v(spot_color, object_color));
+	}
 	spot_color = spot_light(r.origin, norm_dir, scene);
 	spot_color = vec3f_mul_v(spot_color, object_color);
 	ambient_color = vec3f_mul(scene->ambient->color, \
@@ -39,17 +50,16 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	t_vec3f				object_color;
 	t_hits				hit;
 
-	r.dir = vec3f_unit(r.dir);
 	get_hit(&hit, scene, r);
 	if (hit.hit_min > 0)
 	{
 		if (hit.hit_type == SPHERE)
 			object_color = get_sphere_norm_color(hit, r, scene->spheres.data,
 					&norm_dir);
-		if (hit.hit_type == PLANE)
+		else if (hit.hit_type == PLANE)
 			object_color = get_plane_norm_color(hit, r, scene->planes.data,
 					&norm_dir);
-		if (hit.hit_type == CYLINDER)
+		else
 			object_color = get_cylinder_norm_color(hit, r,
 					scene->cylinders.data, &norm_dir);
 		r = new_ray(r, norm_dir, hit.hit_min);

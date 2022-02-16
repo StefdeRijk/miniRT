@@ -53,13 +53,26 @@ typedef struct s_cylinder {
 	char	material;
 }	t_cylinder;
 
+typedef enum e_scene_elem_type {
+	AMBIENT,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	NR_ELEM_TYPES
+}	t_scene_elem_type;
+
 typedef struct s_scene {
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_light		*light;
-	t_vec		spheres;
-	t_vec		planes;
-	t_vec		cylinders;
+	t_ambient			*ambient;
+	t_camera			*camera;
+	t_light				*light;
+	t_vec				spheres;
+	t_vec				planes;
+	t_vec				cylinders;
+
+	t_scene_elem_type	prev_hit;
+	float				distance_to_spot;
 }	t_scene;
 
 typedef struct s_arr2di {
@@ -92,16 +105,6 @@ typedef enum e_error {
 	MRT_SUCCESS,
 	MRT_ERROR
 }	t_error;
-
-typedef enum e_scene_elem_type {
-	AMBIENT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER,
-	NR_ELEM_TYPES
-}	t_scene_elem_type;
 
 typedef struct s_parse_line {
 	char	*line;
@@ -191,6 +194,9 @@ float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
 void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
+void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
+void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
