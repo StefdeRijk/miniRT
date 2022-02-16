@@ -34,12 +34,28 @@ void	parse_int(t_parse_line *line, int *i)
 	}
 }
 
+void	parse_decimals(t_parse_line *line, float *f, float sign)
+{
+	char	c;
+	float	after_dot;
+	float	after_dot_mul;
+
+	c = line_next(line);
+	after_dot = 0;
+	after_dot_mul = sign;
+	while (ft_isdigit(c))
+	{
+		after_dot_mul /= 10;
+		after_dot = after_dot * 10 + (c - '0');
+		c = line_next(line);
+	}
+	*f += after_dot * after_dot_mul;
+}
+
 void	parse_float(t_parse_line *line, float *f)
 {
 	float	sign;
 	char	c;
-	float	after_dot;
-	float	after_dot_mul;
 
 	*f = 0;
 	sign = 1;
@@ -56,16 +72,5 @@ void	parse_float(t_parse_line *line, float *f)
 		c = line_next(line);
 	}
 	if (c == '.')
-	{
-		c = line_next(line);
-		after_dot = 0;
-		after_dot_mul = sign;
-		while (ft_isdigit(c))
-		{
-			after_dot_mul /= 10;
-			after_dot = after_dot * 10 + (c - '0');
-			c = line_next(line);
-		}
-		*f += after_dot * after_dot_mul;
-	}
+		parse_decimals(line, f, sign);
 }
