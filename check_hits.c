@@ -49,8 +49,7 @@ void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits)
 	}
 }
 
-void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits, \
-	int *hit_side_cylinder)
+void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits)
 {
 	int			i;
 	t_cylinder	cylinder;
@@ -68,7 +67,7 @@ void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits, \
 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
 		{
 			hits->hit_type = CYLINDER;
-			*hit_side_cylinder = hit_side;
+			hits->hit_side_cylinder = hit_side;
 		}
 		i++;
 	}

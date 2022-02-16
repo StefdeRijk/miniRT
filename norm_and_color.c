@@ -21,12 +21,12 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 }
 
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir, int hit_side_cylinder)
+	t_cylinder *cylinders, t_vec3f *norm_dir)
 {
 	t_cylinder	cylinder;
 
 	cylinder = cylinders[hit.object_index];
-	if (hit_side_cylinder)
+	if (hit.hit_side_cylinder)
 		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
 	else
 		*norm_dir = plane_normal(cylinder.dir, r.dir);
