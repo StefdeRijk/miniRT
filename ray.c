@@ -10,14 +10,16 @@ t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min)
 	return (r);
 }
 
-t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, t_scene *scene, t_vec3f norm_dir)
+t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
+	t_scene *scene, t_vec3f norm_dir)
 {
 	t_vec3f				spot_color;
 	t_vec3f				ambient_color;
 
 	spot_color = spot_light(r.origin, norm_dir, scene);
 	spot_color = vec3f_mul_v(spot_color, object_color);
-	ambient_color = vec3f_mul(scene->ambient->color, scene->ambient->brightness);
+	ambient_color = vec3f_mul(scene->ambient->color, \
+		scene->ambient->brightness);
 	ambient_color = vec3f_mul_v(ambient_color, object_color);
 	return (vec3f_add(spot_color, ambient_color));
 }
