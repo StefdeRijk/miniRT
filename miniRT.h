@@ -186,15 +186,14 @@ float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
 void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits, \
-	int *hit_side_cylinder);
+void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere *spheres, t_vec3f *norm_dir);
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_plane *planes, t_vec3f *norm_dir);
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir, int hit_side_cylinder);
+	t_cylinder *cylinders, t_vec3f *norm_dir);
 
 float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);

@@ -27,7 +27,6 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f				norm_dir;
-	int					hit_side_cylinder;
 	t_vec3f				object_color;
 	t_hits				hit;
 
