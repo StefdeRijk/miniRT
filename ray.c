@@ -22,13 +22,29 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, t_scene *scene, t_vec3f 
 	return (vec3f_add(spot_color, ambient_color));
 }
 
+void	get_sphere_norm_color(t_hits hit, t_ray r, t_sphere *spheres, t_vec3f *norm_dir, t_vec3f *object_color)
+{
+	t_sphere			sphere;
+
+	sphere = spheres[hit.object_index];
+	*norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
+	*object_color = sphere.color;
+}
+
+void	get_plane_norm_color(t_hits hit, t_ray r, t_plane *planes, t_vec3f *norm_dir, t_vec3f *object_color)
+{
+	t_plane	plane;
+
+	plane = planes[hit.object_index];
+	*norm_dir = plane_normal(plane.dir, r.dir);
+	*object_color = plane.color;
+}
+
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f				norm_dir;
 	t_sphere			*spheres;
-	t_sphere			sphere;
 	t_plane				*planes;
-	t_plane				plane;
 	t_cylinder			*cylinders;
 	t_cylinder			cylinder;
 	int					hit_side_cylinder;
@@ -47,17 +63,9 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	if (hit.hit_min > 0)
 	{
 		if (hit.hit_type == SPHERE)
-		{
-			sphere = spheres[hit.object_index];
-			norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-			object_color = sphere.color;
-		}
+			get_sphere_norm_color(hit, r, spheres, &norm_dir, &object_color);
 		if (hit.hit_type == PLANE)
-		{
-			plane = planes[hit.object_index];
-			norm_dir = plane_normal(plane.dir, r.dir);
-			object_color = plane.color;
-		}
+			get_plane_norm_color(hit, r, planes, &norm_dir, &object_color);
 		if (hit.hit_type == CYLINDER)
 		{
 			cylinder = cylinders[hit.object_index];
