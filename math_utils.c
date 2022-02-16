@@ -1,4 +1,5 @@
 #include "miniRT.h"
+#include <math.h>
 
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle)
 {

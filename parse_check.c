@@ -17,3 +17,13 @@ void	parse_check_char(t_parse_line *line, char *c, char *set)
 	parse_char(line, c);
 	check_in_set(line, c, set);
 }
+
+void	check_in_set(t_parse_line *line, char *c, char *set)
+{
+	if (!ft_strchr(set, *c))
+	{
+		printf("Expected char in \"%s\" at line %d, at column %d, found %c", \
+		set, line->line_nr, line->i, *c);
+		exit(1);
+	}
+}

@@ -147,11 +147,11 @@ void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 void	parse_check_char(t_parse_line *line, char *c, char *set);
 
-t_vec3f	ray_color(t_ray r, t_scene *scene);
-int		rgb_to_color(t_vec3i color);
 int		trgb_to_int(int t, int r, int g, int b);
-t_vec3i	float_to_color_vec(t_vec3f color);
+int		rgb_to_color(t_vec3i color);
 int		float_to_color(float color);
+t_vec3i	float_to_color_vec(t_vec3f color);
+t_vec3f	ray_color(t_ray r, t_scene *scene);
 int		ray_to_pixel_color(t_vec3f ray_colour);
 
 t_vec3f	spot_light(t_vec3f pos, t_vec3f dir, t_scene *scene);
