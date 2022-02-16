@@ -19,3 +19,9 @@ int	float_to_color(float color)
 {
 	return (tone_mapping(color) * 255.);
 }
+
+int	vec_to_color(t_vec3f v)
+{
+	return (trgb_to_int(0, v.x * 255, v.y * 255,
+			v.z * 255));
+}

@@ -39,3 +39,8 @@ float	signf(float a)
 		return (-1.0);
 	return (1.0);
 }
+
+t_vec3f	at(t_ray r, float t)
+{
+	return (vec3f_add(r.origin, vec3f_mul(r.dir, t)));
+}
