@@ -25,51 +25,49 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, t_scene *scene, t_vec3f 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f				norm_dir;
-	float				hit_min;
 	t_sphere			*spheres;
 	t_sphere			sphere;
-	int					num;
 	t_plane				*planes;
 	t_plane				plane;
 	t_cylinder			*cylinders;
 	t_cylinder			cylinder;
-	t_scene_elem_type	hit_type;
 	int					hit_side_cylinder;
 	t_vec3f				object_color;
+	t_hits				hit;
 
 	r.dir = vec3f_unit(r.dir);
 	spheres = scene->spheres.data;
 	planes = scene->planes.data;
 	cylinders = scene->cylinders.data;
-	hit_min = 0.;
+	hit.hit_min = 0.;
 	hit_side_cylinder = 0;
-	sphere_loop(r, scene, &hit_min, &hit_type, &num);
-	plane_loop(r, scene, &hit_min, &hit_type, &num);
-	cylinder_loop(r, scene, &hit_min, &hit_type, &num, &hit_side_cylinder);
-	if (hit_min > 0)
+	sphere_loop(r, scene, &hit);
+	plane_loop(r, scene, &hit);
+	cylinder_loop(r, scene, &hit, &hit_side_cylinder);
+	if (hit.hit_min > 0)
 	{
-		if (hit_type == SPHERE)
+		if (hit.hit_type == SPHERE)
 		{
-			sphere = spheres[num];
-			norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
+			sphere = spheres[hit.object_index];
+			norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
 			object_color = sphere.color;
 		}
-		if (hit_type == PLANE)
+		if (hit.hit_type == PLANE)
 		{
-			plane = planes[num];
+			plane = planes[hit.object_index];
 			norm_dir = plane_normal(plane.dir, r.dir);
 			object_color = plane.color;
 		}
-		if (hit_type == CYLINDER)
+		if (hit.hit_type == CYLINDER)
 		{
-			cylinder = cylinders[num];
+			cylinder = cylinders[hit.object_index];
 			if (hit_side_cylinder)
-				norm_dir = cylinder_side_norm(at(r, hit_min), cylinder);
+				norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
 			else
 				norm_dir = plane_normal(cylinder.dir, r.dir);
 			object_color = cylinder.color;
 		}
-		r = new_ray(r, norm_dir, hit_min);
+		r = new_ray(r, norm_dir, hit.hit_min);
 		return (spot_and_ambient(r, object_color, scene, norm_dir));
 	}
 	return (vec3f_init(0, 0, 0));

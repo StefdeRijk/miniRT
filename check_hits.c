@@ -24,7 +24,7 @@ void	plane_loop(t_ray r, t_scene *scene, t_hits *hits)
 	{
 		plane = planes[i];
 		hit = hit_plane(plane.dir, plane.pos, r);
-		if (check_hit(hit, &hits->hit_min, hits->object_index, i))
+		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
 			hits->hit_type = PLANE;
 		i++;
 	}
@@ -43,7 +43,7 @@ void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits)
 	{
 		sphere = spheres[i];
 		hit = hit_sphere(sphere, r);
-		if (check_hit(hit, &hits->hit_min, hits->object_index, i))
+		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
 			hits->hit_type = SPHERE;
 		i++;
 	}
@@ -65,7 +65,7 @@ void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits, \
 	{
 		cylinder = cylinders[i];
 		hit = hit_cylinder(cylinder, r, &hit_side);
-		if (check_hit(hit, &hits->hit_min, hits->object_index, i))
+		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
 		{
 			hits->hit_type = CYLINDER;
 			*hit_side_cylinder = hit_side;
