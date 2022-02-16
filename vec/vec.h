@@ -65,7 +65,7 @@ void		vec_push_n(t_vec *vec, void *i, int n);
 t_vec2f		vec2f_add(t_vec2f v1, t_vec2f v2);
 
 t_vec3f		vec3f_init(float x, float y, float z);
-t_vec3f 	vec3f_div(t_vec3f v, float f);
+t_vec3f		vec3f_div(t_vec3f v, float f);
 t_vec3f		vec3f_mul(t_vec3f v, float f);
 t_vec3f		vec3f_sub(t_vec3f v1, t_vec3f v2);
 t_vec3f		vec3f_add(t_vec3f v1, t_vec3f v2);
@@ -73,11 +73,12 @@ t_vec3f		vec3f_unit(t_vec3f v);
 float		vec3f_len(t_vec3f v);
 float		vec3f_len_sq(t_vec3f v);
 float		vec3f_dot(t_vec3f v1, t_vec3f v2);
-t_vec3f 	vec3f_mul_v(t_vec3f v1, t_vec3f v2);
+t_vec3f		vec3f_mul_v(t_vec3f v1, t_vec3f v2);
 t_vec3f		vec3f_cross(t_vec3f v1, t_vec3f v2);
+void		vec3f_print(t_vec3f v);
+
 t_vec3f		color_to_float_vec(t_vec3i color);
 float		color_to_float(int color);
-void		vec3f_print(t_vec3f v);
 
 t_vec2i		vec2i_trans(t_vec2i v, t_direction dir);
 
