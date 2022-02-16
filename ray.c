@@ -57,6 +57,44 @@ int	check_hit(float hit, float *hit_min, int *num, int i)
 	return (0);
 }
 
+void	plane_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num)
+{
+	int			i;
+	t_plane		plane;
+	t_plane		*planes;
+	float		hit;
+
+	planes = scene->planes.data;
+	i = 0;
+	while (i < scene->planes.len)
+	{
+		plane = planes[i];
+		hit = hit_plane(plane.dir, plane.pos, r);
+		if (check_hit(hit, hit_min, num, i))
+			*hit_type = PLANE;
+		i++;
+	}
+}
+
+void	sphere_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num)
+{
+	int			i;
+	t_sphere	sphere;
+	t_sphere	*spheres;
+	float		hit;
+
+	spheres = scene->spheres.data;
+	i = 0;
+	while (i < scene->spheres.len)
+	{
+		sphere = spheres[i];
+		hit = hit_sphere(sphere, r);
+		if (check_hit(hit, hit_min, num, i))
+			*hit_type = SPHERE;
+		i++;
+	}
+}
+
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
 	t_vec3f		norm_dir;
@@ -67,13 +105,11 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	float		hit_min;
 	t_sphere	*spheres;
 	t_sphere	sphere;
-	int			sphere_num;
+	int			num;
 	t_plane		*planes;
 	t_plane		plane;
-	int			plane_num;
 	t_cylinder	*cylinders;
 	t_cylinder	cylinder;
-	int			cylinder_num;
 	int			i;
 	int			hit_light;
 	t_vec3f		spot_color;
@@ -90,26 +126,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	i = 0;
 	hit_side = 0;
 	hit_side_cylinder = 0;
-	while (i < scene->spheres.len)
-	{
-		sphere = spheres[i];
-		hit = hit_sphere(sphere, r);
-		if (check_hit(hit, &hit_min, &sphere_num, i))
-			hit_type = SPHERE;
-		i++;
-	}
-	i = 0;
-	while (i < scene->planes.len)
-	{
-		plane = planes[i];
-		hit = hit_plane(plane.dir, plane.pos, r);
-		if (hit > 0 && (hit < hit_min || hit_min == 0.))
-		{
-			if (check_hit(hit, &hit_min, &plane_num, i))
-				hit_type = PLANE;
-		}
-		i++;
-	}
+	sphere_loop(r, scene, &hit_min, &hit_type, &num);
+	plane_loop(r, scene, &hit_min, &hit_type, &num);
 	i = 0;
 	while (i < scene->cylinders.len)
 	{
@@ -117,7 +135,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		hit = hit_cylinder(cylinder, r, &hit_side);
 		if (hit > 0 && (hit < hit_min || hit_min == 0.))
 		{
-			if (check_hit(hit, &hit_min, &cylinder_num, i))
+			if (check_hit(hit, &hit_min, &num, i))
 			{
 				hit_type = CYLINDER;
 				hit_side_cylinder = hit_side;
@@ -129,7 +147,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	{
 		if (hit_type == SPHERE)
 		{
-			sphere = spheres[sphere_num];
+			sphere = spheres[num];
 			norm_dir = get_normal_sphere(at(r, hit_min), sphere.pos);
 			direction = f_reflection(r.dir, norm_dir);
 			r.origin = at(r, hit_min);
@@ -143,7 +161,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		}
 		if (hit_type == PLANE)
 		{
-			plane = planes[plane_num];
+			plane = planes[num];
 			which_side = vec3f_dot(plane.dir, r.dir);
 			if (which_side > 0.)
 				norm_dir = vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir));
@@ -161,7 +179,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		}
 		if (hit_type == CYLINDER)
 		{
-			cylinder = cylinders[cylinder_num];
+			cylinder = cylinders[num];
 			if (hit_side_cylinder)
 			{
 				t_vec3f hit_pos;
