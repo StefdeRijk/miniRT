@@ -67,8 +67,8 @@ void	test_ray_to_color(void)
 
 void	test_ray_bounce(void)
 {
-	t_ray	r;
-	t_scene	scene = {};
+	t_ray			r;
+	static t_scene	scene = {0};
 
 	get_scene("test_light.rt", &scene);
 	r.origin = vec3f_init(0, 0, 0);
@@ -80,10 +80,10 @@ void	test_ray_bounce(void)
 
 void	test_rotate_ray(void)
 {
-	t_ray		r;
-	t_cylinder	*c;
-	t_cylinder	cylinder;
-	t_scene		scene = {};
+	t_ray				r;
+	t_cylinder			*c;
+	t_cylinder			cylinder;
+	static t_scene		scene = {0};
 
 	printf("------ Rotate ray-----\n");
 	get_scene("test_cylinder.rt", &scene);
@@ -112,10 +112,10 @@ void	test_rotate_ray(void)
 
 void	test_ray_in_right_dir(void)
 {
-	t_ray r;
-	t_cylinder *c;
-	t_cylinder cylinder;
-	t_scene scene = {};
+	t_ray			r;
+	t_cylinder		*c;
+	t_cylinder		cylinder;
+	static t_scene	scene = {0};
 
 	printf("------ Ray in right dir-----\n");
 	get_scene("test_cylinder2.rt", &scene);
@@ -132,10 +132,10 @@ void	test_ray_in_right_dir(void)
 
 void	test_hit_top_or_bottom(void)
 {
-	t_ray r;
-	t_cylinder *c;
-	t_cylinder cylinder;
-	t_scene scene = {};
+	t_ray			r;
+	t_cylinder		*c;
+	t_cylinder		cylinder;
+	static t_scene	scene = {0};
 
 	printf("------ Hit top or bottom ----\n");
 	get_scene("test_cylinder2.rt", &scene);
@@ -154,10 +154,10 @@ void	test_hit_top_or_bottom(void)
 
 void	test_hit_infinite_cylinder(void)
 {
-	t_ray r;
-	t_cylinder *c;
-	t_cylinder cylinder;
-	t_scene scene = {};
+	t_ray			r;
+	t_cylinder		*c;
+	t_cylinder		cylinder;
+	static t_scene	scene = {0};
 
 	printf("------ Hit infinite cylinder ----\n");
 	get_scene("test_cylinder3.rt", &scene);
