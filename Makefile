@@ -10,7 +10,8 @@ INCLUDES = -Lmlx -lmlx -framework OpenGL -framework AppKit
 SRC_BASE = check_range.c parse_elements.c parse_general.c parse_number.c\
 	  parse_vec.c parse_check.c init_mlx.c color.c ray.c sphere.c\
 	  parse_objects.c spot_light.c plane.c error.c get_scene.c cylinder.c\
-	  parse_check_floats.c parse_element_type.c mlx_utils.c
+	  parse_check_floats.c parse_element_type.c mlx_utils.c math_utils.c\
+	  cylinder_utils.c
 
 
 ifndef DEBUG
