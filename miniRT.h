@@ -185,4 +185,7 @@ t_vec3f	at(t_ray r, float t);
 
 void	error(char *str);
 void	digit_error(t_parse_line *line);
+void	plane_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num);
+void	sphere_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num);
+void	cylinder_loop(t_ray r, t_scene *scene, float *hit_min, t_scene_elem_type *hit_type, int *num, int *hit_side_cylinder);
 #endif
