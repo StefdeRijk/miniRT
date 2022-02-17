@@ -57,7 +57,10 @@ void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 		hit = hit_cylinder(cylinder, r, &hit_side);
 		hits->hit_min = hit;
 		if (hits->hit_min > 0 && hits->hit_min < scene->distance_to_spot)
+		{
+			hits->hit_side_cylinder = hit_side;
 			return ;
+		}
 		i++;
 	}
 }

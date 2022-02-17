@@ -36,4 +36,3 @@ t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder)
 	hit_pos_in_cylinder_plane = at(along_cylinder, distance_to_cylinder_plane);
 	return (vec3f_sub(hit_pos_in_cylinder_plane, cylinder.pos));
 }
-

@@ -18,7 +18,7 @@ t_vec3f	spot_and_ambient(t_ray new_r, t_vec3f object_color, \
 
 	if (scene->light && scene->light->brightness)
 	{
-		spot_color = spot_light(new_r.origin, norm_dir, scene);
+		spot_color = spot_light(new_r, norm_dir, scene, old_r);
 		if (BONUS)
 			spot_color = vec3f_add(spot_color, spot_light_specular(norm_dir, scene, new_r, old_r));
 		spot_color = vec3f_mul_v(spot_color, object_color);

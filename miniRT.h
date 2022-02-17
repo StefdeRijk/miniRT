@@ -172,7 +172,7 @@ t_vec3i	float_to_color_vec(t_vec3f color);
 t_vec3f	ray_color(t_ray r, t_scene *scene);
 int		ray_to_pixel_color(t_vec3f ray_colour);
 
-t_vec3f	spot_light(t_vec3f pos, t_vec3f dir, t_scene *scene);
+t_vec3f	spot_light(t_ray new_r, t_vec3f normal, t_scene *scene, t_ray old_r);
 t_vec3f	spot_light_specular(t_vec3f normal, t_scene *scene, t_ray new_r, t_ray old_r);
 void	get_scene(char *filename, t_scene *scene);
 
