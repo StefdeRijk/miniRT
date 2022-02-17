@@ -178,6 +178,7 @@ void	test_hit_infinite_cylinder(void)
 	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
 }
 
+/*
 void	test_cylinder_shadow(void)
 {
 	t_ray			r;
@@ -216,6 +217,7 @@ void	test_cylinder_shadow(void)
 	printf("shadow hit_min: %f\n", shadow_hit.hit_min);
 	printf("in shadow: %d\n", get_hit_shadow(&scene, to_spot, hit_pos));
 }
+*/
 
 int main(void)
 {
@@ -231,5 +233,5 @@ int main(void)
 	//test_ray_in_right_dir();
 	//test_hit_top_or_bottom();
 	//test_hit_infinite_cylinder();
-	test_cylinder_shadow();
+	//test_cylinder_shadow();
 }

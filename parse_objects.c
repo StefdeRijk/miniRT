@@ -3,6 +3,7 @@
 void	parse_sphere(t_parse_line *line, t_scene *scene)
 {
 	t_sphere	s;
+	char		material;
 
 	if (!scene->spheres.data)
 		vec_init(&scene->spheres, sizeof(t_sphere));
@@ -12,6 +13,19 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	s.radius /= 2;
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &s.color, 0, 255);
+	if (BONUS)
+	{
+		skip_one_or_more_char(line, ' ');
+		parse_check_char(line, &material, "cnmg");
+		if (material == 'c')
+			s.material = CHECKER;
+		if (material == 'n')
+			s.material = NORMAL;
+		if (material == 'm')
+			s.material = MIRROR;
+		if (material == 'g')
+			s.material = GLASS;
+	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
 }
