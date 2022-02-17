@@ -29,6 +29,7 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
 				scene->ambient->brightness);
 		ambient_color = vec3f_mul_v(ambient_color, object_color);
 	}
+	else
 		ambient_color = vec3f_init(0, 0, 0);
 	return (vec3f_add(spot_color, ambient_color));
 }
