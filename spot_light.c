@@ -14,7 +14,7 @@ int	get_prev_ray_hit(t_scene *scene)
 	return (0);
 }
 
-void	do_loop(int i, t_ray r, t_scene *scene, t_hits *hit)
+void	shadow_loop(int i, t_ray r, t_scene *scene, t_hits *hit)
 {
 	if (i == 0)
 	{
@@ -46,7 +46,7 @@ int	get_hit_shadow(t_scene *scene, t_ray r, t_vec3f pos)
 	loop_index = get_prev_ray_hit(scene);
 	while (i < 3)
 	{
-		do_loop(loop_index, r, scene, &hit);
+		shadow_loop(loop_index, r, scene, &hit);
 		if (hit.hit_min > 0 && hit.hit_min < scene->distance_to_spot)
 			return (1);
 		loop_index = (loop_index + 1) % 3;

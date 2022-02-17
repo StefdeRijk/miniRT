@@ -174,6 +174,8 @@ int		ray_to_pixel_color(t_vec3f ray_colour);
 
 t_vec3f	spot_light(t_ray new_r, t_vec3f normal, t_scene *scene, t_ray old_r);
 t_vec3f	spot_light_specular(t_vec3f normal, t_scene *scene, t_ray new_r, t_ray old_r);
+int		in_shadow(t_vec3f spot_unit, t_vec3f pos, t_scene *scene, t_ray r);
+int		get_hit_shadow(t_scene *scene, t_ray r, t_vec3f pos);
 void	get_scene(char *filename, t_scene *scene);
 
 float	hit_sphere(t_sphere sphere, t_ray r);

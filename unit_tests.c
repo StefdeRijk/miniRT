@@ -54,6 +54,7 @@ void	test_ray_color(void)
 	printf("\n");
 }
 
+/*
 void	test_ray_to_color(void)
 {
 	static t_vec3f	ray_color = {0, 0, 0};
@@ -64,6 +65,7 @@ void	test_ray_to_color(void)
 	printf("color = %i\n", color);
 	printf("\n");
 }
+*/
 
 void	test_ray_bounce(void)
 {
@@ -176,6 +178,45 @@ void	test_hit_infinite_cylinder(void)
 	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
 }
 
+void	test_cylinder_shadow(void)
+{
+	t_ray			r;
+	static t_scene	scene = {0};
+	t_hits			hit;
+	t_hits			shadow_hit;
+	t_vec3f			hit_pos;
+	t_ray			to_spot;
+	t_vec3f			reverse_r_dir;
+	t_vec3f			offset;
+	t_ray			rot_ray;
+	t_cylinder		*c;
+
+	printf("------ Check cylinder shadow----\n");
+	get_scene("test_cylinder_shadow.rt", &scene);
+	c = scene.cylinders.data;
+	r.origin = vec3f_init(0, 0, 0);
+	r.dir = vec3f_init(0, 0, -1);
+	//vec3f_print(ray_color(r, &scene));
+	printf("calling get hit\n");
+	get_hit(&hit, &scene, r);
+	hit_pos = at(r, hit.hit_min);
+	//vec3f_print(hit_pos);
+	to_spot.dir = vec3f_unit(vec3f_sub(scene.light->pos, hit_pos));
+	//printf("to_spot dir: ");
+	//vec3f_print(to_spot.dir);
+	reverse_r_dir = vec3f_sub(vec3f_init(0, 0, 0), r.dir);
+	offset = vec3f_mul(reverse_r_dir, 0.1);
+	to_spot.origin = vec3f_add(hit_pos, offset);
+	rot_ray = rotate_ray(to_spot, *c);
+	//printf("rot ray y: %f\n", rot_ray.dir.y);
+	//printf("in shadow: %d\n", in_shadow(to_spot.dir, hit_pos, &scene, r));
+	scene.distance_to_spot = vec3f_len(vec3f_sub(scene.light->pos, hit_pos));
+	printf("distance to spot: %f\n", scene.distance_to_spot);
+	cylinder_loop_shadow(to_spot, &scene, &shadow_hit);
+	printf("shadow hit_min: %f\n", shadow_hit.hit_min);
+	printf("in shadow: %d\n", get_hit_shadow(&scene, to_spot, hit_pos));
+}
+
 int main(void)
 {
 	/*
@@ -186,8 +227,9 @@ int main(void)
 	test_ray_to_color();
 	test_ray_bounce();
 	*/
-	test_rotate_ray();
+	//test_rotate_ray();
 	//test_ray_in_right_dir();
 	//test_hit_top_or_bottom();
 	//test_hit_infinite_cylinder();
+	test_cylinder_shadow();
 }
