@@ -1,9 +1,24 @@
 #include "miniRT.h"
 
+t_material_type	parse_check_material(t_parse_line *line)
+{
+	char		material;
+
+	skip_one_or_more_char(line, ' ');
+	parse_check_char(line, &material, "cnmg");
+	if (material == 'c')
+		return (CHECKER);
+	if (material == 'n')
+		return (NORMAL);
+	if (material == 'm')
+		return (MIRROR);
+	if (material == 'g')
+		return (GLASS);
+}
+
 void	parse_sphere(t_parse_line *line, t_scene *scene)
 {
 	t_sphere	s;
-	char		material;
 
 	if (!scene->spheres.data)
 		vec_init(&scene->spheres, sizeof(t_sphere));
@@ -14,18 +29,7 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &s.color, 0, 255);
 	if (BONUS)
-	{
-		skip_one_or_more_char(line, ' ');
-		parse_check_char(line, &material, "cnmg");
-		if (material == 'c')
-			s.material = CHECKER;
-		if (material == 'n')
-			s.material = NORMAL;
-		if (material == 'm')
-			s.material = MIRROR;
-		if (material == 'g')
-			s.material = GLASS;
-	}
+		s.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
 }
@@ -48,6 +52,8 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	p.dir = vec3f_unit(p.dir);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &p.color, 0, 255);
+	if (BONUS)
+		p.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);
 }
