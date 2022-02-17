@@ -36,4 +36,6 @@ void	get_scene(char *filename, t_scene *scene)
 		line.line = get_next_line(fd);
 		line.line_nr++;
 	}
+	if (!scene->camera)
+		error("No camera found in rt file.");
 }

@@ -16,22 +16,20 @@ t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
 	t_vec3f				spot_color;
 	t_vec3f				ambient_color;
 
-	if (!scene->light->brightness)
-	{
-		ambient_color = vec3f_mul(scene->ambient->color, \
-			scene->ambient->brightness);
-		return (vec3f_mul_v(ambient_color, object_color));
-	}
-	if (!scene->ambient->brightness)
+	if (scene->light && scene->light->brightness)
 	{
 		spot_color = spot_light(r.origin, norm_dir, scene);
-		return (vec3f_mul_v(spot_color, object_color));
+		spot_color = vec3f_mul_v(spot_color, object_color);
 	}
-	spot_color = spot_light(r.origin, norm_dir, scene);
-	spot_color = vec3f_mul_v(spot_color, object_color);
-	ambient_color = vec3f_mul(scene->ambient->color, \
-		scene->ambient->brightness);
-	ambient_color = vec3f_mul_v(ambient_color, object_color);
+	else
+		spot_color = vec3f_init(0, 0, 0);
+	if (scene->ambient && scene->ambient->brightness)
+	{
+		ambient_color = vec3f_mul(scene->ambient->color, \
+				scene->ambient->brightness);
+		ambient_color = vec3f_mul_v(ambient_color, object_color);
+	}
+		ambient_color = vec3f_init(0, 0, 0);
 	return (vec3f_add(spot_color, ambient_color));
 }
 
