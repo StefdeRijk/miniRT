@@ -225,6 +225,7 @@ float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);
 float	signf(float a);
 t_vec3f	at(t_ray r, float t);
+t_angle	get_angle(t_vec3f dir);
 
 void	error(char *str);
 void	digit_error(t_parse_line *line);

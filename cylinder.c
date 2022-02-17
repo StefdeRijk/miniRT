@@ -1,13 +1,13 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_angle	get_angle(t_cylinder cylinder)
+t_angle	get_angle(t_vec3f dir)
 {
 	t_angle	s_angle;
 	t_vec3f	rot_plane;
 	float	len_rot_plane;
 
-	rot_plane = vec3f_cross(cylinder.dir, vec3f_init(0, 1, 0));
+	rot_plane = vec3f_cross(dir, vec3f_init(0, 1, 0));
 	len_rot_plane = vec3f_len(rot_plane);
 	s_angle.angle = asin(len_rot_plane);
 	s_angle.k = vec3f_unit(rot_plane);
@@ -30,7 +30,7 @@ t_ray	rotate_ray(t_ray r, t_cylinder cylinder)
 	}
 	else
 	{
-		angle = get_angle(cylinder);
+		angle = get_angle(cylinder.dir);
 		rotated_dir = ft_rodrigues(r.dir, angle.k, angle.angle);
 		rotated_origin = ft_rodrigues(r.origin, angle.k, angle.angle);
 		rotated_cylinder = ft_rodrigues(cylinder.pos, angle.k, angle.angle);
