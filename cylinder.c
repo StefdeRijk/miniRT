@@ -75,7 +75,7 @@ float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 		return (-1.0);
 	t_plane = hit_top_or_bottom(rot_ray, cylinder);
 	t = hit_infinite_cylinder(rot_ray, cylinder);
-	if (t < 0)
+	if (t < 0 && t_plane < 0)
 		return (-1.0);
 	p2 = at(rot_ray, t);
 	if (fabsf(p2.y) < cylinder.height / 2)
