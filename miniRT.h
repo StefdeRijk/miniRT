@@ -17,6 +17,14 @@
 # define PROFILE 0
 # endif
 
+typedef enum e_material_type {
+	NORMAL,
+	CHECKER,
+	MIRROR,
+	GLASS,
+	NR_MATERIAL_TYPES
+}	t_material_type;
+
 typedef struct s_ambient {
 	float	brightness;
 	t_vec3f	color;
@@ -35,26 +43,26 @@ typedef struct s_light {
 }	t_light;
 
 typedef struct s_sphere {
-	t_vec3f	pos;
-	float	radius;
-	t_vec3f	color;
-	char	material;
+	t_vec3f			pos;
+	float			radius;
+	t_vec3f			color;
+	t_material_type	material;
 }	t_sphere;
 
 typedef struct s_plane {
-	t_vec3f	pos;
-	t_vec3f	dir;
-	t_vec3f	color;
-	char	material;
+	t_vec3f			pos;
+	t_vec3f			dir;
+	t_vec3f			color;
+	t_material_type	material;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_vec3f	pos;
-	t_vec3f	dir;
-	float	radius;
-	float	height;
-	t_vec3f	color;
-	char	material;
+	t_vec3f			pos;
+	t_vec3f			dir;
+	float			radius;
+	float			height;
+	t_vec3f			color;
+	t_material_type	material;
 }	t_cylinder;
 
 typedef enum e_scene_elem_type {
