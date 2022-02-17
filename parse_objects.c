@@ -74,6 +74,8 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	parse_float(line, &c.height);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &c.color, 0, 255);
+	if (BONUS)
+		c.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	if (vec3f_len_sq(c.dir) == 0)
 	{
