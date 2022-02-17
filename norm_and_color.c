@@ -1,5 +1,11 @@
 #include "miniRT.h"
 
+t_vec3f	get_color_checkerboard(t_sphere sphere, t_ray r, t_vec3f norm_dir)
+{
+	(void)r;
+	return (vec3f_mul_v(sphere.color, norm_dir));
+}
+
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere *spheres, t_vec3f *norm_dir)
 {
@@ -7,6 +13,8 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 
 	sphere = spheres[hit.object_index];
 	*norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
+	if (sphere.material == CHECKER)
+		sphere.color = get_color_checkerboard(sphere, r, *norm_dir);
 	return (sphere.color);
 }
 
