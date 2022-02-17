@@ -1,9 +1,23 @@
 #include "miniRT.h"
+#include <math.h>
 
-t_vec3f	get_color_checkerboard(t_sphere sphere, t_ray r, t_vec3f norm_dir)
+t_vec3f	get_color_checkerboard(t_sphere sphere, t_vec3f norm_dir)
 {
-	(void)r;
-	return (vec3f_mul_v(sphere.color, norm_dir));
+	float	x_angle;
+	float	y_angle;
+	int		x_plus_y;
+
+	x_angle = vec3f_dot(vec3f_unit(vec3f_init(norm_dir.x, 0, norm_dir.z)), \
+		vec3f_init(1, 0, 0));
+	x_angle = acos(x_angle);
+	x_angle = x_angle * 4;
+	y_angle = vec3f_dot(norm_dir, vec3f_init(0, 1, 0));
+	y_angle = acos(y_angle);
+	y_angle = y_angle * 4;
+	x_plus_y = (int)x_angle + (int)y_angle;
+	if (abs(x_plus_y) % 2 > 0)
+		return (vec3f_div(sphere.color, 7.5));
+	return (sphere.color);
 }
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
@@ -13,8 +27,8 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 
 	sphere = spheres[hit.object_index];
 	*norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-	if (sphere.material == CHECKER)
-		sphere.color = get_color_checkerboard(sphere, r, *norm_dir);
+	if (BONUS && sphere.material == CHECKER)
+		return (get_color_checkerboard(sphere, *norm_dir));
 	return (sphere.color);
 }
 
