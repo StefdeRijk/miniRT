@@ -10,15 +10,17 @@ t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min)
 	return (r);
 }
 
-t_vec3f	spot_and_ambient(t_ray r, t_vec3f object_color, \
-	t_scene *scene, t_vec3f norm_dir)
+t_vec3f	spot_and_ambient(t_ray new_r, t_vec3f object_color, \
+	t_scene *scene, t_vec3f norm_dir, t_ray old_r)
 {
 	t_vec3f				spot_color;
 	t_vec3f				ambient_color;
 
 	if (scene->light && scene->light->brightness)
 	{
-		spot_color = spot_light(r.origin, norm_dir, scene);
+		spot_color = spot_light(new_r.origin, norm_dir, scene);
+		if (BONUS)
+			spot_color = vec3f_add(spot_color, spot_light_specular(norm_dir, scene, new_r, old_r));
 		spot_color = vec3f_mul_v(spot_color, object_color);
 	}
 	else
@@ -45,9 +47,10 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r)
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
-	t_vec3f				norm_dir;
-	t_vec3f				object_color;
-	t_hits				hit;
+	t_vec3f	norm_dir;
+	t_vec3f	object_color;
+	t_hits	hit;
+	t_ray	new_r;
 
 	get_hit(&hit, scene, r);
 	if (hit.hit_min > 0)
@@ -61,8 +64,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		else
 			object_color = get_cylinder_norm_color(hit, r,
 					scene->cylinders.data, &norm_dir);
-		r = new_ray(r, norm_dir, hit.hit_min);
-		return (spot_and_ambient(r, object_color, scene, norm_dir));
+		new_r = new_ray(r, norm_dir, hit.hit_min);
+		return (spot_and_ambient(new_r, object_color, scene, norm_dir, r));
 	}
 	return (vec3f_init(0, 0, 0));
 }
