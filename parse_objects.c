@@ -12,7 +12,7 @@ t_material_type	parse_check_material(t_parse_line *line)
 		return (NORMAL);
 	if (material == 'm')
 		return (MIRROR);
-	if (material == 'g')
+	else
 		return (GLASS);
 }
 
