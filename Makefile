@@ -35,6 +35,10 @@ else
 	SRC = $(SRC_BASE) unit_tests.c
 endif
 
+ifdef BONUS
+	FLAGS := $(FLAGS) -DBONUS=1
+endif
+
 all: libft get_next_line vec $(NAME)
 
 $(NAME): $(SRC) $(GNL) $(LIBFT) $(MLX) miniRT.h
