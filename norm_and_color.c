@@ -28,10 +28,13 @@ t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)
 	x_angle = vec3f_dot(vec3f_unit(vec3f_init(norm_dir.x, 0, norm_dir.z)), \
 		vec3f_init(1, 0, 0));
 	x_angle = acos(x_angle);
-	x_angle = x_angle * 4;
+	if (norm_dir.z > 0)
+		x_angle = x_angle / M_PI * 5;
+	else
+		x_angle = x_angle / M_PI * 5 + 1;
 	y_angle = vec3f_dot(norm_dir, vec3f_init(0, 1, 0));
 	y_angle = acos(y_angle);
-	y_angle = y_angle * 4;
+	y_angle = y_angle / M_PI * 10;
 	x_plus_y = (int)x_angle + (int)y_angle;
 	if (abs(x_plus_y) % 2 > 0)
 		return (vec3f_div(sphere.color, 7.5));
