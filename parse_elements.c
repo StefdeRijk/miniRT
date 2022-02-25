@@ -40,16 +40,17 @@ void	parse_camera(t_parse_line *line, t_scene *scene)
 
 void	parse_light(t_parse_line *line, t_scene *scene)
 {
-	t_light	*l;
+	t_light	l;
 
-	if (!BONUS && scene->light.len)
+	if (!scene->lights.data)
+		vec_init(&scene->lights, sizeof(t_light));
+	if (!BONUS && scene->lights.len)
 		error("Found multiple light sources in file");
-	scene->light = malloc(sizeof(*scene->light));
-	l = scene->light;
-	parse_vec3f(line, &l->pos);
+	parse_vec3f(line, &l.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_check_float(line, &l->brightness, 0, 1);
+	parse_check_float(line, &l.brightness, 0, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &l->color, 0, 255);
+	parse_check_color(line, &l.color, 0, 255);
 	skip_one_or_more_char(line, '\n');
+	vec_push(&scene->lights, &l);
 }
