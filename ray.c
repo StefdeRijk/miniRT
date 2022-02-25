@@ -10,21 +10,38 @@ t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min)
 	return (r);
 }
 
+t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_ray new_r, \
+	t_ray old_r, t_vec3f object_color)
+{
+	t_vec3f	spot_color;
+	t_light	*lights;
+	int		i;
+
+	i = 0;
+	while (i < scene->lights.len)
+	{
+		if (scene->lights.len)
+		{
+			spot_color = spot_light(new_r, norm_dir, scene, old_r);
+			if (BONUS)
+				spot_color = vec3f_add(spot_color, \
+					spot_light_specular(norm_dir, scene, new_r, old_r));
+			spot_color = vec3f_mul_v(spot_color, object_color);
+		}
+		else
+			spot_color = vec3f_init(0, 0, 0);
+		i++;
+	}
+	return (spot_color);
+}
+
 t_vec3f	spot_and_ambient(t_ray new_r, t_vec3f object_color, \
 	t_scene *scene, t_vec3f norm_dir, t_ray old_r)
 {
-	t_vec3f				spot_color;
-	t_vec3f				ambient_color;
+	t_vec3f	spot_color;
+	t_vec3f	ambient_color;
 
-	if (scene->light && scene->light->brightness)
-	{
-		spot_color = spot_light(new_r, norm_dir, scene, old_r);
-		if (BONUS)
-			spot_color = vec3f_add(spot_color, spot_light_specular(norm_dir, scene, new_r, old_r));
-		spot_color = vec3f_mul_v(spot_color, object_color);
-	}
-	else
-		spot_color = vec3f_init(0, 0, 0);
+	spot_color = loop_lights(scene, norm_dir, new_r, old_r, object_color);
 	if (scene->ambient && scene->ambient->brightness)
 	{
 		ambient_color = vec3f_mul(scene->ambient->color, \
