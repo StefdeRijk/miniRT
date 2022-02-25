@@ -7,7 +7,7 @@ t_angle	get_angle(t_vec3f dir)
 	t_vec3f	rot_plane;
 	float	len_rot_plane;
 
-	if (dir.x == 0 && dir.y == 0)
+	if (dir.x == 0 && dir.z == 0)
 	{
 		s_angle.angle = 0;
 		s_angle.k = vec3f_init(0,0,0);
@@ -30,19 +30,10 @@ t_ray	rotate_ray(t_ray r, t_cylinder cylinder)
 	t_ray	rot_ray;
 	t_angle	angle;
 
-	if (cylinder.dir.x == 0 && cylinder.dir.z == 0)
-	{
-		rotated_origin = r.origin;
-		rotated_cylinder = cylinder.pos;
-		rotated_dir = r.dir;
-	}
-	else
-	{
-		angle = get_angle(cylinder.dir);
-		rotated_dir = ft_rodrigues(r.dir, angle.k, angle.angle);
-		rotated_origin = ft_rodrigues(r.origin, angle.k, angle.angle);
-		rotated_cylinder = ft_rodrigues(cylinder.pos, angle.k, angle.angle);
-	}
+	angle = get_angle(cylinder.dir);
+	rotated_dir = ft_rodrigues(r.dir, angle.k, angle.angle);
+	rotated_origin = ft_rodrigues(r.origin, angle.k, angle.angle);
+	rotated_cylinder = ft_rodrigues(cylinder.pos, angle.k, angle.angle);
 	rotated_origin = vec3f_sub(rotated_origin, rotated_cylinder);
 	rot_ray.dir = rotated_dir;
 	rot_ray.origin = rotated_origin;
