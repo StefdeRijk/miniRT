@@ -42,7 +42,7 @@ void	parse_light(t_parse_line *line, t_scene *scene)
 {
 	t_light	*l;
 
-	if (scene->light)
+	if (!BONUS && scene->light.len)
 		error("Found multiple light sources in file");
 	scene->light = malloc(sizeof(*scene->light));
 	l = scene->light;
