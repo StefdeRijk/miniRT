@@ -35,7 +35,7 @@ void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t)
 		c2 = line->line[line->i + 1];
 	set_element(line, c, c2, t);
 	line->i++;
-	if (*t == SPHERE || *t == PLANE || *t == CYLINDER)
+	if (*t == SPHERE || *t == PLANE || *t == CYLINDER || *t == PARABOLOID)
 		line->i++;
 	skip_one_or_more_char(line, ' ');
 }
