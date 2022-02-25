@@ -14,7 +14,7 @@ void	set_element(t_parse_line *line, char c, char c2, t_scene_elem_type *t)
 		*t = PLANE;
 	else if (c == 'c' && c2 == 'y')
 		*t = CYLINDER;
-	else if (c == 'p' && c2 == 'a')
+	else if (BONUS && c == 'p' && c2 == 'a')
 		*t = PARABOLOID;
 	else
 	{
