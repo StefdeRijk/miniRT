@@ -161,6 +161,7 @@ void	parse_sphere(t_parse_line *line, t_scene *scene);
 void	parse_plane(t_parse_line *line, t_scene *scene);
 void	parse_cylinder(t_parse_line *line, t_scene *scene);
 void	parse_line(t_parse_line line, t_scene *scene);
+void	parse_paraboloid(t_parse_line *line, t_scene *scene);
 void	parse_int(t_parse_line *line, int *i);
 void	parse_float(t_parse_line *line, float *f);
 void	parse_vec3i(t_parse_line *line, t_vec3i *v);

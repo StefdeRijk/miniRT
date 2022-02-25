@@ -10,6 +10,7 @@ void	parse_line(t_parse_line line, t_scene *scene)
 		parse_sphere,
 		parse_plane,
 		parse_cylinder,
+		parse_paraboloid,
 	};
 
 	parse_elem_type(&line, &et);
