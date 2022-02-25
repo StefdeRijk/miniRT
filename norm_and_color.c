@@ -41,7 +41,8 @@ t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)
 	return (sphere.color);
 }
 
-t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, float hit_min)
+t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
+	float hit_min, int hit_side_cylinder)
 {
 	t_angle	angle;
 	t_vec3f	hit_point;
@@ -55,8 +56,8 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, float hit_
 	angle = get_angle(cylinder.dir);
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
 	unit_rotated_hit_point = vec3f_unit(rotated_hit_point);
-	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, unit_rotated_hit_point.z)), \
-		vec3f_init(1, 0, 0));
+	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, \
+		unit_rotated_hit_point.z)), vec3f_init(1, 0, 0));
 	x_angle = acos(x_angle);
 	if (rotated_hit_point.z > 0)
 		x_angle = x_angle / M_PI * 5;
@@ -65,7 +66,10 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, float hit_
 	rotated_hit_point.y = rotated_hit_point.y / cylinder.height * 10;
 	if (rotated_hit_point.y < 0)
 		rotated_hit_point.y -= 1;
-	x_plus_y = (int)x_angle + (int)rotated_hit_point.y;
+	if (hit_side_cylinder)
+		x_plus_y = (int)x_angle + (int)rotated_hit_point.y;
+	else
+		x_plus_y = (int)x_angle;
 	if (abs(x_plus_y) % 2 > 0)
 		return (vec3f_div(cylinder.color, 7.5));
 	return (cylinder.color);
@@ -106,6 +110,7 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	else
 		*norm_dir = plane_normal(cylinder.dir, r.dir);
 	if (BONUS && cylinder.material == CHECKER)
-		return (get_color_checkerboard_cylinder(cylinder, r, hit.hit_min));
+		return (get_color_checkerboard_cylinder(cylinder, r, hit.hit_min, \
+			hit.hit_side_cylinder));
 	return (cylinder.color);
 }
