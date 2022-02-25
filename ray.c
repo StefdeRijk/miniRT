@@ -18,20 +18,17 @@ t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_ray new_r, \
 	int		i;
 
 	i = 0;
+	lights = scene->lights.data;
+	spot_color = vec3f_init(0, 0, 0);
 	while (i < scene->lights.len)
 	{
-		if (scene->lights.len)
-		{
-			spot_color = spot_light(new_r, norm_dir, scene, old_r);
-			if (BONUS)
-				spot_color = vec3f_add(spot_color, \
-					spot_light_specular(norm_dir, scene, new_r, old_r));
-			spot_color = vec3f_mul_v(spot_color, object_color);
-		}
-		else
-			spot_color = vec3f_init(0, 0, 0);
+		spot_color = vec3f_add(spot_color, spot_light(new_r, norm_dir, lights[i], old_r, scene));
+		if (BONUS)
+			spot_color = vec3f_add(spot_color, \
+				spot_light_specular(norm_dir, lights[i], new_r, old_r, scene));
 		i++;
 	}
+	spot_color = vec3f_mul_v(spot_color, object_color);
 	return (spot_color);
 }
 
