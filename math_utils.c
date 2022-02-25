@@ -8,6 +8,8 @@ t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle)
 	t_vec3f	term_3;
 	t_vec3f	rotated;
 
+	if (angle == 0)
+		return (v);
 	term_1 = vec3f_mul(v, cos(angle));
 	term_2 = vec3f_mul(vec3f_cross(k, v), sin(angle));
 	term_3 = vec3f_mul(k, (vec3f_dot(k, v) * (1 - cos(angle))));

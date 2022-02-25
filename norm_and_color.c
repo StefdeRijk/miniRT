@@ -47,19 +47,26 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_vec3f norm_dir, \
 	t_angle	angle;
 	t_vec3f	hit_point;
 	t_vec3f	rotated_hit_point;
+	t_vec3f	unit_rotated_hit_point;
 	float	x_angle;
 	int		x_plus_y;
 
 	hit_point = at(r, hit_min);
 	hit_point = vec3f_sub(hit_point, cylinder.pos);
-	angle = get_angle(norm_dir);
+	angle = get_angle(cylinder.dir);
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
-	x_angle = vec3f_dot(vec3f_unit(vec3f_init(norm_dir.x, 0, norm_dir.z)), \
+	unit_rotated_hit_point = vec3f_unit(rotated_hit_point);
+	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, unit_rotated_hit_point.z)), \
 		vec3f_init(1, 0, 0));
 	x_angle = acos(x_angle);
-	x_angle = x_angle * 4;
-	rotated_hit_point.y = rotated_hit_point.y * 4;
-	x_plus_y = (int)x_angle;
+	if (rotated_hit_point.z > 0)
+		x_angle = x_angle / M_PI * 5;
+	else
+		x_angle = x_angle / M_PI * 5 + 1;
+	rotated_hit_point.y = rotated_hit_point.y / cylinder.height * 10;
+	if (rotated_hit_point.y < 0)
+		rotated_hit_point.y -= 1;
+	x_plus_y = (int)x_angle + (int)rotated_hit_point.y;
 	if (abs(x_plus_y) % 2 > 0)
 		return (vec3f_div(cylinder.color, 7.5));
 	return (cylinder.color);

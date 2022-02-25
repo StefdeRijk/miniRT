@@ -7,10 +7,18 @@ t_angle	get_angle(t_vec3f dir)
 	t_vec3f	rot_plane;
 	float	len_rot_plane;
 
-	rot_plane = vec3f_cross(dir, vec3f_init(0, 1, 0));
-	len_rot_plane = vec3f_len(rot_plane);
-	s_angle.angle = asin(len_rot_plane);
-	s_angle.k = vec3f_unit(rot_plane);
+	if (dir.x == 0 && dir.y == 0)
+	{
+		s_angle.angle = 0;
+		s_angle.k = vec3f_init(0,0,0);
+	}
+	else
+	{
+		rot_plane = vec3f_cross(dir, vec3f_init(0, 1, 0));
+		len_rot_plane = vec3f_len(rot_plane);
+		s_angle.angle = asin(len_rot_plane);
+		s_angle.k = vec3f_unit(rot_plane);
+	}
 	return (s_angle);
 }
 
