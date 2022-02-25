@@ -41,8 +41,7 @@ t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)
 	return (sphere.color);
 }
 
-t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_vec3f norm_dir, \
-	t_ray r, float hit_min)
+t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, float hit_min)
 {
 	t_angle	angle;
 	t_vec3f	hit_point;
@@ -107,7 +106,6 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	else
 		*norm_dir = plane_normal(cylinder.dir, r.dir);
 	if (BONUS && cylinder.material == CHECKER)
-		return (get_color_checkerboard_cylinder(cylinder, *norm_dir, \
-			r, hit.hit_min));
+		return (get_color_checkerboard_cylinder(cylinder, r, hit.hit_min));
 	return (cylinder.color);
 }
