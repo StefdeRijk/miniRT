@@ -86,3 +86,30 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	c.dir = vec3f_unit(c.dir);
 	vec_push(&scene->cylinders, &c);
 }
+
+void	parse_paraboloid(t_parse_line *line, t_scene *scene)
+{
+	t_paraboloid	p;
+
+	if (!scene->paraboloids.data)
+		vec_init(&scene->paraboloids, sizeof(t_paraboloid));
+	parse_vec3f(line, &p.pos);
+	skip_one_or_more_char(line, ' ');
+	parse_check_vec3f(line, &p.dir, -1, 1);
+	if (vec3f_len_sq(p.dir) == 0)
+	{
+		printf("Paraboloid direction at line %d is a null vector, "
+			"cannot be normalized.", line->line_nr);
+		exit(1);
+	}
+	p.dir = vec3f_unit(p.dir);
+	skip_one_or_more_char(line, ' ');
+	parse_float(line, &p.curvature);
+	skip_one_or_more_char(line, ' ');
+	parse_check_color(line, &p.color, 0, 255);
+	skip_one_or_more_char(line, ' ');
+	p.material = parse_check_material(line);
+	skip_one_or_more_char(line, '\n');
+	vec_push(&scene->paraboloids, &p);
+}
+

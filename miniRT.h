@@ -65,6 +65,14 @@ typedef struct s_cylinder {
 	t_material_type	material;
 }	t_cylinder;
 
+typedef struct s_paraboloid{
+	t_vec3f			pos;
+	t_vec3f			dir;
+	float			curvature;
+	t_vec3f			color;
+	t_material_type	material;
+}	t_paraboloid;
+
 typedef enum e_scene_elem_type {
 	AMBIENT,
 	CAMERA,
@@ -72,6 +80,7 @@ typedef enum e_scene_elem_type {
 	SPHERE,
 	PLANE,
 	CYLINDER,
+	PARABOLOID,
 	NR_ELEM_TYPES
 }	t_scene_elem_type;
 
@@ -82,6 +91,7 @@ typedef struct s_scene {
 	t_vec				spheres;
 	t_vec				planes;
 	t_vec				cylinders;
+	t_vec				paraboloids;
 
 	t_scene_elem_type	prev_hit;
 	float				distance_to_spot;
