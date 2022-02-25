@@ -107,7 +107,6 @@ void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 	parse_float(line, &p.curvature);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &p.color, 0, 255);
-	skip_one_or_more_char(line, ' ');
 	p.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->paraboloids, &p);
