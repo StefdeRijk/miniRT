@@ -57,6 +57,8 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r)
 	sphere_loop(r, scene, hit);
 	plane_loop(r, scene, hit);
 	cylinder_loop(r, scene, hit);
+	if (BONUS)
+		paraboloid_loop(r, scene, hit);
 }
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)

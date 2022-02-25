@@ -10,7 +10,7 @@ t_angle	get_angle(t_vec3f dir)
 	if (dir.x == 0 && dir.z == 0)
 	{
 		s_angle.angle = 0;
-		s_angle.k = vec3f_init(0,0,0);
+		s_angle.k = vec3f_init(0, 0, 0);
 	}
 	else
 	{
@@ -22,19 +22,19 @@ t_angle	get_angle(t_vec3f dir)
 	return (s_angle);
 }
 
-t_ray	rotate_ray(t_ray r, t_cylinder cylinder)
+t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir)
 {
 	t_vec3f	rotated_dir;
 	t_vec3f	rotated_origin;
-	t_vec3f	rotated_cylinder;
+	t_vec3f	rotated_object;
 	t_ray	rot_ray;
 	t_angle	angle;
 
-	angle = get_angle(cylinder.dir);
+	angle = get_angle(dir);
 	rotated_dir = ft_rodrigues(r.dir, angle.k, angle.angle);
 	rotated_origin = ft_rodrigues(r.origin, angle.k, angle.angle);
-	rotated_cylinder = ft_rodrigues(cylinder.pos, angle.k, angle.angle);
-	rotated_origin = vec3f_sub(rotated_origin, rotated_cylinder);
+	rotated_object = ft_rodrigues(pos, angle.k, angle.angle);
+	rotated_origin = vec3f_sub(rotated_origin, rotated_object);
 	rot_ray.dir = rotated_dir;
 	rot_ray.origin = rotated_origin;
 	return (rot_ray);
@@ -69,7 +69,7 @@ float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 	float	t;
 
 	*hit_side = 0;
-	rot_ray = rotate_ray(r, cylinder);
+	rot_ray = rotate_ray(r, cylinder.pos, cylinder.dir);
 	if (!ray_in_right_dir(rot_ray, cylinder))
 		return (-1.0);
 	t_plane = hit_top_or_bottom(rot_ray, cylinder);

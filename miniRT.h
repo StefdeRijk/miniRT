@@ -200,6 +200,7 @@ void	get_scene(char *filename, t_scene *scene);
 float	hit_sphere(t_sphere sphere, t_ray r);
 float	hit_plane(t_vec3f plane_dir, t_vec3f plane_pos, t_ray r);
 float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side);
+float	hit_paraboloid(t_paraboloid paraboloid, t_ray r);
 t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir);
@@ -213,13 +214,14 @@ void	pixel_put_image(t_arr2di *image, int x, int y, int color);
 
 t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal);
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center);
-t_ray	rotate_ray(t_ray r, t_cylinder cylinder);
+t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir);
 int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
 float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
 void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);

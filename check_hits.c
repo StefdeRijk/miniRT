@@ -72,3 +72,22 @@ void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits)
 		i++;
 	}
 }
+
+void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits)
+{
+	int				i;
+	t_paraboloid	paraboloid;
+	t_paraboloid	*paraboloids;
+	float			hit;
+
+	paraboloids = scene->paraboloids.data;
+	i = 0;
+	while (i < scene->paraboloids.len)
+	{
+		paraboloid = paraboloids[i];
+		hit = hit_paraboloid(paraboloid, r);
+		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+			hits->hit_type = PARABOLOID;
+		i++;
+	}
+}
