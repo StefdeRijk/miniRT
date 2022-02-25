@@ -25,10 +25,10 @@ void	get_scene(char *filename, t_scene *scene)
 	if (fd < 0)
 		error("Could not open file");
 	line.line = get_next_line(fd);
-	line.line_nr = 0;
+	line.line_nr = 1;
 	while (line.line)
 	{
-		line.i = 0;
+		line.i = 0; // should start printing at one, but then the indexing needs to be fixed
 		// printf("line: %s", line.line);
 		if (ft_strcmp(line.line, "\n"))
 			parse_line(line, scene);
