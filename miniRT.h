@@ -78,7 +78,7 @@ typedef enum e_scene_elem_type {
 typedef struct s_scene {
 	t_ambient			*ambient;
 	t_camera			*camera;
-	t_vec				light;
+	t_vec				lights;
 	t_vec				spheres;
 	t_vec				planes;
 	t_vec				cylinders;
