@@ -47,6 +47,7 @@ t_vec3f	paraboloid_normal(t_paraboloid paraboloid, t_ray r, t_hits hit)
 	t_ray	rot_r;
 	t_vec3f	hit_to_focal;
 	t_vec3f	norm_dir;
+	t_angle	angle;
 	float	focal_point;
 
 	rot_r = rotate_ray(r, paraboloid.pos, paraboloid.dir);
@@ -55,5 +56,8 @@ t_vec3f	paraboloid_normal(t_paraboloid paraboloid, t_ray r, t_hits hit)
 		at(rot_r, hit.hit_min)));
 	norm_dir = vec3f_div(vec3f_add(hit_to_focal, vec3f_init(0, 1, 0)), 2.);
 	norm_dir = vec3f_mul(norm_dir, -1.);
+	angle = get_angle(vec3f_mul(paraboloid.dir, -1.0));
+	norm_dir = ft_rodrigues(norm_dir, angle.k, angle.angle);
+	norm_dir = vec3f_unit(norm_dir);
 	return (norm_dir);
 }

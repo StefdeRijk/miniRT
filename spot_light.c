@@ -74,7 +74,7 @@ int	in_shadow(t_vec3f spot_unit, t_vec3f pos, t_light light, t_ray r, t_scene *s
 
 	to_spot.dir = spot_unit;
 	reverse_r_dir = vec3f_sub(vec3f_init(0, 0, 0), r.dir);
-	offset = vec3f_mul(reverse_r_dir, 0.00001);
+	offset = vec3f_mul(reverse_r_dir, 0.000001);
 	to_spot.origin = vec3f_add(pos, offset);
 	if (get_hit_shadow(light, to_spot, pos, scene))
 		return (1);
