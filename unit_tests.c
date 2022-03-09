@@ -80,6 +80,7 @@ void	test_ray_bounce(void)
 	printf("\n");
 }
 
+/*
 void	test_rotate_ray(void)
 {
 	t_ray				r;
@@ -111,6 +112,7 @@ void	test_rotate_ray(void)
 	vec3f_print(r.dir);
 	printf("\n");
 }
+*/
 
 void	test_ray_in_right_dir(void)
 {
@@ -178,6 +180,26 @@ void	test_hit_infinite_cylinder(void)
 	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
 }
 
+void	test_hit_paraboloid(void)
+{
+	t_ray			r;
+	t_paraboloid	*p;
+	t_paraboloid	paraboloid;
+	static t_scene	scene = {0};
+	t_vec3f 		normal;
+	t_hits			hit;
+
+	printf("------ Hit paraboloid ----\n");
+	get_scene("test_paraboloid.rt", &scene);
+	p = scene.paraboloids.data;
+	paraboloid = *p;
+	r.origin = vec3f_init(0, 0.00001, 0);
+	r.dir = vec3f_init(0, 0, -1);
+	hit.hit_min = hit_paraboloid(paraboloid, r);
+	printf("t: %f\n", hit.hit_min);
+	normal = paraboloid_normal(paraboloid, r, hit); 
+	vec3f_print(normal);
+}
 /*
 void	test_cylinder_shadow(void)
 {
@@ -234,4 +256,5 @@ int main(void)
 	//test_hit_top_or_bottom();
 	//test_hit_infinite_cylinder();
 	//test_cylinder_shadow();
+	test_hit_paraboloid();
 }
