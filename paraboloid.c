@@ -52,7 +52,7 @@ t_vec3f	paraboloid_normal(t_paraboloid paraboloid, t_ray r, t_hits hit)
 	rot_r = rotate_ray(r, paraboloid.pos, paraboloid.dir);
 	focal_point = paraboloid.curvature / 4;
 	hit_to_focal = vec3f_unit(vec3f_sub(vec3f_init(0, focal_point, 0), \
-		at(r, hit.hit_min)));
+		at(rot_r, hit.hit_min)));
 	norm_dir = vec3f_div(vec3f_add(hit_to_focal, vec3f_init(0, 1, 0)), 2.);
 	norm_dir = vec3f_mul(norm_dir, -1.);
 	return (norm_dir);
