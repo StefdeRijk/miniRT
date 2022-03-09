@@ -20,9 +20,9 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 		unit_rotated_hit_point.z)), vec3f_init(1, 0, 0));
 	x_angle = acos(x_angle);
 	if (rotated_hit_point.z > 0)
-		x_angle = x_angle / M_PI * 5;
+		x_angle = x_angle / M_PI * 4.999;
 	else
-		x_angle = x_angle / M_PI * 5 + 1;
+		x_angle = x_angle / M_PI * 4.999 + 1;
 	rotated_hit_point.y = rotated_hit_point.y / paraboloid.curvature * 10;
 	if (rotated_hit_point.y < 0)
 		rotated_hit_point.y -= 1;
