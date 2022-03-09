@@ -114,3 +114,16 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 			hit.hit_side_cylinder));
 	return (cylinder.color);
 }
+
+t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
+	t_paraboloid *paraboloids, t_vec3f *norm_dir)
+{
+	t_paraboloid	paraboloid;
+
+	paraboloid = paraboloids[hit.object_index];
+	*norm_dir = paraboloid_normal(paraboloid, r, hit);
+	// if (BONUS && paraboloid.material == CHECKER)
+	// 	return (get_color_checkerboard_paraboloid(paraboloid, r, \
+	// 		*norm_dir, hit.hit_min));
+	return (paraboloid.color);
+}

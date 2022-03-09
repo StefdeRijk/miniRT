@@ -214,6 +214,7 @@ void	pixel_put_image(t_arr2di *image, int x, int y, int color);
 
 t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal);
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center);
+t_vec3f	paraboloid_normal(t_paraboloid paraboloid, t_ray r, t_hits hit);
 t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir);
 int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
 float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
@@ -233,6 +234,8 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_plane *planes, t_vec3f *norm_dir);
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	t_cylinder *cylinders, t_vec3f *norm_dir);
+t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
+	t_paraboloid *paraboloids, t_vec3f *norm_dir);
 
 float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);

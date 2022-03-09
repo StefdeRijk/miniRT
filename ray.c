@@ -77,6 +77,9 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		else if (hit.hit_type == PLANE)
 			object_color = get_plane_norm_color(hit, r, scene->planes.data,
 					&norm_dir);
+		else if (BONUS && hit.hit_type == PARABOLOID)
+			object_color = get_paraboloid_norm_color(hit, r, \
+				scene->paraboloids.data, &norm_dir);
 		else
 			object_color = get_cylinder_norm_color(hit, r,
 					scene->cylinders.data, &norm_dir);
