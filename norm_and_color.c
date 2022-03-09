@@ -1,6 +1,37 @@
 #include "miniRT.h"
 #include <math.h>
 
+t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
+			float hit_min)
+{
+	t_angle	angle;
+	t_vec3f	hit_point;
+	t_vec3f	rotated_hit_point;
+	t_vec3f	unit_rotated_hit_point;
+	float	x_angle;
+	int		x_plus_y;
+
+	hit_point = at(r, hit_min);
+	hit_point = vec3f_sub(hit_point, paraboloid.pos);
+	angle = get_angle(paraboloid.dir);
+	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
+	unit_rotated_hit_point = vec3f_unit(rotated_hit_point);
+	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, \
+		unit_rotated_hit_point.z)), vec3f_init(1, 0, 0));
+	x_angle = acos(x_angle);
+	if (rotated_hit_point.z > 0)
+		x_angle = x_angle / M_PI * 5;
+	else
+		x_angle = x_angle / M_PI * 5 + 1;
+	rotated_hit_point.y = rotated_hit_point.y / paraboloid.curvature * 10;
+	if (rotated_hit_point.y < 0)
+		rotated_hit_point.y -= 1;
+	x_plus_y = (int)x_angle + (int)rotated_hit_point.y;
+	if (abs(x_plus_y) % 2 > 0)
+		return (vec3f_div(paraboloid.color, 7.5));
+	return (paraboloid.color);
+}
+
 t_vec3f	get_color_checkerboard_plane(t_plane plane, t_vec3f norm_dir, \
 	t_ray r, float hit_min)
 {
@@ -122,8 +153,8 @@ t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 
 	paraboloid = paraboloids[hit.object_index];
 	*norm_dir = paraboloid_normal(paraboloid, r, hit);
-	// if (BONUS && paraboloid.material == CHECKER)
-	// 	return (get_color_checkerboard_paraboloid(paraboloid, r, \
-	// 		*norm_dir, hit.hit_min));
+	if (BONUS && paraboloid.material == CHECKER)
+		return (get_color_checkerboard_paraboloid(paraboloid, r, \
+			hit.hit_min));
 	return (paraboloid.color);
 }
