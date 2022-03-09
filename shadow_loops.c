@@ -64,3 +64,23 @@ void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 		i++;
 	}
 }
+
+void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
+{
+	int				i;
+	t_paraboloid	paraboloid;
+	t_paraboloid	*paraboloids;
+	float			hit;
+
+	paraboloids = scene->paraboloids.data;
+	i = 0;
+	while (i < scene->paraboloids.len)
+	{
+		paraboloid = paraboloids[i];
+		hit = hit_paraboloid(paraboloid, r);
+		hits->hit_min = hit;
+		if (hits->hit_min > 0 && hits->hit_min < scene->distance_to_spot)
+			return ;
+		i++;
+	}
+}

@@ -226,6 +226,7 @@ void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
+void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
