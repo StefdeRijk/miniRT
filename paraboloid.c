@@ -30,6 +30,13 @@ float	get_t_paraboloid(t_paraboloid paraboloid, t_ray r)
 	return (solution);
 }
 
+int		inside_paraboloid(t_ray r, t_paraboloid paraboloid)
+{
+	if (powf(r.origin.x, 2) + powf(r.origin.z, 2) - r.origin.y * paraboloid.curvature < 0)
+		return (1);
+	return (0);
+}
+
 float	hit_paraboloid(t_paraboloid paraboloid, t_ray r)
 {
 	t_ray	rot_r;
@@ -38,6 +45,8 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r)
 	rot_r = rotate_ray(r, paraboloid.pos, paraboloid.dir);
 	if (!ray_in_right_dir_paraboloid(rot_r))
 		return (-1.0);
+	if (inside_paraboloid(rot_r, paraboloid))
+		return (-2.0);
 	t = get_t_paraboloid(paraboloid, rot_r);
 	return (t);
 }
