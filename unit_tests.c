@@ -193,8 +193,8 @@ void	test_hit_paraboloid(void)
 	get_scene("test_paraboloid.rt", &scene);
 	p = scene.paraboloids.data;
 	paraboloid = *p;
-	r.origin = vec3f_init(0, 0.00001, 0);
-	r.dir = vec3f_init(0, 0, -1);
+	r.origin = vec3f_init(0.0001, 0, 0);
+	r.dir = vec3f_init(0, 1, 0);
 	hit.hit_min = hit_paraboloid(paraboloid, r);
 	printf("t: %f\n", hit.hit_min);
 	normal = paraboloid_normal(paraboloid, r, hit); 
