@@ -2,6 +2,7 @@
 #include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 struct	__attribute__((packed)) s_BMPFileHeader
 {
@@ -29,28 +30,39 @@ struct	__attribute__((packed)) s_BMPInfoHeader {
 int	main() {
 	struct s_BMPFileHeader header;
 	struct s_BMPInfoHeader infoheader;
+	char dump[1000];
+	int fd;
 	FILE* file = fopen("seamless-normal-map.bmp", "rb");
+	fd = open("seamless-normal-map.bmp", O_RDONLY);
 	unsigned char *image;
 	int i;
 	unsigned char tmp;
-	if (!file)
+	if (fd == -1)
 	{
 		printf("error!\n");
 		exit(1);
 	}
-	fread(&header, sizeof(header), 1, file);
-	if (header.file_type != 0x4D42) {
+	read(fd, &header, sizeof(header));
+	if (header.file_type != 0x4D42)
+	{
 		printf("no bmp!\n");
 		exit(1);
 	}
 	printf("it works!\n");
-	fread(&infoheader, sizeof(infoheader), 1, file);
+	read(fd, &infoheader, sizeof(infoheader));
 	printf("width: %d\n", infoheader.width);
-	fseek(file, header.offset_data, SEEK_SET);
+	if (header.offset_data - sizeof(header) - sizeof(infoheader) < 0)
+	{
+		printf("file corrupted!\n");
+		exit(1);
+	}
+	printf("skipped bytes: %lu\n", (header.offset_data - sizeof(header) - sizeof(infoheader)));
+	if (header.offset_data - sizeof(header) - sizeof(infoheader) > 0)
+		read(fd, dump, header.offset_data - sizeof(header) - sizeof(infoheader));
 	image = malloc(infoheader.size);
 	if (!image)
 		exit(1);
-	fread(image, infoheader.size, 1, file);
+	read(fd, image, infoheader.size);
 	printf("%X %X %X\n", image[0], image[1], image[2]);
 	i = 0;
 	while (i < infoheader.size)
