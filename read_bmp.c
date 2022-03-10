@@ -31,11 +31,12 @@ int	main(void)
 {
 	struct s_BMPFileHeader	header;
 	struct s_BMPInfoHeader	infoheader;
-	char					dump[1000];
+	char					dump;
 	int						fd;
 	unsigned char			*image;
 	int						i;
 	unsigned char			tmp;
+	int						skip;
 
 	fd = open("seamless-normal-map.bmp", O_RDONLY);
 	if (fd == -1)
@@ -52,14 +53,15 @@ int	main(void)
 	printf("it works!\n");
 	read(fd, &infoheader, sizeof(infoheader));
 	printf("width: %d\n", infoheader.width);
-	if (header.offset_data - sizeof(header) - sizeof(infoheader) < 0)
+	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
+	if (skip < 0)
 	{
 		printf("file corrupted!\n");
 		exit(1);
 	}
-	printf("skipped bytes: %lu\n", (header.offset_data - sizeof(header) - sizeof(infoheader)));
-	if (header.offset_data - sizeof(header) - sizeof(infoheader) > 0)
-		read(fd, dump, header.offset_data - sizeof(header) - sizeof(infoheader));
+	printf("skipped bytes: %lu\n", skip);
+	while (skip--)
+		read(fd, &dump, 1);
 	image = malloc(infoheader.size);
 	if (!image)
 		exit(1);
