@@ -27,16 +27,17 @@ struct	__attribute__((packed)) s_BMPInfoHeader {
 	uint32_t	colors_important;
 };
 
-int	main() {
-	struct s_BMPFileHeader header;
-	struct s_BMPInfoHeader infoheader;
-	char dump[1000];
-	int fd;
-	FILE* file = fopen("seamless-normal-map.bmp", "rb");
+int	main(void)
+{
+	struct s_BMPFileHeader	header;
+	struct s_BMPInfoHeader	infoheader;
+	char					dump[1000];
+	int						fd;
+	unsigned char			*image;
+	int						i;
+	unsigned char			tmp;
+
 	fd = open("seamless-normal-map.bmp", O_RDONLY);
-	unsigned char *image;
-	int i;
-	unsigned char tmp;
 	if (fd == -1)
 	{
 		printf("error!\n");
