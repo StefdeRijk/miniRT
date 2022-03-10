@@ -13,7 +13,7 @@ SRC_BASE = check_range.c parse_elements.c parse_general.c parse_number.c\
 	  parse_objects.c spot_light.c plane.c error.c get_scene.c cylinder.c\
 	  parse_check_floats.c parse_element_type.c mlx_utils.c math_utils.c\
 	  cylinder_utils.c color_utils.c reflections.c check_hits.c norm_and_color.c\
-	  shadow_loops.c paraboloid.c
+	  shadow_loops.c paraboloid.c read_bmp.c
 CC = gcc
 
 ifndef DEBUG

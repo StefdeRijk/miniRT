@@ -53,7 +53,13 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &p.color, 0, 255);
 	if (BONUS)
+	{
 		p.material = parse_check_material(line);
+		skip_zero_or_more_char(line, ' ');
+		parse_string(line, p.texture_file, MAX_TEXTURE_FILE_SIZE);
+		if (p.texture_file[0])
+			p.bump_map = read_bmp(p.texture_file);
+	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);
 }

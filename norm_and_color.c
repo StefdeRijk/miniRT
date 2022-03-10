@@ -32,18 +32,26 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 	return (paraboloid.color);
 }
 
-t_vec3f	get_color_checkerboard_plane(t_plane plane, t_vec3f norm_dir, \
-	t_ray r, float hit_min)
+t_vec3f get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 {
-	t_angle	angle;
 	t_vec3f	hit_point;
-	t_vec3f	rotated_hit_point;
-	int		x_plus_z;
+	t_vec3f norm_dir;
+	t_angle	angle;
 
+	norm_dir = plane_normal(plane.dir, r.dir);
 	hit_point = at(r, hit_min);
 	hit_point = vec3f_sub(hit_point, plane.pos);
 	angle = get_angle(norm_dir);
-	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
+	return (ft_rodrigues(hit_point, angle.k, angle.angle));
+}
+
+t_vec3f	get_color_checkerboard_plane(t_plane plane, t_vec3f norm_dir, \
+	t_ray r, float hit_min)
+{
+	t_vec3f	rotated_hit_point;
+	int		x_plus_z;
+
+	rotated_hit_point = get_rotated_hit_point(plane, r, hit_min);
 	x_plus_z = (int)rotated_hit_point.x + (int)rotated_hit_point.z;
 	if (abs(x_plus_z) % 2 > 0)
 		return (vec3f_div(plane.color, 7.5));
@@ -122,9 +130,23 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_plane *planes, t_vec3f *norm_dir)
 {
 	t_plane	plane;
+	t_vec3f	rotated_hit_point;
+	t_vec3f	plane_pos;
 
 	plane = planes[hit.object_index];
-	*norm_dir = plane_normal(plane.dir, r.dir);
+	//printf("width, height before %d %d\n", plane.bump_map.width, plane.bump_map.height);
+	printf("ray origin:");
+	vec3f_print(r.origin);
+	printf("ray direction:");
+	vec3f_print(r.dir);
+	rotated_hit_point = get_rotated_hit_point(plane, r, hit.hit_min);
+	plane_pos.x = fabsf(rotated_hit_point.x);
+	plane_pos.y = fabsf(rotated_hit_point.z);
+	//*norm_dir = vec3f_init(0, 0, 1);
+	*norm_dir = plane_normal_bump(plane_pos, plane, r.dir);
+	//*norm_dir = plane_normal(plane.dir, r.dir);
+	//printf("width, height after %d %d\n", plane.bump_map.width, plane.bump_map.height);
+	//return (vec3f_init(plane_pos.x, plane_pos.y, 0));
 	if (BONUS && plane.material == CHECKER)
 		return (get_color_checkerboard_plane(plane, *norm_dir, r, hit.hit_min));
 	return (plane.color);

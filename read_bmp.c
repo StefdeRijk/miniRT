@@ -1,3 +1,4 @@
+#include "miniRT.h"
 #include <fcntl.h>
 #include <stdint.h>
 #include <stdio.h>
@@ -27,23 +28,18 @@ struct	__attribute__((packed)) s_BMPInfoHeader {
 	uint32_t	colors_important;
 };
 
-void	error(char *str)
-{
-	printf("%s\n", str);
-	exit(1);
-}
-
-void	checked_read(int fd, void *buffer, size_t size)
+static void	checked_read(int fd, void *buffer, long size)
 {
 	if (read(fd, buffer, size) != size)
 		error("read error");
 }
 
-void	bgr_to_rgb(unsigned char *image, uint32_t size)
+static void	bgr_to_rgb(unsigned char *image, uint32_t size)
 {
-	int				i;
+	uint32_t		i;
 	unsigned char	tmp;
 
+	printf("size: %u\n", size);
 	i = 0;
 	while (i < size)
 	{
@@ -54,35 +50,36 @@ void	bgr_to_rgb(unsigned char *image, uint32_t size)
 	}
 }
 
-unsigned char	*read_bmp(char *file)
+t_bmp	read_bmp(char *file)
 {
 	struct s_BMPFileHeader	header;
 	struct s_BMPInfoHeader	infoheader;
 	int						fd;
-	unsigned char			*image;
+	t_bmp					image;
 	int						skip;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
+	{
+		printf("%s\n", file);
 		error("file not found");
+	}
 	checked_read(fd, &header, sizeof(header));
 	if (header.file_type != 0x4D42)
 		error("no bmp!");
 	checked_read(fd, &infoheader, sizeof(infoheader));
+	image.width = infoheader.width;
+	image.height = abs(infoheader.height);
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
+	printf("width %d, height %d\n", image.width, image.height);
 	if (skip < 0)
 		error("file corrupted!");
 	while (skip--)
 		checked_read(fd, &header, 1);
-	image = malloc(infoheader.size);
-	if (!image)
+	image.data = malloc(image.width * image.height * 3 * sizeof(char));
+	if (!image.data)
 		error("malloc failed");
-	checked_read(fd, image, infoheader.size);
-	bgr_to_rgb(image, infoheader.size);
+	checked_read(fd, image.data, image.width * image.height * 3 * sizeof(char));
+	bgr_to_rgb(image.data, image.width * image.height * 3 * sizeof(char));
 	return (image);
-}
-
-int	main(void)
-{
-	read_bmp("seamless-normal-map.bmp");
 }

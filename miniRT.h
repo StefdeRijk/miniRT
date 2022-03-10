@@ -17,6 +17,14 @@
 # define PROFILE 0
 # endif
 
+# define MAX_TEXTURE_FILE_SIZE 50
+
+typedef struct s_bmp {
+	unsigned char	*data;
+	int				width;
+	int				height;
+} t_bmp;
+
 typedef enum e_material_type {
 	NORMAL,
 	CHECKER,
@@ -54,6 +62,8 @@ typedef struct s_plane {
 	t_vec3f			dir;
 	t_vec3f			color;
 	t_material_type	material;
+	char			texture_file[MAX_TEXTURE_FILE_SIZE];
+	t_bmp			bump_map;
 }	t_plane;
 
 typedef struct s_cylinder {
@@ -168,6 +178,7 @@ void	parse_vec3i(t_parse_line *line, t_vec3i *v);
 void	parse_vec3f(t_parse_line *line, t_vec3f *v);
 void	parse_char(t_parse_line *line, char *c);
 void	parse_line(t_parse_line line, t_scene *scene);
+void	parse_string(t_parse_line *line, char *buffer, int size);
 
 void	check_in_set(t_parse_line *line, char *c, char *set);
 void	check_range_f(t_parse_line *line, float f, float min, float max);
@@ -204,6 +215,7 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r);
 t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir);
+t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir);
 
 void	init_mlx(t_scene *scene);
 void	init_image(t_info *info);
@@ -246,4 +258,6 @@ t_angle	get_angle(t_vec3f dir);
 
 void	error(char *str);
 void	digit_error(t_parse_line *line);
+
+t_bmp	read_bmp(char *file);
 #endif
