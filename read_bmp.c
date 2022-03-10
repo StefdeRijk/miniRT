@@ -64,7 +64,7 @@ unsigned char	*read_bmp(char *file)
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		error();
+		error("file not found");
 	checked_read(fd, &header, sizeof(header));
 	if (header.file_type != 0x4D42)
 		error("no bmp!");
