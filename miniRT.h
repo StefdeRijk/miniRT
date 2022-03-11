@@ -20,6 +20,7 @@
 # define MAX_TEXTURE_FILE_SIZE 50
 
 typedef struct s_bmp {
+	char			texture_file[MAX_TEXTURE_FILE_SIZE];
 	unsigned char	*data;
 	int				width;
 	int				height;
@@ -64,7 +65,6 @@ typedef struct s_plane {
 	t_vec3f			dir;
 	t_vec3f			color;
 	t_material_type	material;
-	char			texture_file[MAX_TEXTURE_FILE_SIZE];
 	t_bmp			bump_map;
 }	t_plane;
 
