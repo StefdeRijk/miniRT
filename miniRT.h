@@ -23,6 +23,8 @@ typedef struct s_bmp {
 	unsigned char	*data;
 	int				width;
 	int				height;
+	int				bytes_per_pixel;
+	int				bytes_per_row;
 } t_bmp;
 
 typedef enum e_material_type {

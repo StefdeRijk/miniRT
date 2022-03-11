@@ -34,7 +34,7 @@ static void	checked_read(int fd, void *buffer, long size)
 		error("read error");
 }
 
-static void	bgr_to_rgb(unsigned char *image, uint32_t size)
+static void	bgr_to_rgb(unsigned char *image, uint32_t size, int bytes_per_pixel)
 {
 	uint32_t		i;
 	unsigned char	tmp;
@@ -46,7 +46,7 @@ static void	bgr_to_rgb(unsigned char *image, uint32_t size)
 		tmp = image[i];
 		image[i] = image[i + 2];
 		image[i + 2] = tmp;
-		i += 3;
+		i += bytes_per_pixel;
 	}
 }
 
@@ -70,16 +70,20 @@ t_bmp	read_bmp(char *file)
 	checked_read(fd, &infoheader, sizeof(infoheader));
 	image.width = infoheader.width;
 	image.height = abs(infoheader.height);
+	image.bytes_per_pixel = infoheader.bit_count / 8;
+	image.bytes_per_row = image.width * image.bytes_per_pixel;
+	if (image.bytes_per_row % 4)
+		image.bytes_per_row += 4 - image.bytes_per_row % 4;
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
 	printf("width %d, height %d\n", image.width, image.height);
 	if (skip < 0)
 		error("file corrupted!");
 	while (skip--)
 		checked_read(fd, &header, 1);
-	image.data = malloc(image.width * image.height * 3 * sizeof(char));
+	image.data = malloc(image.bytes_per_row * image.height * sizeof(char));
 	if (!image.data)
 		error("malloc failed");
-	checked_read(fd, image.data, image.width * image.height * 3 * sizeof(char));
-	bgr_to_rgb(image.data, image.width * image.height * 3 * sizeof(char));
+	checked_read(fd, image.data, image.bytes_per_row * image.height * sizeof(char));
+	bgr_to_rgb(image.data, image.bytes_per_row * image.height * sizeof(char), image.bytes_per_pixel);
 	return (image);
 }

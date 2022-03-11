@@ -59,6 +59,23 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 		parse_string(line, p.texture_file, MAX_TEXTURE_FILE_SIZE);
 		if (p.texture_file[0])
 			p.bump_map = read_bmp(p.texture_file);
+		// remove next part
+		
+		/*
+		int i;
+		for (i = 0; i < p.bump_map.width * p.bump_map.height / 2; i +=6) {
+			p.bump_map.data[i] = 255;
+			p.bump_map.data[i+1] = 0;
+			p.bump_map.data[i+2] = 0;
+		}
+		for (i = 3; i < p.bump_map.width * p.bump_map.height / 2; i +=6) {
+			p.bump_map.data[i] = 0;
+			p.bump_map.data[i+1] = 255;
+			p.bump_map.data[i+2] = 0;
+		}
+		*/
+		//exit(1);
+		
 	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);
