@@ -119,7 +119,7 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere			sphere;
 
 	sphere = spheres[hit.object_index];
-	*norm_dir = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
+	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, spere);
 	if (BONUS && sphere.material == CHECKER)
 		return (get_color_checkerboard_sphere(sphere, *norm_dir));
 	return (sphere.color);
