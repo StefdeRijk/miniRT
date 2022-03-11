@@ -1,10 +1,11 @@
+#include "miniRT.h"
 #include "mlx/mlx.h"
 #include "vec/vec.h"
 #include <stdlib.h>
 #include <math.h>
-#include "miniRT.h"
+#include <pthread.h>
 
-#define WIN_WIDTH 2560
+#define WIN_WIDTH 560
 #define ASPECT_RATIO 1.7777777777
 #define DESTROY_NOTIFY 17
 
@@ -38,27 +39,62 @@ t_vec3f	shoot_rays(int i, int j, t_info *info, t_scene *scene)
 	return (ray_color(r, scene));
 }
 
-void	paint_img(t_info *info, t_scene *scene)
-{
-	int		i;
-	int		j;
-	int		color;
-	t_vec3f	ray_colour;
+struct everything {
+	t_info *info;
+	t_scene *scene;
+	int start;
+	int end;
+};
 
-	ray_colour = vec3f_init(0, 0, 0);
-	j = info->win_height - 1;
-	while (j >= 0)
+void	*paint_column(void *everything_p)
+{
+	int i;
+	int j;
+	t_vec3f	ray_colour;
+	int		color;
+	struct everything everything;
+
+	everything = *(struct everything*)everything_p;
+	j = everything.end;
+	while (j >= everything.start)
 	{
+		//printf("j: %d\n", j);
 		i = 0;
 		while (i < WIN_WIDTH)
 		{
-			ray_colour = shoot_rays(i, j, info, scene);
+			ray_colour = shoot_rays(i, j, everything.info, everything.scene);
 			color = ray_to_pixel_color(ray_colour);
-			pixel_put_image(&info->img, i, info->win_height - j - 1, color);
+			pixel_put_image(&everything.info->img, i, everything.info->win_height - j - 1, color);
 			i++;
 		}
 		j--;
 	}
+	return (NULL);
+}
+
+#define THREADS 1
+
+void	paint_img(t_info *info, t_scene *scene)
+{
+	int err;
+	pthread_t thread[THREADS];
+	struct everything everything[THREADS];
+	everything[0].info = info;
+	everything[0].scene = scene;
+	everything[0].start = 0;
+	everything[0].end = (info->win_height - 1) / THREADS;
+	//everything1.end = (info->win_height - 1);
+	/*
+	everything[1].info = info;
+	everything[1].scene = scene;
+	everything[1].start = (info->win_height - 1) / 2;
+	everything[1].end = info->win_height - 1;
+	*/
+
+	err = pthread_create(&thread[0], NULL, paint_column, &everything[0]);
+	//err = pthread_create(&thread[1], NULL, paint_column, &everything[1]);
+	pthread_join(thread[0], NULL);
+	//pthread_join(thread[1], NULL);
 }
 
 void	get_lower_left_corner(t_info *info, t_scene *scene)
