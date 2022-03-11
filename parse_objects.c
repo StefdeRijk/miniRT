@@ -29,7 +29,13 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &s.color, 0, 255);
 	if (BONUS)
+	{
 		s.material = parse_check_material(line);
+		skip_zero_or_more_char(line, ' ');
+		parse_string(line, s.bump_map.texture_file, MAX_TEXTURE_FILE_SIZE);
+		if (s.bump_map.texture_file[0])
+			s.bump_map = read_bmp(s.bump_map.texture_file);
+	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
 }

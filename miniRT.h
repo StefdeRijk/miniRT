@@ -58,6 +58,7 @@ typedef struct s_sphere {
 	float			radius;
 	t_vec3f			color;
 	t_material_type	material;
+	t_bmp			bump_map;
 }	t_sphere;
 
 typedef struct s_plane {
