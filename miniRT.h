@@ -20,7 +20,7 @@
 # define MAX_TEXTURE_FILE_SIZE 50
 
 typedef struct s_bmp {
-	char			texture_file[MAX_TEXTURE_FILE_SIZE];
+	char			filename[MAX_TEXTURE_FILE_SIZE];
 	unsigned char	*data;
 	int				width;
 	int				height;
@@ -58,6 +58,7 @@ typedef struct s_sphere {
 	float			radius;
 	t_vec3f			color;
 	t_material_type	material;
+	t_bmp			texture;
 	t_bmp			bump_map;
 }	t_sphere;
 
@@ -66,6 +67,7 @@ typedef struct s_plane {
 	t_vec3f			dir;
 	t_vec3f			color;
 	t_material_type	material;
+	t_bmp			texture;
 	t_bmp			bump_map;
 }	t_plane;
 
@@ -219,6 +221,7 @@ t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir);
 t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, t_sphere sphere);
+void	get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle);
 
 void	init_mlx(t_scene *scene);
 void	init_image(t_info *info);
