@@ -1,10 +1,10 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
+t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 {
 	t_vec3f	hit_point;
-	t_vec3f norm_dir;
+	t_vec3f	norm_dir;
 	t_angle	angle;
 
 	norm_dir = plane_normal(plane.dir, r.dir);
@@ -17,29 +17,13 @@ t_vec3f get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere *spheres, t_vec3f *norm_dir)
 {
-	t_sphere			sphere;
-	t_sphere			texture_sphere;
-	t_vec3f				normal;
-	float	x_angle;
-	float	y_angle;
-	int bump_x;
-	int bump_y;
+	t_sphere	sphere;
 
 	sphere = spheres[hit.object_index];
 	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, sphere);
 	if (sphere.texture.filename[0])
 	{
-		normal = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-		get_sphere_angles(normal, &x_angle, &y_angle);
-		bump_x = ((int)(x_angle / 2.001 * sphere.texture.width)) % sphere.texture.width;
-		bump_y = ((int)(y_angle / 1.001 * sphere.texture.height)) % sphere.texture.height;
-		texture_sphere = sphere;
-		texture_sphere.color.x = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row] / 255.;
-		texture_sphere.color.y = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 1] / 255.;
-		texture_sphere.color.z = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 2] / 255.;
-		if (BONUS && sphere.material == CHECKER)
-			return (get_color_checkerboard_sphere(texture_sphere, normal));
-		return (texture_sphere.color);
+		return (get_sphere_texture(sphere, r, hit));
 	}
 	if (BONUS && sphere.material == CHECKER)
 		return (get_color_checkerboard_sphere(sphere, *norm_dir));

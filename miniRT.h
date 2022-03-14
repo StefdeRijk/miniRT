@@ -247,10 +247,14 @@ void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
-void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
-void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
-void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
+void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+	float distance_to_spot);
+void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+	float distance_to_spot);
+void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+	float distance_to_spot);
+void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
@@ -264,6 +268,7 @@ t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos, \
 	t_ray r, t_hits hit);
+t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
 
 t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min);
 t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir);
@@ -274,6 +279,7 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 
 float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);
+t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min);
 float	signf(float a);
 t_vec3f	at(t_ray r, float t);
 t_angle	get_angle(t_vec3f dir);
