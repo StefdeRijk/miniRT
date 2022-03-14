@@ -10,7 +10,8 @@ t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min)
 	return (r);
 }
 
-t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_old_new_ray rays, t_vec3f object_color)
+t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_old_new_ray rays,
+		t_vec3f object_color)
 {
 	t_vec3f	spot_color;
 	t_light	*lights;
@@ -21,7 +22,8 @@ t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_old_new_ray rays, t_vec3
 	spot_color = vec3f_init(0, 0, 0);
 	while (i < scene->lights.len)
 	{
-		spot_color = vec3f_add(spot_color, spot_light(rays, norm_dir, lights[i], scene));
+		spot_color = vec3f_add(spot_color, spot_light(rays, norm_dir, lights[i],
+					scene));
 		if (BONUS)
 			spot_color = vec3f_add(spot_color, \
 				spot_light_specular(norm_dir, lights[i], rays, scene));
