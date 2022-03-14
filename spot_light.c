@@ -29,14 +29,15 @@ int	get_hit_shadow(t_light light, t_ray r, t_vec3f pos, t_scene *scene)
 	return (0);
 }
 
-int	in_shadow(t_vec3f spot_unit, t_vec3f pos, t_light light, t_ray r,
-		t_scene *scene)
+int	in_shadow(t_vec3f pos, t_light light, t_ray r, t_scene *scene)
 {
 	t_ray	to_spot;
 	t_vec3f	reverse_r_dir;
 	t_vec3f	offset;
+	t_vec3f	spot_dir;
 
-	to_spot.dir = spot_unit;
+	spot_dir = vec3f_unit(vec3f_sub(light.pos, pos));
+	to_spot.dir = spot_dir;
 	reverse_r_dir = vec3f_sub(vec3f_init(0, 0, 0), r.dir);
 	offset = vec3f_mul(reverse_r_dir, 0.00001);
 	to_spot.origin = vec3f_add(pos, offset);
@@ -55,12 +56,11 @@ t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_ray new_r,
 	t_vec3f		reflected_spot;
 
 	alpha = 20;
-	spot_dir = vec3f_sub(light.pos, new_r.origin);
+	spot_dir = vec3f_unit(vec3f_sub(light.pos, new_r.origin));
 	reflected_spot = f_reflection(spot_dir, normal);
 	reflected_spot = vec3f_unit(reflected_spot);
 	in_product_specular = vec3f_dot(reflected_spot, vec3f_unit(old_r.dir));
-	if (in_product_specular < 0 || in_shadow(vec3f_unit(spot_dir), new_r.origin,
-			light, old_r, scene))
+	if (in_product_specular < 0 || in_shadow(new_r.origin, light, old_r, scene))
 		return (vec3f_init(0, 0, 0));
 	spot_color_specular = vec3f_mul(light.color, \
 		((light.brightness * powf(in_product_specular, alpha))
@@ -81,7 +81,7 @@ t_vec3f	spot_light(t_ray new_r, t_vec3f normal, t_light light, t_ray old_r,
 	spot_unit = vec3f_unit(spot_unit);
 	in_product = vec3f_dot(spot_unit, normal);
 	if (in_product < 0
-		|| in_shadow(spot_unit, new_r.origin, light, old_r, scene))
+		|| in_shadow(new_r.origin, light, old_r, scene))
 		return (vec3f_init(0, 0, 0));
 	spot_color_diffuse = vec3f_mul(light.color, \
 		((light.brightness * in_product) / distance_sq) \
