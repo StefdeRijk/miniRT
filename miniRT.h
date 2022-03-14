@@ -8,6 +8,7 @@
 # include "get_next_line/get_next_line.h"
 # include <stdio.h>
 # include "mlx/mlx.h"
+# include <pthread.h>
 
 # ifndef BONUS
 # define BONUS 0
@@ -161,8 +162,8 @@ typedef struct s_hits {
 struct thread_data {
 	t_info *info;
 	t_scene *scene;
-	int start;
-	int end;
+	int next_pixel;
+	pthread_mutex_t pixel_mutex;
 };
 
 typedef void	(*t_elem_parser)(t_parse_line *line, t_scene *scene);

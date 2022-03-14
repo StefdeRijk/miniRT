@@ -42,25 +42,27 @@ t_vec3f	shoot_rays(int i, int j, t_info *info, t_scene *scene)
 
 void	*paint_column(void *thread_data_p)
 {
-	int i;
-	int j;
+	int x;
+	int y;
 	t_vec3f	ray_colour;
 	int		color;
-	struct thread_data thread_data;
+	struct thread_data *thread_data;
+	int next_pixel;
 
-	thread_data = *(struct thread_data*)thread_data_p;
-	j = thread_data.end;
-	while (j >= thread_data.start)
+	thread_data = (struct thread_data*)thread_data_p;
+	while (1)
 	{
-		i = 0;
-		while (i < WIN_WIDTH)
-		{
-			ray_colour = shoot_rays(i, j, thread_data.info, thread_data.scene);
-			color = ray_to_pixel_color(ray_colour);
-			pixel_put_image(&thread_data.info->img, i, thread_data.info->win_height - j - 1, color);
-			i++;
-		}
-		j--;
+		pthread_mutex_lock(&thread_data->pixel_mutex);
+		next_pixel = thread_data->next_pixel;
+		thread_data->next_pixel++;
+		pthread_mutex_unlock(&thread_data->pixel_mutex);
+		if (next_pixel >= thread_data->info->win_height * WIN_WIDTH)
+			break ;
+		x = next_pixel % WIN_WIDTH;
+		y = next_pixel / WIN_WIDTH;
+		ray_colour = shoot_rays(x, y, thread_data->info, thread_data->scene);
+		color = ray_to_pixel_color(ray_colour);
+		pixel_put_image(&thread_data->info->img, x, thread_data->info->win_height - y - 1, color);
 	}
 	return (NULL);
 }
@@ -70,16 +72,18 @@ void	paint_img(t_info *info, t_scene *scene)
 {
 	int err;
 	pthread_t thread[THREADS];
-	struct thread_data thread_data[THREADS];
+	struct thread_data thread_data;
 	int i;
+
+	thread_data.info = info;
+	thread_data.scene = scene;
+	thread_data.next_pixel = 0;
+	if (pthread_mutex_init(&thread_data.pixel_mutex, NULL))
+		error("could not create mutex");
 	i = 0;
 	while (i < THREADS)
 	{
-		thread_data[i].info = info;
-		thread_data[i].scene = scene;
-		thread_data[i].start = (info->win_height - 1) / THREADS * i;
-		thread_data[i].end = (info->win_height - 1) / THREADS * (i + 1);
-		err = pthread_create(&thread[i], NULL, paint_column, &thread_data[i]);
+		err = pthread_create(&thread[i], NULL, paint_column, &thread_data);
 		if (err)
 			error("thread creation failed");
 		i++;
