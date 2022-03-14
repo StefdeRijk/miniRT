@@ -39,7 +39,6 @@ static void	bgr_to_rgb(unsigned char *image, uint32_t size, int bytes_per_pixel)
 	uint32_t		i;
 	unsigned char	tmp;
 
-	printf("size: %u\n", size);
 	i = 0;
 	while (i < size)
 	{
@@ -75,7 +74,6 @@ t_bmp	read_bmp(char *file)
 	if (image.bytes_per_row % 4)
 		image.bytes_per_row += 4 - image.bytes_per_row % 4;
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
-	printf("width %d, height %d\n", image.width, image.height);
 	if (skip < 0)
 		error("file corrupted!");
 	while (skip--)
