@@ -137,7 +137,7 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 		texture_sphere.color.y = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 1] / 255.;
 		texture_sphere.color.z = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 2] / 255.;
 		if (BONUS && sphere.material == CHECKER)
-			return (get_color_checkerboard_sphere(sphere, normal));
+			return (get_color_checkerboard_sphere(texture_sphere, normal));
 		return (texture_sphere.color);
 	}
 	if (BONUS && sphere.material == CHECKER)

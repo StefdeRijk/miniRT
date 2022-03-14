@@ -5,9 +5,10 @@
 #include <math.h>
 #include <pthread.h>
 
-#define WIN_WIDTH 560
+#define WIN_WIDTH 2560
 #define ASPECT_RATIO 1.7777777777
 #define DESTROY_NOTIFY 17
+#define THREADS 4
 
 t_vec3f	get_ray_direction(t_info *info, int i, int j, t_vec3f camera)
 {
@@ -39,13 +40,6 @@ t_vec3f	shoot_rays(int i, int j, t_info *info, t_scene *scene)
 	return (ray_color(r, scene));
 }
 
-struct thread_data {
-	t_info *info;
-	t_scene *scene;
-	int start;
-	int end;
-};
-
 void	*paint_column(void *thread_data_p)
 {
 	int i;
@@ -58,7 +52,6 @@ void	*paint_column(void *thread_data_p)
 	j = thread_data.end;
 	while (j >= thread_data.start)
 	{
-		//printf("j: %d\n", j);
 		i = 0;
 		while (i < WIN_WIDTH)
 		{
@@ -72,29 +65,31 @@ void	*paint_column(void *thread_data_p)
 	return (NULL);
 }
 
-#define THREADS 2
 
 void	paint_img(t_info *info, t_scene *scene)
 {
 	int err;
 	pthread_t thread[THREADS];
 	struct thread_data thread_data[THREADS];
-	thread_data[0].info = info;
-	thread_data[0].scene = scene;
-	thread_data[0].start = 0;
-	thread_data[0].end = (info->win_height - 1) / THREADS;
-	//thread_data1.end = (info->win_height - 1);
-
-	thread_data[1].info = info;
-	thread_data[1].scene = scene;
-	thread_data[1].start = (info->win_height - 1) / THREADS;
-	thread_data[1].end = info->win_height - 1;
-
-
-	err = pthread_create(&thread[0], NULL, paint_column, &thread_data[0]);
-	err = pthread_create(&thread[1], NULL, paint_column, &thread_data[1]);
-	pthread_join(thread[0], NULL);
-	pthread_join(thread[1], NULL);
+	int i;
+	i = 0;
+	while (i < THREADS)
+	{
+		thread_data[i].info = info;
+		thread_data[i].scene = scene;
+		thread_data[i].start = (info->win_height - 1) / THREADS * i;
+		thread_data[i].end = (info->win_height - 1) / THREADS * (i + 1);
+		err = pthread_create(&thread[i], NULL, paint_column, &thread_data[i]);
+		if (err)
+			error("thread creation failed");
+		i++;
+	}
+	i = 0;
+	while (i < THREADS)
+	{
+		pthread_join(thread[i], NULL);
+		i++;
+	}
 }
 
 void	get_lower_left_corner(t_info *info, t_scene *scene)

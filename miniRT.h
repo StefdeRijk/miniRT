@@ -107,9 +107,6 @@ typedef struct s_scene {
 	t_vec				planes;
 	t_vec				cylinders;
 	t_vec				paraboloids;
-
-	t_scene_elem_type	prev_hit;
-	float				distance_to_spot;
 }	t_scene;
 
 typedef struct s_arr2di {
@@ -160,6 +157,13 @@ typedef struct s_hits {
 	t_scene_elem_type	hit_type;
 	int					hit_side_cylinder;
 }	t_hits;
+
+struct thread_data {
+	t_info *info;
+	t_scene *scene;
+	int start;
+	int end;
+};
 
 typedef void	(*t_elem_parser)(t_parse_line *line, t_scene *scene);
 
@@ -242,10 +246,10 @@ void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
-void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
-void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
-void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits);
+void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
+void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
+void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
+void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \

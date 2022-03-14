@@ -1,6 +1,6 @@
 #include "miniRT.h"
 
-void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
+void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
 {
 	int			i;
 	t_plane		plane;
@@ -14,13 +14,13 @@ void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 		plane = planes[i];
 		hit = hit_plane(plane.dir, plane.pos, r);
 		hits->hit_min = hit;
-		if (hits->hit_min > 0 && hits->hit_min < scene->distance_to_spot)
+		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
 			return ;
 		i++;
 	}
 }
 
-void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
+void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
 {
 	int			i;
 	t_sphere	sphere;
@@ -34,13 +34,13 @@ void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 		sphere = spheres[i];
 		hit = hit_sphere(sphere, r);
 		hits->hit_min = hit;
-		if (hits->hit_min > 0 && hits->hit_min < scene->distance_to_spot)
+		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
 			return ;
 		i++;
 	}
 }
 
-void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
+void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
 {
 	int			i;
 	t_cylinder	cylinder;
@@ -56,7 +56,7 @@ void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 		cylinder = cylinders[i];
 		hit = hit_cylinder(cylinder, r, &hit_side);
 		hits->hit_min = hit;
-		if (hits->hit_min > 0 && hits->hit_min < scene->distance_to_spot)
+		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
 		{
 			hits->hit_side_cylinder = hit_side;
 			return ;
@@ -65,7 +65,7 @@ void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 	}
 }
 
-void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
+void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
 {
 	int				i;
 	t_paraboloid	paraboloid;
@@ -79,7 +79,7 @@ void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits)
 		paraboloid = paraboloids[i];
 		hit = hit_paraboloid(paraboloid, r);
 		hits->hit_min = hit;
-		if (hits->hit_min > 0 && hits->hit_min < scene->distance_to_spot)
+		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
 			return ;
 		i++;
 	}
