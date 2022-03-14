@@ -262,6 +262,16 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 	t_paraboloid *paraboloids, t_vec3f *norm_dir);
 
+t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos, \
+	t_ray r, t_hits hit);
+
+t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min);
+t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir);
+t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
+	float hit_min, int hit_side_cylinder);
+t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
+	float hit_min);
+
 float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);
 float	signf(float a);
