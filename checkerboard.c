@@ -35,13 +35,28 @@ t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)
 	return (sphere.color);
 }
 
+float	get_x_angle(t_vec3f rotated_hit_point)
+{
+	t_vec3f	unit_rotated_hit_point;
+	float	x_angle;
+
+	unit_rotated_hit_point = vec3f_unit(rotated_hit_point);
+	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, \
+		unit_rotated_hit_point.z)), vec3f_init(1, 0, 0));
+	x_angle = acos(x_angle);
+	if (rotated_hit_point.z > 0)
+		x_angle = x_angle / M_PI * 4.999;
+	else
+		x_angle = x_angle / M_PI * 4.999 + 1;
+	return (x_angle);
+}
+
 t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	float hit_min, int hit_side_cylinder)
 {
 	t_angle	angle;
 	t_vec3f	hit_point;
 	t_vec3f	rotated_hit_point;
-	t_vec3f	unit_rotated_hit_point;
 	float	x_angle;
 	int		x_plus_y;
 
@@ -49,14 +64,7 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	hit_point = vec3f_sub(hit_point, cylinder.pos);
 	angle = get_angle(cylinder.dir);
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
-	unit_rotated_hit_point = vec3f_unit(rotated_hit_point);
-	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, \
-		unit_rotated_hit_point.z)), vec3f_init(1, 0, 0));
-	x_angle = acos(x_angle);
-	if (rotated_hit_point.z > 0)
-		x_angle = x_angle / M_PI * 5;
-	else
-		x_angle = x_angle / M_PI * 5 + 1;
+	x_angle = get_x_angle(rotated_hit_point);
 	rotated_hit_point.y = rotated_hit_point.y / cylinder.height * 10;
 	if (rotated_hit_point.y < 0)
 		rotated_hit_point.y -= 1;
@@ -75,7 +83,6 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 	t_angle	angle;
 	t_vec3f	hit_point;
 	t_vec3f	rotated_hit_point;
-	t_vec3f	unit_rotated_hit_point;
 	float	x_angle;
 	int		x_plus_y;
 
@@ -83,14 +90,7 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 	hit_point = vec3f_sub(hit_point, paraboloid.pos);
 	angle = get_angle(paraboloid.dir);
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
-	unit_rotated_hit_point = vec3f_unit(rotated_hit_point);
-	x_angle = vec3f_dot(vec3f_unit(vec3f_init(unit_rotated_hit_point.x, 0, \
-		unit_rotated_hit_point.z)), vec3f_init(1, 0, 0));
-	x_angle = acos(x_angle);
-	if (rotated_hit_point.z > 0)
-		x_angle = x_angle / M_PI * 4.999;
-	else
-		x_angle = x_angle / M_PI * 4.999 + 1;
+	x_angle = get_x_angle(rotated_hit_point);
 	rotated_hit_point.y = rotated_hit_point.y / paraboloid.curvature * 10;
 	if (rotated_hit_point.y < 0)
 		rotated_hit_point.y -= 1;
