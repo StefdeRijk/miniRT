@@ -10,8 +10,7 @@ t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min)
 	return (r);
 }
 
-t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_ray new_r, \
-	t_ray old_r, t_vec3f object_color)
+t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_old_new_ray rays, t_vec3f object_color)
 {
 	t_vec3f	spot_color;
 	t_light	*lights;
@@ -22,23 +21,23 @@ t_vec3f	loop_lights(t_scene *scene, t_vec3f norm_dir, t_ray new_r, \
 	spot_color = vec3f_init(0, 0, 0);
 	while (i < scene->lights.len)
 	{
-		spot_color = vec3f_add(spot_color, spot_light(new_r, norm_dir, lights[i], old_r, scene));
+		spot_color = vec3f_add(spot_color, spot_light(rays, norm_dir, lights[i], scene));
 		if (BONUS)
 			spot_color = vec3f_add(spot_color, \
-				spot_light_specular(norm_dir, lights[i], new_r, old_r, scene));
+				spot_light_specular(norm_dir, lights[i], rays, scene));
 		i++;
 	}
 	spot_color = vec3f_mul_v(spot_color, object_color);
 	return (spot_color);
 }
 
-t_vec3f	spot_and_ambient(t_ray new_r, t_vec3f object_color, \
-	t_scene *scene, t_vec3f norm_dir, t_ray old_r)
+t_vec3f	spot_and_ambient(t_old_new_ray rays, t_vec3f object_color, \
+	t_scene *scene, t_vec3f norm_dir)
 {
 	t_vec3f	spot_color;
 	t_vec3f	ambient_color;
 
-	spot_color = loop_lights(scene, norm_dir, new_r, old_r, object_color);
+	spot_color = loop_lights(scene, norm_dir, rays, object_color);
 	if (scene->ambient && scene->ambient->brightness)
 	{
 		ambient_color = vec3f_mul(scene->ambient->color, \
@@ -63,10 +62,10 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r)
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
 {
-	t_vec3f	norm_dir;
-	t_vec3f	object_color;
-	t_hits	hit;
-	t_ray	new_r;
+	t_vec3f			norm_dir;
+	t_vec3f			object_color;
+	t_hits			hit;
+	t_old_new_ray	rays;
 
 	get_hit(&hit, scene, r);
 	if (hit.hit_min > 0)
@@ -83,8 +82,9 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		else
 			object_color = get_cylinder_norm_color(hit, r,
 					scene->cylinders.data, &norm_dir);
-		new_r = new_ray(r, norm_dir, hit.hit_min);
-		return (spot_and_ambient(new_r, object_color, scene, norm_dir, r));
+		rays.n = new_ray(r, norm_dir, hit.hit_min);
+		rays.o = r;
+		return (spot_and_ambient(rays, object_color, scene, norm_dir));
 	}
 	return (vec3f_init(0, 0, 0));
 }
