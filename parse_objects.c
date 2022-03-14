@@ -131,4 +131,3 @@ void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->paraboloids, &p);
 }
-

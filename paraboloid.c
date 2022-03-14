@@ -30,9 +30,10 @@ float	get_t_paraboloid(t_paraboloid paraboloid, t_ray r)
 	return (solution);
 }
 
-int		inside_paraboloid(t_ray r, t_paraboloid paraboloid)
+int	inside_paraboloid(t_ray r, t_paraboloid paraboloid)
 {
-	if (powf(r.origin.x, 2) + powf(r.origin.z, 2) - r.origin.y * paraboloid.curvature < 0)
+	if (powf(r.origin.x, 2) + \
+		powf(r.origin.z, 2) - r.origin.y * paraboloid.curvature < 0)
 		return (1);
 	return (0);
 }
