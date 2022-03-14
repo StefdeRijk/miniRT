@@ -1,6 +1,7 @@
 #include "miniRT.h"
 
-void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
+void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits,
+		float distance_to_spot)
 {
 	int			i;
 	t_plane		plane;
@@ -20,7 +21,8 @@ void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_
 	}
 }
 
-void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
+void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits,
+		float distance_to_spot)
 {
 	int			i;
 	t_sphere	sphere;
@@ -40,7 +42,8 @@ void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to
 	}
 }
 
-void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
+void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits,
+		float distance_to_spot)
 {
 	int			i;
 	t_cylinder	cylinder;
@@ -65,7 +68,8 @@ void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_
 	}
 }
 
-void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, float distance_to_spot)
+void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits,
+		float distance_to_spot)
 {
 	int				i;
 	t_paraboloid	paraboloid;
