@@ -72,7 +72,7 @@ void	*paint_column(void *thread_data_p)
 	return (NULL);
 }
 
-#define THREADS 1
+#define THREADS 2
 
 void	paint_img(t_info *info, t_scene *scene)
 {
@@ -84,17 +84,17 @@ void	paint_img(t_info *info, t_scene *scene)
 	thread_data[0].start = 0;
 	thread_data[0].end = (info->win_height - 1) / THREADS;
 	//thread_data1.end = (info->win_height - 1);
-	/*
+
 	thread_data[1].info = info;
 	thread_data[1].scene = scene;
-	thread_data[1].start = (info->win_height - 1) / 2;
+	thread_data[1].start = (info->win_height - 1) / THREADS;
 	thread_data[1].end = info->win_height - 1;
-	*/
+
 
 	err = pthread_create(&thread[0], NULL, paint_column, &thread_data[0]);
-	//err = pthread_create(&thread[1], NULL, paint_column, &thread_data[1]);
+	err = pthread_create(&thread[1], NULL, paint_column, &thread_data[1]);
 	pthread_join(thread[0], NULL);
-	//pthread_join(thread[1], NULL);
+	pthread_join(thread[1], NULL);
 }
 
 void	get_lower_left_corner(t_info *info, t_scene *scene)

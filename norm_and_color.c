@@ -117,6 +117,7 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere *spheres, t_vec3f *norm_dir)
 {
 	t_sphere			sphere;
+	t_sphere			texture_sphere;
 	t_vec3f				normal;
 	float	x_angle;
 	float	y_angle;
@@ -131,11 +132,13 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 		get_sphere_angles(normal, &x_angle, &y_angle);
 		bump_x = ((int)(x_angle / 2.001 * sphere.texture.width)) % sphere.texture.width;
 		bump_y = ((int)(y_angle / 1.001 * sphere.texture.height)) % sphere.texture.height;
-		sphere.color.x = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row] / 255.;
-		sphere.color.y = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 1] / 255.;
-		sphere.color.z = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 2] / 255.;
+		texture_sphere = sphere;
+		texture_sphere.color.x = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row] / 255.;
+		texture_sphere.color.y = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 1] / 255.;
+		texture_sphere.color.z = (float)sphere.texture.data[bump_x * sphere.texture.bytes_per_pixel + bump_y * sphere.texture.bytes_per_row + 2] / 255.;
 		if (BONUS && sphere.material == CHECKER)
 			return (get_color_checkerboard_sphere(sphere, normal));
+		return (texture_sphere.color);
 	}
 	if (BONUS && sphere.material == CHECKER)
 		return (get_color_checkerboard_sphere(sphere, *norm_dir));
@@ -146,6 +149,7 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_plane *planes, t_vec3f *norm_dir)
 {
 	t_plane	plane;
+	t_plane	texture_plane;
 	t_vec3f	rotated_hit_point;
 	t_vec3f	plane_pos;
 	int			bump_x;
@@ -160,12 +164,14 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	{
 		bump_x = ((int)(fabsf(plane_pos.x) * plane.texture.width)) % plane.texture.width;
 		bump_y = ((int)(fabsf(plane_pos.y) * plane.texture.height)) % plane.texture.height;
-		plane.color.x = (float)plane.texture.data[bump_x * plane.texture.bytes_per_pixel + bump_y * plane.texture.bytes_per_row] / 255; 
-		plane.color.y = (float)plane.texture.data[bump_x * plane.texture.bytes_per_pixel + bump_y * plane.texture.bytes_per_row + 1] / 255.;
-		plane.color.z = (float)plane.texture.data[bump_x * plane.texture.bytes_per_pixel + bump_y * plane.texture.bytes_per_row + 2] / 255.;
+		texture_plane = plane;
+		texture_plane.color.x = (float)plane.texture.data[bump_x * plane.texture.bytes_per_pixel + bump_y * plane.texture.bytes_per_row] / 255; 
+		texture_plane.color.y = (float)plane.texture.data[bump_x * plane.texture.bytes_per_pixel + bump_y * plane.texture.bytes_per_row + 1] / 255.;
+		texture_plane.color.z = (float)plane.texture.data[bump_x * plane.texture.bytes_per_pixel + bump_y * plane.texture.bytes_per_row + 2] / 255.;
 
 		if (BONUS && plane.material == CHECKER)
-			return (get_color_checkerboard_plane(plane, r, hit.hit_min));
+			return (get_color_checkerboard_plane(texture_plane, r, hit.hit_min));
+		return (texture_plane.color);
 	}
 	if (BONUS && plane.material == CHECKER)
 		return (get_color_checkerboard_plane(plane, r, hit.hit_min));
