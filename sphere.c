@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 
-void get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle)
+void	get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle)
 {
 	*x_angle = vec3f_dot(vec3f_unit(vec3f_init(normal.x, 0, normal.z)), \
 		vec3f_init(1, 0, 0));
@@ -16,7 +16,8 @@ void get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle)
 	*y_angle = 1 - *y_angle / M_PI;
 }
 
-t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, t_sphere sphere)
+t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
+		t_sphere sphere)
 {
 	t_vec3f	normal;
 	int		bump_x;
@@ -28,11 +29,19 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, t_spher
 	if (!sphere.bump_map.filename[0])
 		return (normal);
 	get_sphere_angles(normal, &x_angle, &y_angle);
-	bump_x = ((int)(x_angle / 2.001 * sphere.bump_map.width)) % sphere.bump_map.width;
-	bump_y = ((int)(y_angle / 1.001 * sphere.bump_map.height)) % sphere.bump_map.height;
-	normal.x += (float)sphere.bump_map.data[bump_x * sphere.bump_map.bytes_per_pixel + bump_y * sphere.bump_map.bytes_per_row] / 128. - 1.;
-	normal.y += (float)sphere.bump_map.data[bump_x * sphere.bump_map.bytes_per_pixel + bump_y * sphere.bump_map.bytes_per_row + 1] / 128. - 1.;
-	normal.z += (float)sphere.bump_map.data[bump_x * sphere.bump_map.bytes_per_pixel + bump_y * sphere.bump_map.bytes_per_row + 2] / 128. - 1.;
+	bump_x = ((int)(x_angle / 2.001 * sphere.bump_map.width))
+		% sphere.bump_map.width;
+	bump_y = ((int)(y_angle / 1.001 * sphere.bump_map.height))
+		% sphere.bump_map.height;
+	normal.x += (float)sphere.bump_map.data[bump_x
+		* sphere.bump_map.bytes_per_pixel
+		+ bump_y * sphere.bump_map.bytes_per_row] / 128. - 1.;
+	normal.y += (float)sphere.bump_map.data[bump_x
+		* sphere.bump_map.bytes_per_pixel
+		+ bump_y * sphere.bump_map.bytes_per_row + 1] / 128. - 1.;
+	normal.z += (float)sphere.bump_map.data[bump_x
+		* sphere.bump_map.bytes_per_pixel
+		+ bump_y * sphere.bump_map.bytes_per_row + 2] / 128. - 1.;
 	normal = vec3f_unit(normal);
 	return (normal);
 }
