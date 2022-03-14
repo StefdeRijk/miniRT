@@ -46,7 +46,8 @@ int	in_shadow(t_vec3f pos, t_light light, t_ray r, t_scene *scene)
 	return (0);
 }
 
-t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_old_new_ray rays, t_scene *scene)
+t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_old_new_ray rays,
+		t_scene *scene)
 {
 	t_vec3f		spot_dir;
 	t_vec3f		spot_color_specular;
@@ -59,7 +60,8 @@ t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_old_new_ray rays, t
 	reflected_spot = f_reflection(spot_dir, normal);
 	reflected_spot = vec3f_unit(reflected_spot);
 	in_product_specular = vec3f_dot(reflected_spot, vec3f_unit(rays.o.dir));
-	if (in_product_specular < 0 || in_shadow(rays.n.origin, light, rays.o, scene))
+	if (in_product_specular < 0 || in_shadow(rays.n.origin,
+			light, rays.o, scene))
 		return (vec3f_init(0, 0, 0));
 	spot_color_specular = vec3f_mul(light.color, \
 		((light.brightness * powf(in_product_specular, alpha))
@@ -67,7 +69,8 @@ t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_old_new_ray rays, t
 	return (spot_color_specular);
 }
 
-t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, t_light light, t_scene *scene)
+t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, t_light light,
+		t_scene *scene)
 {
 	t_vec3f		spot_unit;
 	t_vec3f		spot_color_diffuse;
