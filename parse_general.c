@@ -32,7 +32,7 @@ void	skip_one_or_more_char(t_parse_line *line, char c)
 
 void	parse_string(t_parse_line *line, char *buffer, int size)
 {
-	int	i;
+	int		i;
 	char	c;
 
 	c = line->line[line->i];

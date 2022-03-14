@@ -11,14 +11,15 @@
 # include <pthread.h>
 
 # ifndef BONUS
-# define BONUS 0
+#  define BONUS 0
 # endif
 
 # ifndef PROFILE
-# define PROFILE 0
+#  define PROFILE 0
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
+# define WIN_WIDTH 2560
 
 typedef struct s_bmp {
 	char			filename[MAX_TEXTURE_FILE_SIZE];
@@ -27,7 +28,7 @@ typedef struct s_bmp {
 	int				height;
 	int				bytes_per_pixel;
 	int				bytes_per_row;
-} t_bmp;
+}	t_bmp;
 
 typedef enum e_material_type {
 	NORMAL,
@@ -137,8 +138,8 @@ typedef struct s_ray {
 }	t_ray;
 
 typedef struct s_old_new_ray {
-	t_ray n;
-	t_ray o;
+	t_ray	n;
+	t_ray	o;
 }	t_old_new_ray;
 
 typedef enum e_error {
@@ -164,11 +165,11 @@ typedef struct s_hits {
 	int					hit_side_cylinder;
 }	t_hits;
 
-struct thread_data {
-	t_info *info;
-	t_scene *scene;
-	int next_pixel;
-	pthread_mutex_t pixel_mutex;
+struct s_thread_data {
+	t_info			*info;
+	t_scene			*scene;
+	int				next_pixel;
+	pthread_mutex_t	pixel_mutex;
 };
 
 typedef void	(*t_elem_parser)(t_parse_line *line, t_scene *scene);
@@ -217,8 +218,10 @@ t_vec3i	float_to_color_vec(t_vec3f color);
 t_vec3f	ray_color(t_ray r, t_scene *scene);
 int		ray_to_pixel_color(t_vec3f ray_colour);
 
-t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, t_light light, t_scene *scene);
-t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_old_new_ray rays, t_scene *scene);
+t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, \
+	t_light light, t_scene *scene);
+t_vec3f	spot_light_specular(t_vec3f normal, t_light light, \
+	t_old_new_ray rays, t_scene *scene);
 int		in_shadow(t_vec3f pos, t_light light, t_ray r, t_scene *scene);
 int		get_hit_shadow(t_light light, t_ray r, t_vec3f pos, t_scene *scene);
 void	get_scene(char *filename, t_scene *scene);
@@ -230,7 +233,8 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r);
 t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir);
-t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, t_sphere sphere);
+t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, \
+	t_sphere sphere);
 void	get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle);
 
 void	init_mlx(t_scene *scene);
@@ -239,6 +243,7 @@ int		handle_key(int keycode, void *param);
 int		handle_destroy(void *param);
 int		draw_to_window(t_info *info);
 void	pixel_put_image(t_arr2di *image, int x, int y, int color);
+void	paint_img(t_info *info, t_scene *scene);
 
 t_vec3f	f_reflection(t_vec3f incoming, t_vec3f normal);
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center);
