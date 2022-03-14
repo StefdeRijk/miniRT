@@ -39,32 +39,32 @@ t_vec3f	shoot_rays(int i, int j, t_info *info, t_scene *scene)
 	return (ray_color(r, scene));
 }
 
-struct everything {
+struct thread_data {
 	t_info *info;
 	t_scene *scene;
 	int start;
 	int end;
 };
 
-void	*paint_column(void *everything_p)
+void	*paint_column(void *thread_data_p)
 {
 	int i;
 	int j;
 	t_vec3f	ray_colour;
 	int		color;
-	struct everything everything;
+	struct thread_data thread_data;
 
-	everything = *(struct everything*)everything_p;
-	j = everything.end;
-	while (j >= everything.start)
+	thread_data = *(struct thread_data*)thread_data_p;
+	j = thread_data.end;
+	while (j >= thread_data.start)
 	{
 		//printf("j: %d\n", j);
 		i = 0;
 		while (i < WIN_WIDTH)
 		{
-			ray_colour = shoot_rays(i, j, everything.info, everything.scene);
+			ray_colour = shoot_rays(i, j, thread_data.info, thread_data.scene);
 			color = ray_to_pixel_color(ray_colour);
-			pixel_put_image(&everything.info->img, i, everything.info->win_height - j - 1, color);
+			pixel_put_image(&thread_data.info->img, i, thread_data.info->win_height - j - 1, color);
 			i++;
 		}
 		j--;
@@ -78,21 +78,21 @@ void	paint_img(t_info *info, t_scene *scene)
 {
 	int err;
 	pthread_t thread[THREADS];
-	struct everything everything[THREADS];
-	everything[0].info = info;
-	everything[0].scene = scene;
-	everything[0].start = 0;
-	everything[0].end = (info->win_height - 1) / THREADS;
-	//everything1.end = (info->win_height - 1);
+	struct thread_data thread_data[THREADS];
+	thread_data[0].info = info;
+	thread_data[0].scene = scene;
+	thread_data[0].start = 0;
+	thread_data[0].end = (info->win_height - 1) / THREADS;
+	//thread_data1.end = (info->win_height - 1);
 	/*
-	everything[1].info = info;
-	everything[1].scene = scene;
-	everything[1].start = (info->win_height - 1) / 2;
-	everything[1].end = info->win_height - 1;
+	thread_data[1].info = info;
+	thread_data[1].scene = scene;
+	thread_data[1].start = (info->win_height - 1) / 2;
+	thread_data[1].end = info->win_height - 1;
 	*/
 
-	err = pthread_create(&thread[0], NULL, paint_column, &everything[0]);
-	//err = pthread_create(&thread[1], NULL, paint_column, &everything[1]);
+	err = pthread_create(&thread[0], NULL, paint_column, &thread_data[0]);
+	//err = pthread_create(&thread[1], NULL, paint_column, &thread_data[1]);
 	pthread_join(thread[0], NULL);
 	//pthread_join(thread[1], NULL);
 }

@@ -29,11 +29,6 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 		return (normal);
 	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.bump_map.width)) % plane.bump_map.width;
 	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.bump_map.height)) % plane.bump_map.height;
-	//printf("pos on plane: ");
-	//vec3f_print(pos_on_plane);
-	//printf("x, y: %d %d\n", bump_x, bump_y);
-	//printf("width, height %d %d\n", plane.bump_map.width, plane.bump_map.height);
-	//printf("before modulo %d %d\n", plane.bump_map.width, plane.bump_map.height);
 	normal.x += (float)plane.bump_map.data[bump_x * plane.bump_map.bytes_per_pixel + bump_y * plane.bump_map.bytes_per_row] / 128. - 1.;
 	normal.y += (float)plane.bump_map.data[bump_x * plane.bump_map.bytes_per_pixel + bump_y * plane.bump_map.bytes_per_row + 1] / 128. - 1.;
 	normal.z += (float)plane.bump_map.data[bump_x * plane.bump_map.bytes_per_pixel + bump_y * plane.bump_map.bytes_per_row + 2] / 128. - 1.;
