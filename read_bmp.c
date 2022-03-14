@@ -49,6 +49,29 @@ static void	bgr_to_rgb(unsigned char *image, uint32_t size, int bytes_per_pixel)
 	}
 }
 
+void	init_bmp_image(t_bmp *image, struct s_BMPInfoHeader infoheader)
+{
+	image->width = infoheader.width;
+	image->height = abs(infoheader.height);
+	image->bytes_per_pixel = infoheader.bit_count / 8;
+	image->bytes_per_row = image->width * image->bytes_per_pixel;
+	if (image->bytes_per_row % 4)
+		image->bytes_per_row += 4 - image->bytes_per_row % 4;
+}
+
+int	open_file(char *file)
+{
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+	{
+		printf("%s\n", file);
+		error("file not found");
+	}
+	return (fd);
+}
+
 t_bmp	read_bmp(char *file)
 {
 	struct s_BMPFileHeader	header;
@@ -57,22 +80,12 @@ t_bmp	read_bmp(char *file)
 	t_bmp					image;
 	int						skip;
 
-	fd = open(file, O_RDONLY);
-	if (fd == -1)
-	{
-		printf("%s\n", file);
-		error("file not found");
-	}
+	fd = open_file(file);
 	checked_read(fd, &header, sizeof(header));
 	if (header.file_type != 0x4D42)
 		error("no bmp!");
 	checked_read(fd, &infoheader, sizeof(infoheader));
-	image.width = infoheader.width;
-	image.height = abs(infoheader.height);
-	image.bytes_per_pixel = infoheader.bit_count / 8;
-	image.bytes_per_row = image.width * image.bytes_per_pixel;
-	if (image.bytes_per_row % 4)
-		image.bytes_per_row += 4 - image.bytes_per_row % 4;
+	init_bmp_image(&image, infoheader);
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
 	if (skip < 0)
 		error("file corrupted!");
@@ -81,7 +94,9 @@ t_bmp	read_bmp(char *file)
 	image.data = malloc(image.bytes_per_row * image.height * sizeof(char));
 	if (!image.data)
 		error("malloc failed");
-	checked_read(fd, image.data, image.bytes_per_row * image.height * sizeof(char));
-	bgr_to_rgb(image.data, image.bytes_per_row * image.height * sizeof(char), image.bytes_per_pixel);
+	checked_read(fd, image.data, \
+		image.bytes_per_row * image.height * sizeof(char));
+	bgr_to_rgb(image.data, image.bytes_per_row * image.height * sizeof(char), \
+		image.bytes_per_pixel);
 	return (image);
 }
