@@ -20,13 +20,15 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	int			bump_x;
 	int			bump_y;
 	int			base_index;
+	t_vec3f	bump_normal;
+	t_angle	angle;
 
 	which_side = vec3f_dot(plane.dir, ray_dir);
 	if (which_side > 0.)
 		normal = (vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir)));
 	else
 		normal = (vec3f_unit(plane.dir));
-	if (!plane.bump_map.data || (BONUS && plane.material == MIRROR))
+	if (!plane.bump_map.data)
 		return (normal);
 	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.bump_map.width)) \
 		% plane.bump_map.width;
@@ -34,9 +36,15 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 		% plane.bump_map.height;
 	base_index = bump_x * plane.bump_map.bytes_per_pixel + \
 		bump_y * plane.bump_map.bytes_per_row;
-	normal.x += (float)plane.bump_map.data[base_index] / 128. - 1.;
-	normal.y += (float)plane.bump_map.data[base_index + 1] / 128. - 1.;
-	normal.z += (float)plane.bump_map.data[base_index + 2] / 128. - 1.;
+	bump_normal.x = (float)plane.bump_map.data[base_index] / 128. - 1.;
+	bump_normal.y = (float)plane.bump_map.data[base_index + 1] / 128. - 1.;
+	bump_normal.z = (float)plane.bump_map.data[base_index + 2] / 128. - 1.;
+
+	angle = get_angle_to(normal, vec3f_init(0, 0, 1));
+	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
+	bump_normal = vec3f_mul(bump_normal, 0.5); //TODO remove, just use better bump map
+	normal = vec3f_add(normal, bump_normal);
+	normal = vec3f_unit(normal);
 	return (normal);
 }
 

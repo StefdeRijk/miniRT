@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_angle	get_angle(t_vec3f dir)
+t_angle	get_angle_to(t_vec3f dir, t_vec3f to)
 {
 	t_angle	s_angle;
 	t_vec3f	rot_plane;
@@ -14,12 +14,17 @@ t_angle	get_angle(t_vec3f dir)
 	}
 	else
 	{
-		rot_plane = vec3f_cross(dir, vec3f_init(0, 1, 0));
+		rot_plane = vec3f_cross(dir, to);
 		len_rot_plane = vec3f_len(rot_plane);
 		s_angle.angle = asin(len_rot_plane);
 		s_angle.k = vec3f_unit(rot_plane);
 	}
 	return (s_angle);
+}
+
+t_angle	get_angle(t_vec3f dir)
+{
+	return (get_angle_to(dir, vec3f_init(0, 1, 0)));
 }
 
 t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir)
