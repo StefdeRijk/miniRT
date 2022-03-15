@@ -47,7 +47,20 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	if (BONUS && plane.material == CHECKER)
 		color = get_color_checkerboard_plane(plane, r, hit.hit_min, color);
 	if (BONUS && plane.material == MIRROR)
-		color = get_color_mirror_plane(*norm_dir, r, hit.hit_min, scene);
+	{
+		if (plane.texture.data)
+		{
+			t_vec3f color1 = get_color_mirror_plane(*norm_dir, r, hit.hit_min, scene);
+			t_vec3f color2 = plane.color;
+			float ratio = vec3f_len(color) / 3.;
+			color = vec3f_mul(color1, ratio);
+			color = vec3f_add(color, vec3f_mul(color2, 1-ratio));
+		}
+		else
+		{
+			color = get_color_mirror_plane(*norm_dir, r, hit.hit_min, scene);
+		}
+	}
 	return (color);
 }
 
