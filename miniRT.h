@@ -20,6 +20,7 @@
 
 # define MAX_TEXTURE_FILE_SIZE 50
 # define WIN_WIDTH 2560
+# define AA 2
 
 typedef struct s_bmp {
 	unsigned char	*data;
