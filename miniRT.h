@@ -22,7 +22,6 @@
 # define WIN_WIDTH 2560
 
 typedef struct s_bmp {
-	char			filename[MAX_TEXTURE_FILE_SIZE];
 	unsigned char	*data;
 	int				width;
 	int				height;
@@ -195,6 +194,7 @@ void	parse_vec3f(t_parse_line *line, t_vec3f *v);
 void	parse_char(t_parse_line *line, char *c);
 void	parse_line(t_parse_line line, t_scene *scene);
 void	parse_string(t_parse_line *line, char *buffer, int size);
+void	parse_texture(t_bmp *texture, t_parse_line *line);
 
 void	check_in_set(t_parse_line *line, char *c, char *set);
 void	check_range_f(t_parse_line *line, float f, float min, float max);
@@ -216,6 +216,7 @@ int		rgb_to_color(t_vec3i color);
 int		float_to_color(float color);
 t_vec3i	float_to_color_vec(t_vec3f color);
 t_vec3f	ray_color(t_ray r, t_scene *scene);
+t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min);
 int		ray_to_pixel_color(t_vec3f ray_colour);
 
 t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, \
@@ -270,22 +271,25 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_sphere *spheres, t_vec3f *norm_dir);
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
-	t_plane *planes, t_vec3f *norm_dir);
+	t_scene *scene, t_vec3f *norm_dir);
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	t_cylinder *cylinders, t_vec3f *norm_dir);
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 	t_paraboloid *paraboloids, t_vec3f *norm_dir);
 
-t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos, \
-	t_ray r, t_hits hit);
+t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
 
-t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min);
+t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min, \
+	t_vec3f color);
 t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir);
 t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	float hit_min, int hit_side_cylinder);
 t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 	float hit_min);
+
+t_vec3f	get_color_mirror_plane(t_vec3f norm_dir, t_ray r, \
+	float hit_min, t_scene *scene);
 
 float	abc(float a, float b, float c, int *solved);
 t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);

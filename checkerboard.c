@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min)
+t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min, t_vec3f color)
 {
 	t_vec3f	rotated_hit_point;
 	int		x_plus_z;
@@ -9,8 +9,8 @@ t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min)
 	rotated_hit_point = get_rotated_hit_point(plane, r, hit_min);
 	x_plus_z = (int)rotated_hit_point.x + (int)rotated_hit_point.z;
 	if (abs(x_plus_z) % 2 > 0)
-		return (vec3f_div(plane.color, 7.5));
-	return (plane.color);
+		return (vec3f_div(color, 7.5));
+	return (color);
 }
 
 t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)

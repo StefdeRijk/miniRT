@@ -26,7 +26,7 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
 	float	y_angle;
 
 	normal = get_normal_sphere(hit_point, sphere_center);
-	if (!sphere.bump_map.filename[0])
+	if (!sphere.bump_map.data)
 		return (normal);
 	get_sphere_angles(normal, &x_angle, &y_angle);
 	bump_x = ((int)(x_angle / 2.001 * sphere.bump_map.width))

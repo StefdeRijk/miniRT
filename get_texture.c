@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos, t_ray r, t_hits hit)
+t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 {
 	t_plane	texture_plane;
 	int		bump_x;
@@ -18,8 +18,6 @@ t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos, t_ray r, t_hits hit)
 	texture_plane.color.x = (float)plane.texture.data[base_index] / 255;
 	texture_plane.color.y = (float)plane.texture.data[base_index + 1] / 255.;
 	texture_plane.color.z = (float)plane.texture.data[base_index + 2] / 255.;
-	if (BONUS && plane.material == CHECKER)
-		return (get_color_checkerboard_plane(texture_plane, r, hit.hit_min));
 	return (texture_plane.color);
 }
 

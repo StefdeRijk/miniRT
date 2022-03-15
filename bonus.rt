@@ -5,8 +5,8 @@ L -0.1,2,-4 0.15 255,255,200
 
 L 1.5,1.7,-2.5 0.05 255,255,200
 
-pl 0,2,-4.4 0,0,1      58,187,201   n MostlyRedWall_S.bmp MostlyRedWall_N.bmp
-pl 0,-0.2,0 0,1,0       155,202,62   n VeryWorn_S.bmp VeryWorn_N.bmp
+pl 0,2,-4.4 0,0,1      58,187,201   m
+pl 0,-0.2,0 0,1,0       155,202,62   c VeryWorn_S.bmp VeryWorn_N.bmp
 
 
 pl 5,0,0 -1,0,0      58,187,201   c

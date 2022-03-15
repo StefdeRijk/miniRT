@@ -31,14 +31,8 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	if (BONUS)
 	{
 		s.material = parse_check_material(line);
-		skip_zero_or_more_char(line, ' ');
-		parse_string(line, s.texture.filename, MAX_TEXTURE_FILE_SIZE);
-		if (s.texture.filename[0])
-			s.texture = read_bmp(s.texture.filename);
-		skip_zero_or_more_char(line, ' ');
-		parse_string(line, s.bump_map.filename, MAX_TEXTURE_FILE_SIZE);
-		if (s.bump_map.filename[0])
-			s.bump_map = read_bmp(s.bump_map.filename);
+		parse_texture(&s.texture, line);
+		parse_texture(&s.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
@@ -65,14 +59,8 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	if (BONUS)
 	{
 		p.material = parse_check_material(line);
-		skip_zero_or_more_char(line, ' ');
-		parse_string(line, p.texture.filename, MAX_TEXTURE_FILE_SIZE);
-		if (p.texture.filename[0])
-			p.texture = read_bmp(p.texture.filename);
-		skip_zero_or_more_char(line, ' ');
-		parse_string(line, p.bump_map.filename, MAX_TEXTURE_FILE_SIZE);
-		if (p.bump_map.filename[0])
-			p.bump_map = read_bmp(p.bump_map.filename);
+		parse_texture(&p.texture, line);
+		parse_texture(&p.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);

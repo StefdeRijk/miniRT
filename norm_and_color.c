@@ -21,32 +21,34 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 
 	sphere = spheres[hit.object_index];
 	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, sphere);
-	if (sphere.texture.filename[0])
-	{
+	if (sphere.texture.data)
 		return (get_sphere_texture(sphere, r, hit));
-	}
 	if (BONUS && sphere.material == CHECKER)
 		return (get_color_checkerboard_sphere(sphere, *norm_dir));
 	return (sphere.color);
 }
 
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
-	t_plane *planes, t_vec3f *norm_dir)
+	t_scene *scene, t_vec3f *norm_dir)
 {
 	t_plane	plane;
 	t_vec3f	rotated_hit_point;
 	t_vec3f	plane_pos;
+	t_vec3f	color;
 
-	plane = planes[hit.object_index];
+	plane = ((t_plane *)(scene->planes.data))[hit.object_index];
+	color = plane.color;
 	rotated_hit_point = get_rotated_hit_point(plane, r, hit.hit_min);
 	plane_pos.x = fabsf(rotated_hit_point.x);
 	plane_pos.y = fabsf(rotated_hit_point.z);
 	*norm_dir = plane_normal_bump(plane_pos, plane, r.dir);
-	if (plane.texture.filename[0])
-		return (get_plane_texture(plane, plane_pos, r, hit));
+	if (plane.texture.data)
+		color = get_plane_texture(plane, plane_pos);
 	if (BONUS && plane.material == CHECKER)
-		return (get_color_checkerboard_plane(plane, r, hit.hit_min));
-	return (plane.color);
+		color = get_color_checkerboard_plane(plane, r, hit.hit_min, color);
+	if (BONUS && plane.material == MIRROR)
+		color = get_color_mirror_plane(*norm_dir, r, hit.hit_min, scene);
+	return (color);
 }
 
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \

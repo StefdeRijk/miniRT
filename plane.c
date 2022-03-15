@@ -26,7 +26,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 		normal = (vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir)));
 	else
 		normal = (vec3f_unit(plane.dir));
-	if (!plane.bump_map.filename[0])
+	if (!plane.bump_map.data || (BONUS && plane.material == MIRROR))
 		return (normal);
 	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.bump_map.width)) \
 		% plane.bump_map.width;

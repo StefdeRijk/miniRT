@@ -76,8 +76,13 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			object_color = get_sphere_norm_color(hit, r, scene->spheres.data,
 					&norm_dir);
 		else if (hit.hit_type == PLANE)
-			object_color = get_plane_norm_color(hit, r, scene->planes.data,
+		{
+			object_color = get_plane_norm_color(hit, r, scene,
 					&norm_dir);
+			if (((t_plane *)(scene->planes.data))[hit.object_index].material \
+				== MIRROR)
+				return (object_color);
+		}
 		else if (BONUS && hit.hit_type == PARABOLOID)
 			object_color = get_paraboloid_norm_color(hit, r, \
 				scene->paraboloids.data, &norm_dir);
