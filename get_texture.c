@@ -12,8 +12,8 @@ t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 		% plane.texture.width;
 	bump_y = ((int)(fabsf(plane_pos.y) * plane.texture.height)) \
 		% plane.texture.height;
-	base_index = bump_x * plane.bump_map.bytes_per_pixel + \
-		bump_y * plane.bump_map.bytes_per_row;
+	base_index = bump_x * plane.texture.bytes_per_pixel + \
+		bump_y * plane.texture.bytes_per_row;
 	texture_plane = plane;
 	texture_plane.color.x = (float)plane.texture.data[base_index] / 255;
 	texture_plane.color.y = (float)plane.texture.data[base_index + 1] / 255.;
