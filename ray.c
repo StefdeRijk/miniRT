@@ -1,12 +1,11 @@
 #include "miniRT.h"
 #include <math.h>
 
-#define MAX_BOUNCES 1
-
 t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min)
 {
 	r.origin = at(r, hit_min);
 	r.dir = f_reflection(r.dir, norm_dir);
+	r.bounces++;
 	return (r);
 }
 
