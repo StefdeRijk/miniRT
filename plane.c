@@ -31,7 +31,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 		% plane.bump_map.width;
 	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.bump_map.height)) \
 		% plane.bump_map.height;
-	return (read_bump(plane.bump_map, bump_x, bump_y));
+	return (read_bump(plane.bump_map, bump_x, bump_y, normal));
 }
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir)

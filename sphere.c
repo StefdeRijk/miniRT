@@ -33,7 +33,7 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
 		% sphere.bump_map.width;
 	bump_y = ((int)(y_angle / 1.001 * sphere.bump_map.height))
 		% sphere.bump_map.height;
-	return (read_bump(sphere.bump_map, bump_x, bump_y));
+	return (read_bump(sphere.bump_map, bump_x, bump_y, normal));
 }
 
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
