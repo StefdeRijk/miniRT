@@ -42,7 +42,6 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 
 	angle = get_angle_to(normal, vec3f_init(0, 0, 1));
 	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
-	bump_normal = vec3f_mul(bump_normal, 0.5); //TODO remove, just use better bump map
 	normal = vec3f_add(normal, bump_normal);
 	normal = vec3f_unit(normal);
 	return (normal);
