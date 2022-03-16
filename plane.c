@@ -19,7 +19,6 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	t_vec3f		normal;
 	int			bump_x;
 	int			bump_y;
-	int			base_index;
 	t_vec3f	bump_normal;
 	t_angle	angle;
 
@@ -34,12 +33,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 		% plane.bump_map.width;
 	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.bump_map.height)) \
 		% plane.bump_map.height;
-	base_index = bump_x * plane.bump_map.bytes_per_pixel + \
-		bump_y * plane.bump_map.bytes_per_row;
-	bump_normal.x = (float)plane.bump_map.data[base_index] / 128. - 1.;
-	bump_normal.y = (float)plane.bump_map.data[base_index + 1] / 128. - 1.;
-	bump_normal.z = (float)plane.bump_map.data[base_index + 2] / 128. - 1.;
-
+	bump_normal = read_bump(plane.bump_map, bump_x, bump_y);
 	angle = get_angle_to(normal, vec3f_init(0, 0, 1));
 	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
 	normal = vec3f_add(normal, bump_normal);
