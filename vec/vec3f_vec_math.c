@@ -27,3 +27,8 @@ float	vec3f_len(t_vec3f v)
 {
 	return (sqrtf(vec3f_len_sq(v)));
 }
+
+int vec3f_equal(t_vec3f v1, t_vec3f v2)
+{
+	return (v1.x == v2.x && v1.y == v2.y && v1.z == v2.z);
+}

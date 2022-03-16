@@ -7,7 +7,7 @@ t_angle	get_angle_to(t_vec3f dir, t_vec3f to)
 	t_vec3f	rot_plane;
 	float	len_rot_plane;
 
-	if (dir.x == 0 && dir.z == 0)
+	if (vec3f_equal(dir, to))
 	{
 		s_angle.angle = 0;
 		s_angle.k = vec3f_init(0, 0, 0);
