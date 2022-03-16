@@ -24,8 +24,6 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
 	int		bump_y;
 	float	x_angle;
 	float	y_angle;
-	t_vec3f	bump_normal;
-	t_angle	angle;
 
 	normal = get_normal_sphere(hit_point, sphere_center);
 	if (!sphere.bump_map.data)
@@ -35,12 +33,7 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
 		% sphere.bump_map.width;
 	bump_y = ((int)(y_angle / 1.001 * sphere.bump_map.height))
 		% sphere.bump_map.height;
-	angle = get_angle_to(normal, vec3f_init(0, 0, 1));
-	bump_normal = read_bump(sphere.bump_map, bump_x, bump_y);
-	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
-	normal = vec3f_add(normal, bump_normal);
-	normal = vec3f_unit(normal);
-	return (normal);
+	return (read_bump(sphere.bump_map, bump_x, bump_y));
 }
 
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
