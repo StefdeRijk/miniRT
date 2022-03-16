@@ -75,7 +75,7 @@ void	*paint_pixels(void *thread_data_p)
 		y = next_pixel / WIN_WIDTH;
 
 		if (x == 0)
-			printf("line %d\n", y);
+			printf("line %d\n\033[1A", y);
 		ray_color = aa_loop(thread_data, x, y);
 		ray_color = vec3f_div(ray_color, AA * AA);
 		pixel_put_image(&thread_data->info->img, x, \
