@@ -49,6 +49,8 @@ float	hit_sphere(t_sphere sphere, t_ray r)
 	float	solution;
 	int		solved;
 
+	if (vec3f_dist(r.origin, sphere.pos) < sphere.radius)
+		return (-1.0);
 	a = vec3f_len_sq(r.dir);
 	b = 2.0 * vec3f_dot(vec3f_sub(r.origin, sphere.pos), r.dir);
 	c = vec3f_len_sq(vec3f_sub(r.origin, sphere.pos)) - \

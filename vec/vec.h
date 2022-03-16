@@ -76,6 +76,7 @@ float		vec3f_dot(t_vec3f v1, t_vec3f v2);
 t_vec3f		vec3f_mul_v(t_vec3f v1, t_vec3f v2);
 t_vec3f		vec3f_cross(t_vec3f v1, t_vec3f v2);
 void		vec3f_print(t_vec3f v);
+float		vec3f_dist(t_vec3f v1, t_vec3f v2);
 
 t_vec3f		color_to_float_vec(t_vec3i color);
 float		color_to_float(int color);
