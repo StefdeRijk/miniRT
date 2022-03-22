@@ -27,7 +27,7 @@ t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 	return (color);
 }
 
-int	get_sphere_base_index(t_sphere sphere, t_vec3f normal)
+int	get_sphere_base_index(t_bmp texture, t_vec3f normal)
 {
 	float		x_angle;
 	float		y_angle;
@@ -36,12 +36,12 @@ int	get_sphere_base_index(t_sphere sphere, t_vec3f normal)
 	int			base_index;
 
 	get_sphere_angles(normal, &x_angle, &y_angle);
-	bump_x = ((int)(x_angle / 2.001 * sphere.texture.width)) \
-		% sphere.texture.width;
-	bump_y = ((int)(y_angle / 1.001 * sphere.texture.height)) \
-		% sphere.texture.height;
-	base_index = bump_x * sphere.texture.bytes_per_pixel + \
-		bump_y * sphere.texture.bytes_per_row;
+	bump_x = ((int)(x_angle / 2 * texture.width)) \
+		% texture.width;
+	bump_y = ((int)(y_angle / 1 * texture.height)) \
+		% texture.height;
+	base_index = bump_x * texture.bytes_per_pixel + \
+		bump_y * texture.bytes_per_row;
 	return (base_index);
 }
 
@@ -52,7 +52,7 @@ t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit)
 	int			base_index;
 
 	normal = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-	base_index = get_sphere_base_index(sphere, normal);
+	base_index = get_sphere_base_index(sphere.texture, normal);
 	texture_color = get_texture(sphere.texture, base_index);
 	if (BONUS && sphere.material == CHECKER)
 		return (get_color_checkerboard_sphere(normal, texture_color));

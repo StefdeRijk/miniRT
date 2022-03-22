@@ -19,7 +19,7 @@
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 2560
+# define WIN_WIDTH 560
 # define MAX_BOUNCES 5
 # define AA 2
 
@@ -239,6 +239,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir);
 t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, \
 	t_sphere sphere);
 void	get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle);
+int		get_sphere_base_index(t_bmp texture, t_vec3f normal);
 
 void	init_mlx(t_scene *scene);
 void	init_image(t_info *info);
@@ -305,5 +306,5 @@ void	error(char *str);
 void	digit_error(t_parse_line *line);
 
 t_bmp	read_bmp(char *file);
-t_vec3f	read_bump(t_bmp bump_map, int x, int y, t_vec3f normal);
+t_vec3f	read_bump(t_bmp bump_map, int index, t_vec3f normal);
 #endif

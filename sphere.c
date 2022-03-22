@@ -20,20 +20,13 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
 		t_sphere sphere)
 {
 	t_vec3f	normal;
-	int		bump_x;
-	int		bump_y;
-	float	x_angle;
-	float	y_angle;
+	int		index;
 
 	normal = get_normal_sphere(hit_point, sphere_center);
 	if (!sphere.bump_map.data)
 		return (normal);
-	get_sphere_angles(normal, &x_angle, &y_angle);
-	bump_x = ((int)(x_angle / 2 * sphere.bump_map.width))
-		% sphere.bump_map.width;
-	bump_y = ((int)(y_angle / 1 * sphere.bump_map.height))
-		% sphere.bump_map.height;
-	return (read_bump(sphere.bump_map, bump_x, bump_y, normal));
+	index = get_sphere_base_index(sphere.bump_map, normal);
+	return (read_bump(sphere.bump_map, index, normal));
 }
 
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
