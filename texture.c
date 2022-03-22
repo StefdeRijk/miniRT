@@ -16,6 +16,7 @@ t_vec3f read_bump(t_bmp bump_map, int x, int y, t_vec3f normal)
 	if (normal.z < 0)
 		angle.angle = M_PI - angle.angle;
 	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
+	bump_normal = vec3f_mul(bump_normal, -1.);
 	normal = vec3f_add(normal, bump_normal);
 	normal = vec3f_unit(normal);
 	return (normal);

@@ -57,7 +57,7 @@ t_vec3f	spot_light_specular(t_vec3f normal, t_light light, t_old_new_ray rays,
 
 	alpha = 20;
 	spot_dir = vec3f_unit(vec3f_sub(light.pos, rays.n.origin));
-	reflected_spot = f_reflection(spot_dir, normal);
+	reflected_spot = f_reflection(vec3f_mul(spot_dir, 1.), normal);
 	reflected_spot = vec3f_unit(reflected_spot);
 	in_product_specular = vec3f_dot(reflected_spot, vec3f_unit(rays.o.dir));
 	if (in_product_specular < 0 || in_shadow(rays.n.origin,
