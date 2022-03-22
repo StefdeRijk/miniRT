@@ -36,13 +36,10 @@ t_vec3f vec3f_sub(t_vec3f v1, t_vec3f v2)
 
 t_vec3f vec3f_add(t_vec3f v1, t_vec3f v2)
 {
-	t_vec3f	s;
-
-	s = v1;
-	s.x += v2.x;
-	s.y += v2.y;
-	s.z += v2.z;
-	return (s);
+	v1.x += v2.x;
+	v1.y += v2.y;
+	v1.z += v2.z;
+	return (v1);
 }
 
 t_vec3f vec3f_mul_v(t_vec3f v1, t_vec3f v2)

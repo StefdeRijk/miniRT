@@ -290,7 +290,7 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 	float hit_min);
 
-t_vec3f	get_color_mirror_plane(t_vec3f norm_dir, t_ray r, \
+t_vec3f	get_color_mirror(t_vec3f norm_dir, t_ray r, \
 	float hit_min, t_scene *scene);
 
 float	abc(float a, float b, float c, int *solved);

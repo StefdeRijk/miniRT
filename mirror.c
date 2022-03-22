@@ -1,6 +1,6 @@
 #include "miniRT.h"
 
-t_vec3f	get_color_mirror_plane(t_vec3f norm_dir, t_ray r, \
+t_vec3f	get_color_mirror(t_vec3f norm_dir, t_ray r, \
 	float hit_min, t_scene *scene)
 {
 	t_vec3f	color;

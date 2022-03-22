@@ -37,7 +37,7 @@ t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_ray r,
 	t_plane	plane;
 
 	plane = ((t_plane *)(scene->planes.data))[hit.object_index];
-	color1 = get_color_mirror_plane(*norm_dir, r, hit.hit_min, scene);
+	color1 = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	color2 = plane.color;
 	ratio = vec3f_len(color) / 3.;
 	color = vec3f_mul(color1, ratio);
@@ -68,7 +68,7 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 		if (plane.texture.data)
 			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color);
 		else
-			color = get_color_mirror_plane(*norm_dir, r, hit.hit_min, scene);
+			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	}
 	return (color);
 }
