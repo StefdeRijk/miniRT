@@ -1,9 +1,18 @@
 #include "miniRT.h"
 #include <math.h>
 
+t_vec3f get_texture(t_bmp texture, int base_index)
+{
+	t_vec3f color;
+	color.x = (float)texture.data[base_index] / 255.;
+	color.y = (float)texture.data[base_index + 1] / 255.;
+	color.z = (float)texture.data[base_index + 2] / 255.;
+	return (color);
+}
+
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 {
-	t_plane	texture_plane;
+	t_vec3f color;
 	int		bump_x;
 	int		bump_y;
 	int		base_index;
@@ -14,11 +23,8 @@ t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 		% plane.texture.height;
 	base_index = bump_x * plane.texture.bytes_per_pixel + \
 		bump_y * plane.texture.bytes_per_row;
-	texture_plane = plane;
-	texture_plane.color.x = (float)plane.texture.data[base_index] / 255;
-	texture_plane.color.y = (float)plane.texture.data[base_index + 1] / 255.;
-	texture_plane.color.z = (float)plane.texture.data[base_index + 2] / 255.;
-	return (texture_plane.color);
+	color = get_texture(plane.texture, base_index);
+	return (color);
 }
 
 int	get_sphere_base_index(t_sphere sphere, t_vec3f normal)
@@ -41,17 +47,14 @@ int	get_sphere_base_index(t_sphere sphere, t_vec3f normal)
 
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit)
 {
-	t_sphere	texture_sphere;
+	t_vec3f		texture_color;
 	t_vec3f		normal;
 	int			base_index;
 
 	normal = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
 	base_index = get_sphere_base_index(sphere, normal);
-	texture_sphere = sphere;
-	texture_sphere.color.x = (float)sphere.texture.data[base_index] / 255.;
-	texture_sphere.color.y = (float)sphere.texture.data[base_index + 1] / 255.;
-	texture_sphere.color.z = (float)sphere.texture.data[base_index + 2] / 255.;
+	texture_color = get_texture(sphere.texture, base_index);
 	if (BONUS && sphere.material == CHECKER)
-		return (get_color_checkerboard_sphere(normal, texture_sphere.color));
-	return (texture_sphere.color);
+		return (get_color_checkerboard_sphere(normal, texture_color));
+	return (texture_color);
 }

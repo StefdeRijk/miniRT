@@ -1,5 +1,3 @@
 Check if rt files should also work when it doesn't end with a newline
 
 Check what happens when you hit things from the inside, or when your camera or spotlight is inside an object.
-
-anti-aliasing
