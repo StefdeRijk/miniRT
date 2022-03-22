@@ -32,14 +32,16 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 {
 	t_sphere	sphere;
 	t_vec3f		color;
+	t_vec3f		sphere_norm;
 
 	sphere = spheres[hit.object_index];
 	color = sphere.color;
 	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, sphere);
+	sphere_norm = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
 	if (sphere.texture.data)
 		color = get_sphere_texture(sphere, r, hit);
 	if (BONUS && sphere.material == CHECKER)
-		color = get_color_checkerboard_sphere(*norm_dir, color);
+		color = get_color_checkerboard_sphere(sphere_norm, color);
 	if (BONUS && sphere.material == MIRROR)
 	{
 		if (sphere.texture.data)
