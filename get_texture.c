@@ -52,6 +52,6 @@ t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit)
 	texture_sphere.color.y = (float)sphere.texture.data[base_index + 1] / 255.;
 	texture_sphere.color.z = (float)sphere.texture.data[base_index + 2] / 255.;
 	if (BONUS && sphere.material == CHECKER)
-		return (get_color_checkerboard_sphere(texture_sphere, normal));
+		return (get_color_checkerboard_sphere(normal, texture_sphere.color));
 	return (texture_sphere.color);
 }

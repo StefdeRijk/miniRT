@@ -14,7 +14,7 @@ t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r,
 	return (color);
 }
 
-t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)
+t_vec3f	get_color_checkerboard_sphere(t_vec3f norm_dir, t_vec3f color)
 {
 	float	x_angle;
 	float	y_angle;
@@ -32,8 +32,8 @@ t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir)
 	y_angle = y_angle / M_PI * 10;
 	x_plus_y = (int)x_angle + (int)y_angle;
 	if (abs(x_plus_y) % 2 > 0)
-		return (vec3f_div(sphere.color, 7.5));
-	return (sphere.color);
+		return (vec3f_div(color, 7.5));
+	return (color);
 }
 
 float	get_x_angle(t_vec3f rotated_hit_point)

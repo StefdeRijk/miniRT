@@ -73,7 +73,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	{
 		if (hit.hit_type == SPHERE)
 			object_color = get_sphere_norm_color(hit, r, scene->spheres.data,
-					&norm_dir);
+					&norm_dir, scene);
 		else if (hit.hit_type == PLANE)
 		{
 			object_color = get_plane_norm_color(hit, r, scene,

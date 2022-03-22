@@ -19,7 +19,7 @@
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 2560
+# define WIN_WIDTH 560
 # define MAX_BOUNCES 5
 # define AA 2
 
@@ -271,7 +271,7 @@ void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
-	t_sphere *spheres, t_vec3f *norm_dir);
+	t_sphere *spheres, t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_scene *scene, t_vec3f *norm_dir);
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
@@ -284,7 +284,7 @@ t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
 
 t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min, \
 	t_vec3f color);
-t_vec3f	get_color_checkerboard_sphere(t_sphere sphere, t_vec3f norm_dir);
+t_vec3f	get_color_checkerboard_sphere(t_vec3f norm_dir, t_vec3f color);
 t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	float hit_min, int hit_side_cylinder);
 t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \

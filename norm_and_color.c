@@ -14,20 +14,6 @@ t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 	return (ft_rodrigues(hit_point, angle.k, angle.angle));
 }
 
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
-	t_sphere *spheres, t_vec3f *norm_dir)
-{
-	t_sphere	sphere;
-
-	sphere = spheres[hit.object_index];
-	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, sphere);
-	if (sphere.texture.data)
-		return (get_sphere_texture(sphere, r, hit));
-	if (BONUS && sphere.material == CHECKER)
-		return (get_color_checkerboard_sphere(sphere, *norm_dir));
-	return (sphere.color);
-}
-
 t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_ray r,
 		t_scene *scene, t_vec3f *norm_dir, t_vec3f color)
 {
@@ -42,6 +28,29 @@ t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_ray r,
 	ratio = vec3f_len(color) / 3.;
 	color = vec3f_mul(color1, ratio);
 	color = vec3f_add(color, vec3f_mul(color2, 1 - ratio));
+	return (color);
+}
+
+t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
+	t_sphere *spheres, t_vec3f *norm_dir, t_scene *scene)
+{
+	t_sphere	sphere;
+	t_vec3f		color;
+
+	sphere = spheres[hit.object_index];
+	color = sphere.color;
+	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, sphere);
+	if (sphere.texture.data)
+		color = get_sphere_texture(sphere, r, hit);
+	if (BONUS && sphere.material == CHECKER)
+		color = get_color_checkerboard_sphere(*norm_dir, color);
+	if (BONUS && sphere.material == MIRROR)
+	{
+		if (sphere.texture.data)
+			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color);
+		else
+			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
+	}
 	return (color);
 }
 
