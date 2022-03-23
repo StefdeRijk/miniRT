@@ -307,4 +307,5 @@ void	digit_error(t_parse_line *line);
 
 t_bmp	read_bmp(char *file);
 t_vec3f	read_bump(t_bmp bump_map, int index, t_vec3f normal);
+t_vec3f	add_bump_to_normal(t_vec3f bump_normal, t_vec3f normal);
 #endif

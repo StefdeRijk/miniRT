@@ -267,6 +267,10 @@ void test_get_angle_to() {
 	result = get_angle_to(vec3f_init(1,0,0), vec3f_init(-1,0,0));
 	printf("from x to -x, angle: %f, k", result.angle);
 	vec3f_print(result.k);
+
+	result = get_angle_to(vec3f_init(1,0,0), vec3f_init(0,0,-1));
+	printf("from x to -z, angle: %f, k", result.angle);
+	vec3f_print(result.k);
 }
 
 void test_rodrigues() {
@@ -280,6 +284,40 @@ void test_rodrigues() {
 	vec3f_print(result);
 }
 
+void test_add_bump_to_normal() {
+	t_vec3f result;
+
+	printf("------ Add bump to normal ----\n");
+	printf("Add (0, 0, -1) to (0, 0, -1)\n");
+	t_vec3f normal = vec3f_init(0, 0, -1);
+	t_vec3f bump_normal = vec3f_init(0, 0, -1);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	printf("Add (0, 0, -1) to (0, 0, 1)\n");
+	normal = vec3f_init(0, 0, 1);
+	bump_normal = vec3f_init(0, 0, -1);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	printf("Add (0, 0, -1) to (1, 0, 0)\n");
+	normal = vec3f_unit(vec3f_init(1, 0, 0));
+	bump_normal = vec3f_init(0, 0, -1);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	printf("Add (0, 0, -1) to (1, 0, 1)\n");
+	normal = vec3f_unit(vec3f_init(1, 0, 0));
+	bump_normal = vec3f_init(0, 0, -1);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	printf("Add (0, 0, -1) to (1, 0, -1)\n");
+	normal = vec3f_init(1, 0, -1);
+	bump_normal = vec3f_init(0, 0, -1);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+}
 
 void test_rodrigues_consitency() {
 	t_vec3f result;
@@ -324,4 +362,5 @@ int main(void)
 	test_get_angle_to();
 	test_rodrigues();
 	test_rodrigues_consitency();
+	test_add_bump_to_normal();
 }
