@@ -14,7 +14,7 @@ t_vec3f	vec3f_init(float x, float y, float z)
 
 void	vec3f_print(t_vec3f v)
 {
-	printf("(%f, %f, %f\n", v.x, v.y, v.z);
+	printf("(%f, %f, %f)\n", v.x, v.y, v.z);
 }
 
 t_vec3f	vec3f_trans(t_vec3f v, t_direction dir, float distance)

@@ -1,5 +1,6 @@
 #include "miniRT.h"
 #include <assert.h>
+#include <math.h>
 
 void	test_reflection(void)
 {
@@ -259,6 +260,50 @@ void	test_cylinder_shadow(void)
 }
 */
 
+void test_get_angle_to() {
+	t_angle result;
+
+	printf("------ Get_angle_to ----\n");
+	result = get_angle_to(vec3f_init(1,0,0), vec3f_init(-1,0,0));
+	printf("from x to -x, angle: %f, k", result.angle);
+	vec3f_print(result.k);
+}
+
+void test_rodrigues() {
+	t_angle angle;
+
+	printf("------ Rodrigues ----\n");
+	angle.angle = M_PI;
+	angle.k = vec3f_init(0, 0, 1);
+	t_vec3f result = ft_rodrigues(vec3f_init(1, 0, 0), angle.k, angle.angle);
+	printf("turning 1 to -1:");
+	vec3f_print(result);
+}
+
+
+void test_rodrigues_consitency() {
+	t_vec3f result;
+	t_angle angle;
+
+	t_vec3f dir = vec3f_init(1, 0, 0);
+	t_vec3f to = vec3f_init(1, 0, 0);
+	angle = get_angle_to(dir, to);
+	result = ft_rodrigues(dir, angle.k, angle.angle);
+	assert(vec3f_equal(result, to));
+	dir = vec3f_init(1, 0, 0);
+	to = vec3f_init(-1, 0, 0);
+	result = ft_rodrigues(dir, angle.k, angle.angle);
+	printf("dir:\n");
+	vec3f_print(dir);
+	printf("to:\n");
+	vec3f_print(to);
+	printf("results:\n");
+	vec3f_print(result);
+	assert(vec3f_almost_equal(result, to));
+	assert(vec3f_almost_equal(result, to));
+}
+
+
 int main(void)
 {
 	setbuf(stdout, NULL);
@@ -278,4 +323,7 @@ int main(void)
 	test_hit_cylinder();
 	//test_cylinder_shadow();
 	test_hit_paraboloid();
+	test_get_angle_to();
+	test_rodrigues();
+	test_rodrigues_consitency();
 }

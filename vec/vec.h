@@ -92,4 +92,5 @@ t_line2f	make_line2f(t_vec2f p1, t_vec2f p2);
 int			gradient_to_color(t_vec2i gradient, float grad_level);
 void		vec_free(t_vec vec);
 
+int			vec3f_almost_equal(t_vec3f v1, t_vec3f v2);
 #endif
