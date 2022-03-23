@@ -52,6 +52,10 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r)
 	return (t);
 }
 
+/*
+ * the derivative of y = x^2 / c is 2 x / c, and when this is equal to 1, then you're at the height of the focal point. This is when x = c /2, and y = c / 4.
+ * the norm dir is colculated by adding a y unit vector to the direction from the hit point to the focal point
+ */
 t_vec3f	paraboloid_normal(t_paraboloid paraboloid, t_ray r, t_hits hit)
 {
 	t_ray	rot_r;
