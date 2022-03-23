@@ -84,10 +84,10 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 		}
 		else if (BONUS && hit.hit_type == PARABOLOID)
 			object_color = get_paraboloid_norm_color(hit, r, \
-				scene->paraboloids.data, &norm_dir);
+				scene->paraboloids.data, &norm_dir, scene);
 		else
 			object_color = get_cylinder_norm_color(hit, r,
-					scene->cylinders.data, &norm_dir);
+					scene->cylinders.data, &norm_dir, scene);
 		rays.n = new_ray(r, norm_dir, hit.hit_min);
 		rays.o = r;
 		return (spot_and_ambient(rays, object_color, scene, norm_dir));
