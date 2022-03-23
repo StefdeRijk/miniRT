@@ -276,7 +276,7 @@ void test_rodrigues() {
 	angle.angle = M_PI;
 	angle.k = vec3f_init(0, 0, 1);
 	t_vec3f result = ft_rodrigues(vec3f_init(1, 0, 0), angle.k, angle.angle);
-	printf("turning 1 to -1:");
+	printf("turning (1, 0, 0) to (-1, 0, 0):\n");
 	vec3f_print(result);
 }
 
@@ -285,21 +285,19 @@ void test_rodrigues_consitency() {
 	t_vec3f result;
 	t_angle angle;
 
+	printf("------ Rodrigues consitency ----\n");
+	printf("turning (1, 0, 0) to itself\n");
 	t_vec3f dir = vec3f_init(1, 0, 0);
 	t_vec3f to = vec3f_init(1, 0, 0);
 	angle = get_angle_to(dir, to);
 	result = ft_rodrigues(dir, angle.k, angle.angle);
 	assert(vec3f_equal(result, to));
+
+	printf("turning (1, 0, 0) to (-1, 0, 0)\n");
 	dir = vec3f_init(1, 0, 0);
 	to = vec3f_init(-1, 0, 0);
+	angle = get_angle_to(dir, to);
 	result = ft_rodrigues(dir, angle.k, angle.angle);
-	printf("dir:\n");
-	vec3f_print(dir);
-	printf("to:\n");
-	vec3f_print(to);
-	printf("results:\n");
-	vec3f_print(result);
-	assert(vec3f_almost_equal(result, to));
 	assert(vec3f_almost_equal(result, to));
 }
 

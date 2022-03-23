@@ -19,4 +19,11 @@ hit: 3.500000
 ------ Hit paraboloid ----
 t: 3.984163
 (-0.999920, -0.012669, 0.000000)
+------ Get_angle_to ----
 from x to -x, angle: 3.141593, k(0.000000, 0.000000, 1.000000)
+------ Rodrigues ----
+turning (1, 0, 0) to (-1, 0, 0):
+(-1.000000, -0.000000, 0.000000)
+------ Rodrigues consitency ----
+turning (1, 0, 0) to itself
+turning (1, 0, 0) to (-1, 0, 0)
