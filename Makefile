@@ -69,6 +69,12 @@ fclean: clean
 	$(MAKE) fclean -C $(VEC_DIR)
 	rm -f $(NAME)
 
+miniclean:
+
+minifclean: miniclean
+	rm -f $(NAME)
+
 re: fclean all
 
-.PHONY: all clean fclean re libft vec get_next_line
+minire: minifclean all
+.PHONY: all clean fclean re libft vec get_next_line minire miniclean minifclean

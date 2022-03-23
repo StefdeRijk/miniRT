@@ -1,4 +1,5 @@
 #include "miniRT.h"
+#include <assert.h>
 
 void	test_reflection(void)
 {
@@ -80,7 +81,6 @@ void	test_ray_bounce(void)
 	printf("\n");
 }
 
-/*
 void	test_rotate_ray(void)
 {
 	t_ray				r;
@@ -94,7 +94,7 @@ void	test_rotate_ray(void)
 	cylinder = *c;
 	r.origin = vec3f_init(0, 0, 1);
 	r.dir = vec3f_init(0, 0, -1);
-	r = rotate_ray(r, cylinder);
+	r = rotate_ray(r, cylinder.pos, cylinder.dir);
 	printf("ray origin: ");
 	vec3f_print(r.origin);
 	printf("\nray dir: ");
@@ -105,14 +105,13 @@ void	test_rotate_ray(void)
 	cylinder.dir.z = 0;
 	r.origin = vec3f_init(0, 0, 0);
 	r.dir = vec3f_init(0, 0, -1);
-	r = rotate_ray(r, cylinder);
+	r = rotate_ray(r, cylinder.pos, cylinder.dir);
 	printf("ray origin: ");
 	vec3f_print(r.origin);
 	printf("\nray dir: ");
 	vec3f_print(r.dir);
 	printf("\n");
 }
-*/
 
 void	test_ray_in_right_dir(void)
 {
@@ -169,15 +168,34 @@ void	test_hit_infinite_cylinder(void)
 	cylinder = *c;
 	r.origin = vec3f_init(0, 0, 4);
 	r.dir = vec3f_init(0, 0, -1);
-	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+	printf("hit: %f\n", hit_infinite_cylinder(r, cylinder));
 	r.dir = vec3f_init(0, -1, 0);
-	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+	printf("hit: %f\n", hit_infinite_cylinder(r, cylinder));
 	r.dir = vec3f_init(1, 1, 1);
-	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+	printf("hit: %f\n", hit_infinite_cylinder(r, cylinder));
 	r.dir = vec3f_init(0, -1.6, -1);
-	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+	printf("hit: %f\n", hit_infinite_cylinder(r, cylinder));
 	r.dir = vec3f_init(0, -10.6, -1);
-	printf("ray in right dir: %f\n", hit_infinite_cylinder(r, cylinder));
+	printf("hit: %f\n", hit_infinite_cylinder(r, cylinder));
+}
+
+void	test_hit_cylinder(void)
+{
+	t_ray			r;
+	t_cylinder		*c;
+	t_cylinder		cylinder;
+	static t_scene	scene = {0};
+	int 			hit_side;
+
+	printf("------ Hit cylinder ----\n");
+	get_scene("cylinder_problem2.rt", &scene);
+	c = scene.cylinders.data;
+	cylinder = *c;
+	r.origin = vec3f_init(1, 1, 4);
+	r.dir = vec3f_init(0, 0, -1);
+	printf("%f\n", hit_cylinder(cylinder, r, &hit_side));
+	r.dir = vec3f_init(1, -1, -1);
+	printf("%f\n", hit_cylinder(cylinder, r, &hit_side));
 }
 
 void	test_hit_paraboloid(void)
@@ -243,6 +261,8 @@ void	test_cylinder_shadow(void)
 
 int main(void)
 {
+	setbuf(stdout, NULL);
+	setbuf(stderr, NULL);
 	/*
 	test_reflection();
 	test_normal();
@@ -251,10 +271,11 @@ int main(void)
 	test_ray_to_color();
 	test_ray_bounce();
 	*/
-	//test_rotate_ray();
+	test_rotate_ray();
 	//test_ray_in_right_dir();
 	//test_hit_top_or_bottom();
-	//test_hit_infinite_cylinder();
+	test_hit_infinite_cylinder();
+	test_hit_cylinder();
 	//test_cylinder_shadow();
 	test_hit_paraboloid();
 }
