@@ -81,30 +81,38 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 }
 
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir)
+	t_cylinder *cylinders, t_vec3f *norm_dir, t_scene *scene)
 {
 	t_cylinder	cylinder;
+	t_vec3f		color;
 
 	cylinder = cylinders[hit.object_index];
+	color = cylinder.color;
 	if (hit.hit_side_cylinder)
 		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
 	else
 		*norm_dir = plane_normal(cylinder.dir, r.dir);
 	if (BONUS && cylinder.material == CHECKER)
-		return (get_color_checkerboard_cylinder(cylinder, r, hit.hit_min, \
-			hit.hit_side_cylinder));
-	return (cylinder.color);
+		color = get_color_checkerboard_cylinder(cylinder, r, hit.hit_min, \
+			hit.hit_side_cylinder);
+	if (BONUS && cylinder.material == MIRROR)
+			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
+	return (color);
 }
 
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
-	t_paraboloid *paraboloids, t_vec3f *norm_dir)
+	t_paraboloid *paraboloids, t_vec3f *norm_dir, t_scene *scene)
 {
 	t_paraboloid	paraboloid;
+	t_vec3f			color;
 
 	paraboloid = paraboloids[hit.object_index];
+	color = paraboloid.color;
 	*norm_dir = paraboloid_normal(paraboloid, r, hit);
 	if (BONUS && paraboloid.material == CHECKER)
-		return (get_color_checkerboard_paraboloid(paraboloid, r, \
-			hit.hit_min));
-	return (paraboloid.color);
+		color = get_color_checkerboard_paraboloid(paraboloid, r, \
+			hit.hit_min);
+	if (BONUS && paraboloid.material == MIRROR)
+			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
+	return (color);
 }
