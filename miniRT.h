@@ -19,7 +19,7 @@
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 560
+# define WIN_WIDTH 2560
 # define MAX_BOUNCES 5
 # define AA 2
 
@@ -276,9 +276,9 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_scene *scene, t_vec3f *norm_dir);
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir);
+	t_cylinder *cylinders, t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
-	t_paraboloid *paraboloids, t_vec3f *norm_dir);
+	t_paraboloid *paraboloids, t_vec3f *norm_dir, t_scene *scene);
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
