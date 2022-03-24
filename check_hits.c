@@ -25,7 +25,10 @@ void	plane_loop(t_ray r, t_scene *scene, t_hits *hits)
 		plane = planes[i];
 		hit = hit_plane(plane.dir, plane.pos, r);
 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+		{
 			hits->hit_type = PLANE;
+			hits->material = plane.material;
+		}
 		i++;
 	}
 }
@@ -44,7 +47,10 @@ void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits)
 		sphere = spheres[i];
 		hit = hit_sphere(sphere, r);
 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+		{
 			hits->hit_type = SPHERE;
+			hits->material = sphere.material;
+		}
 		i++;
 	}
 }
@@ -68,6 +74,7 @@ void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits)
 		{
 			hits->hit_type = CYLINDER;
 			hits->hit_side_cylinder = hit_side;
+			hits->material = cylinder.material;
 		}
 		i++;
 	}
@@ -87,7 +94,10 @@ void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits)
 		paraboloid = paraboloids[i];
 		hit = hit_paraboloid(paraboloid, r);
 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+		{
 			hits->hit_type = PARABOLOID;
+			hits->material = paraboloid.material;
+		}
 		i++;
 	}
 }
