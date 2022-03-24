@@ -56,39 +56,35 @@ typedef struct s_light {
 	t_vec3f	color;
 }	t_light;
 
-typedef struct s_sphere {
+typedef struct s_object {
 	t_vec3f			pos;
-	float			radius;
 	t_vec3f			color;
 	t_material_type	material;
 	t_bmp			texture;
 	t_bmp			bump_map;
+}	t_object;
+
+typedef struct s_sphere {
+	t_object		base;
+	float			radius;
 }	t_sphere;
 
 typedef struct s_plane {
-	t_vec3f			pos;
+	t_object		base;
 	t_vec3f			dir;
-	t_vec3f			color;
-	t_material_type	material;
-	t_bmp			texture;
-	t_bmp			bump_map;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_vec3f			pos;
+	t_object		base;
 	t_vec3f			dir;
 	float			radius;
 	float			height;
-	t_vec3f			color;
-	t_material_type	material;
 }	t_cylinder;
 
 typedef struct s_paraboloid{
-	t_vec3f			pos;
+	t_object		base;
 	t_vec3f			dir;
 	float			curvature;
-	t_vec3f			color;
-	t_material_type	material;
 }	t_paraboloid;
 
 typedef enum e_scene_elem_type {
