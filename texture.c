@@ -8,20 +8,12 @@ t_vec3f add_bump_to_normal(t_vec3f bump_normal, t_vec3f normal)
 	t_vec3f unit;
 
 	angle = get_angle_to(vec3f_init(0, 0, -1), normal);
-	// if (normal.z < 0)
-	// 	angle.angle = angle.angle - M_PI;
-	// printf("angle 2: %f, k:", angle.angle);
-	// vec3f_print(angle.k);
 	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
 	return (bump_normal);
 	added_normal = vec3f_add(normal, bump_normal);
 	if (vec3f_almost_equal(added_normal, vec3f_init(0., 0., 0.)))
 		added_normal = normal;
-	//printf("after add:");
-	//vec3f_print(added_normal);
 	unit = vec3f_unit(added_normal);
-	//printf("after unit:");
-	//vec3f_print(unit);
 	return (unit);
 }
 
