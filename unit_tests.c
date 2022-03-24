@@ -284,49 +284,86 @@ void test_rodrigues() {
 	vec3f_print(result);
 }
 
+void print_bump_test(t_vec3f bump, t_vec3f normal) {
+	printf("\nAdd ");
+	vec3f_print(bump);
+	printf(" to ");
+	vec3f_print(normal);
+}
+
 void test_add_bump_to_normal() {
 	t_vec3f result;
 
 	printf("------ Add bump to normal ----\n");
-	printf("\nAdd (0, 0, -1) to (0, 0, -1)\n");
 	t_vec3f normal = vec3f_init(0, 0, -1);
 	t_vec3f bump_normal = vec3f_init(0, 0, -1);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, -1) to (0, 0, 1)\n");
 	normal = vec3f_init(0, 0, 1);
 	bump_normal = vec3f_init(0, 0, -1);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, -1) to (1, 0, 0)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, 0));
 	bump_normal = vec3f_init(0, 0, -1);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, -1) to (1, 0, 1)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, 1));
 	bump_normal = vec3f_init(0, 0, -1);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, -1) to (1, 0, -1)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, -1));
 	bump_normal = vec3f_init(0, 0, -1);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, 0) to (1, 0, -1)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, -1));
-	bump_normal = vec3f_init(0, 0, 0);
+	bump_normal = vec3f_init(0, 0, 1);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, 0) to (1, 0, 1)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, 1));
-	bump_normal = vec3f_init(0, 0, 0);
+	bump_normal = vec3f_init(0, 0, 1);
+	print_bump_test(bump_normal, normal);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	normal = vec3f_unit(vec3f_init(0, 0, -1));
+	bump_normal = vec3f_init(1, 0, 0);
+	print_bump_test(bump_normal, normal);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	normal = vec3f_unit(vec3f_init(0, 0, -1));
+	bump_normal = vec3f_init(0, 1, 0);
+	print_bump_test(bump_normal, normal);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	normal = vec3f_unit(vec3f_init(0, 0, 1));
+	bump_normal = vec3f_init(0, 1, 0);
+	print_bump_test(bump_normal, normal);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	normal = vec3f_unit(vec3f_init(0, 0, -1));
+	bump_normal = vec3f_init(1, 0, 0);
+	print_bump_test(bump_normal, normal);
+	result = add_bump_to_normal(bump_normal, normal);
+	vec3f_print(result);
+
+	normal = vec3f_unit(vec3f_init(0, 0, 1));
+	bump_normal = vec3f_init(1, 0, 0);
+	print_bump_test(bump_normal, normal);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 }

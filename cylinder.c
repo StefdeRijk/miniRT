@@ -1,6 +1,5 @@
 #include "miniRT.h"
 #include <math.h>
-
 t_angle	get_angle_to(t_vec3f dir, t_vec3f to)
 {
 	t_angle	s_angle;

@@ -164,6 +164,7 @@ typedef struct s_hits {
 	int					object_index;
 	t_scene_elem_type	hit_type;
 	int					hit_side_cylinder;
+	e_material_type		material;
 }	t_hits;
 
 struct s_thread_data {

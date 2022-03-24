@@ -75,6 +75,7 @@ float		vec3f_len_sq(t_vec3f v);
 float		vec3f_dot(t_vec3f v1, t_vec3f v2);
 t_vec3f		vec3f_mul_v(t_vec3f v1, t_vec3f v2);
 t_vec3f		vec3f_cross(t_vec3f v1, t_vec3f v2);
+t_vec3f		vec3f_left_cross(t_vec3f v1, t_vec3f v2);
 void		vec3f_print(t_vec3f v);
 float		vec3f_dist(t_vec3f v1, t_vec3f v2);
 int			vec3f_equal(t_vec3f v1, t_vec3f v2);
