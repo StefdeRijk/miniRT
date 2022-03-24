@@ -21,7 +21,7 @@ t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_ray r,
 	float	ratio;
 
 	color1 = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
-	ratio = vec3f_len(color) / 3.;
+	ratio = vec3f_len_sq(color) / 3.;
 	color = vec3f_mul(color1, ratio);
 	color = vec3f_add(color, vec3f_mul(color2, 1 - ratio));
 	return (color);

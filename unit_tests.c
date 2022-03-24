@@ -318,15 +318,15 @@ void test_add_bump_to_normal() {
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, 1) to (1, 0, -1)\n");
+	printf("\nAdd (0, 0, 0) to (1, 0, -1)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, -1));
-	bump_normal = vec3f_init(0, 0, 1);
+	bump_normal = vec3f_init(0, 0, 0);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 
-	printf("\nAdd (0, 0, 1) to (1, 0, 1)\n");
+	printf("\nAdd (0, 0, 0) to (1, 0, 1)\n");
 	normal = vec3f_unit(vec3f_init(1, 0, 1));
-	bump_normal = vec3f_init(0, 0, 1);
+	bump_normal = vec3f_init(0, 0, 0);
 	result = add_bump_to_normal(bump_normal, normal);
 	vec3f_print(result);
 }
