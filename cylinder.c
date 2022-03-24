@@ -87,7 +87,7 @@ float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 	float	t;
 
 	*hit_side = 0;
-	rot_ray = rotate_ray(r, cylinder.pos, cylinder.dir);
+	rot_ray = rotate_ray(r, cylinder.base.pos, cylinder.dir);
 	if (!ray_in_right_dir(rot_ray, cylinder))
 		return (-1.0);
 	t_plane = hit_top_or_bottom(rot_ray, cylinder);

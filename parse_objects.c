@@ -22,17 +22,17 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 
 	if (!scene->spheres.data)
 		vec_init(&scene->spheres, sizeof(t_sphere));
-	parse_vec3f(line, &s.pos);
+	parse_vec3f(line, &s.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &s.radius);
 	s.radius /= 2;
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &s.color, 0, 255);
+	parse_check_color(line, &s.base.color, 0, 255);
 	if (BONUS)
 	{
-		s.material = parse_check_material(line);
-		parse_texture(&s.texture, line);
-		parse_texture(&s.bump_map, line);
+		s.base.material = parse_check_material(line);
+		parse_texture(&s.base.texture, line);
+		parse_texture(&s.base.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->spheres, &s);
@@ -44,7 +44,7 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 
 	if (!scene->planes.data)
 		vec_init(&scene->planes, sizeof(t_plane));
-	parse_vec3f(line, &p.pos);
+	parse_vec3f(line, &p.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &p.dir, -1, 1);
 	if (vec3f_len_sq(p.dir) == 0)
@@ -55,12 +55,12 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	}
 	p.dir = vec3f_unit(p.dir);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &p.color, 0, 255);
+	parse_check_color(line, &p.base.color, 0, 255);
 	if (BONUS)
 	{
-		p.material = parse_check_material(line);
-		parse_texture(&p.texture, line);
-		parse_texture(&p.bump_map, line);
+		p.base.material = parse_check_material(line);
+		parse_texture(&p.base.texture, line);
+		parse_texture(&p.base.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->planes, &p);
@@ -72,7 +72,7 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 
 	if (!scene->cylinders.data)
 		vec_init(&scene->cylinders, sizeof(t_cylinder));
-	parse_vec3f(line, &c.pos);
+	parse_vec3f(line, &c.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &c.dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
@@ -81,9 +81,9 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &c.height);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &c.color, 0, 255);
+	parse_check_color(line, &c.base.color, 0, 255);
 	if (BONUS)
-		c.material = parse_check_material(line);
+		c.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	if (vec3f_len_sq(c.dir) == 0)
 	{
@@ -101,7 +101,7 @@ void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 
 	if (!scene->paraboloids.data)
 		vec_init(&scene->paraboloids, sizeof(t_paraboloid));
-	parse_vec3f(line, &p.pos);
+	parse_vec3f(line, &p.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &p.dir, -1, 1);
 	if (vec3f_len_sq(p.dir) == 0)
@@ -114,8 +114,8 @@ void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &p.curvature);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &p.color, 0, 255);
-	p.material = parse_check_material(line);
+	parse_check_color(line, &p.base.color, 0, 255);
+	p.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	vec_push(&scene->paraboloids, &p);
 }

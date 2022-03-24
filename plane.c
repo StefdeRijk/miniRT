@@ -26,15 +26,15 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 		normal = (vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir)));
 	else
 		normal = (vec3f_unit(plane.dir));
-	if (!plane.bump_map.data)
+	if (!plane.base.bump_map.data)
 		return (normal);
-	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.bump_map.width)) \
-		% plane.bump_map.width;
-	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.bump_map.height)) \
-		% plane.bump_map.height;
-	base_index = bump_x * plane.texture.bytes_per_pixel + \
-		bump_y * plane.texture.bytes_per_row;
-	return (read_bump(plane.bump_map, base_index, normal));
+	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.base.bump_map.width)) \
+		% plane.base.bump_map.width;
+	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.base.bump_map.height)) \
+		% plane.base.bump_map.height;
+	base_index = bump_x * plane.base.texture.bytes_per_pixel + \
+		bump_y * plane.base.texture.bytes_per_row;
+	return (read_bump(plane.base.bump_map, base_index, normal));
 }
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir)

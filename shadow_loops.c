@@ -13,7 +13,7 @@ void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits,
 	while (i < scene->planes.len)
 	{
 		plane = planes[i];
-		hit = hit_plane(plane.dir, plane.pos, r);
+		hit = hit_plane(plane.dir, plane.base.pos, r);
 		hits->hit_min = hit;
 		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
 			return ;

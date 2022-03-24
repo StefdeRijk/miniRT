@@ -9,7 +9,7 @@ t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 
 	norm_dir = plane_normal(plane.dir, r.dir);
 	hit_point = at(r, hit_min);
-	hit_point = vec3f_sub(hit_point, plane.pos);
+	hit_point = vec3f_sub(hit_point, plane.base.pos);
 	angle = get_angle(norm_dir);
 	return (ft_rodrigues(hit_point, angle.k, angle.angle));
 }
@@ -35,17 +35,17 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_vec3f		sphere_norm;
 
 	sphere = spheres[hit.object_index];
-	color = sphere.color;
-	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.pos, sphere);
-	sphere_norm = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-	if (sphere.texture.data)
+	color = sphere.base.color;
+	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.base.pos, sphere);
+	sphere_norm = get_normal_sphere(at(r, hit.hit_min), sphere.base.pos);
+	if (sphere.base.texture.data)
 		color = get_sphere_texture(sphere, r, hit);
-	if (BONUS && sphere.material == CHECKER)
+	if (BONUS && sphere.base.material == CHECKER)
 		color = get_color_checkerboard_sphere(sphere_norm, color);
-	if (BONUS && sphere.material == MIRROR)
+	if (BONUS && sphere.base.material == MIRROR)
 	{
-		if (sphere.texture.data)
-			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, sphere.color);
+		if (sphere.base.texture.data)
+			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, sphere.base.color);
 		else
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	}
@@ -61,19 +61,19 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_vec3f	color;
 
 	plane = ((t_plane *)(scene->planes.data))[hit.object_index];
-	color = plane.color;
+	color = plane.base.color;
 	rotated_hit_point = get_rotated_hit_point(plane, r, hit.hit_min);
 	plane_pos.x = fabsf(rotated_hit_point.x);
 	plane_pos.y = fabsf(rotated_hit_point.z);
 	*norm_dir = plane_normal_bump(plane_pos, plane, r.dir);
-	if (plane.texture.data)
+	if (plane.base.texture.data)
 		color = get_plane_texture(plane, plane_pos);
-	if (BONUS && plane.material == CHECKER)
+	if (BONUS && plane.base.material == CHECKER)
 		color = get_color_checkerboard_plane(plane, r, hit.hit_min, color);
-	if (BONUS && plane.material == MIRROR)
+	if (BONUS && plane.base.material == MIRROR)
 	{
-		if (plane.texture.data)
-			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, plane.color);
+		if (plane.base.texture.data)
+			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, plane.base.color);
 		else
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	}
@@ -87,15 +87,15 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	t_vec3f		color;
 
 	cylinder = cylinders[hit.object_index];
-	color = cylinder.color;
+	color = cylinder.base.color;
 	if (hit.hit_side_cylinder)
 		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
 	else
 		*norm_dir = plane_normal(cylinder.dir, r.dir);
-	if (BONUS && cylinder.material == CHECKER)
+	if (BONUS && cylinder.base.material == CHECKER)
 		color = get_color_checkerboard_cylinder(cylinder, r, hit.hit_min, \
 			hit.hit_side_cylinder);
-	if (BONUS && cylinder.material == MIRROR)
+	if (BONUS && cylinder.base.material == MIRROR)
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	return (color);
 }
@@ -107,12 +107,12 @@ t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 	t_vec3f			color;
 
 	paraboloid = paraboloids[hit.object_index];
-	color = paraboloid.color;
+	color = paraboloid.base.color;
 	*norm_dir = paraboloid_normal(paraboloid, r, hit);
-	if (BONUS && paraboloid.material == CHECKER)
+	if (BONUS && paraboloid.base.material == CHECKER)
 		color = get_color_checkerboard_paraboloid(paraboloid, r, \
 			hit.hit_min);
-	if (BONUS && paraboloid.material == MIRROR)
+	if (BONUS && paraboloid.base.material == MIRROR)
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	return (color);
 }

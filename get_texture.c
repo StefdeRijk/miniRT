@@ -17,13 +17,13 @@ t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 	int		bump_y;
 	int		base_index;
 
-	bump_x = ((int)(fabsf(plane_pos.x) * plane.texture.width)) \
-		% plane.texture.width;
-	bump_y = ((int)(fabsf(plane_pos.y) * plane.texture.height)) \
-		% plane.texture.height;
-	base_index = bump_x * plane.texture.bytes_per_pixel + \
-		bump_y * plane.texture.bytes_per_row;
-	color = get_texture(plane.texture, base_index);
+	bump_x = ((int)(fabsf(plane_pos.x) * plane.base.texture.width)) \
+		% plane.base.texture.width;
+	bump_y = ((int)(fabsf(plane_pos.y) * plane.base.texture.height)) \
+		% plane.base.texture.height;
+	base_index = bump_x * plane.base.texture.bytes_per_pixel + \
+		bump_y * plane.base.texture.bytes_per_row;
+	color = get_texture(plane.base.texture, base_index);
 	return (color);
 }
 
@@ -51,10 +51,10 @@ t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit)
 	t_vec3f		normal;
 	int			base_index;
 
-	normal = get_normal_sphere(at(r, hit.hit_min), sphere.pos);
-	base_index = get_sphere_base_index(sphere.texture, normal);
-	texture_color = get_texture(sphere.texture, base_index);
-	if (BONUS && sphere.material == CHECKER)
+	normal = get_normal_sphere(at(r, hit.hit_min), sphere.base.pos);
+	base_index = get_sphere_base_index(sphere.base.texture, normal);
+	texture_color = get_texture(sphere.base.texture, base_index);
+	if (BONUS && sphere.base.material == CHECKER)
 		return (get_color_checkerboard_sphere(normal, texture_color));
 	return (texture_color);
 }

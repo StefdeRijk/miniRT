@@ -23,10 +23,10 @@ t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
 	int		index;
 
 	normal = get_normal_sphere(hit_point, sphere_center);
-	if (!sphere.bump_map.data)
+	if (!sphere.base.bump_map.data)
 		return (normal);
-	index = get_sphere_base_index(sphere.bump_map, normal);
-	return (read_bump(sphere.bump_map, index, normal));
+	index = get_sphere_base_index(sphere.base.bump_map, normal);
+	return (read_bump(sphere.base.bump_map, index, normal));
 }
 
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
@@ -42,11 +42,11 @@ float	hit_sphere(t_sphere sphere, t_ray r)
 	float	solution;
 	int		solved;
 
-	if (vec3f_dist(r.origin, sphere.pos) < sphere.radius)
+	if (vec3f_dist(r.origin, sphere.base.pos) < sphere.radius)
 		return (-1.0);
 	a = vec3f_len_sq(r.dir);
-	b = 2.0 * vec3f_dot(vec3f_sub(r.origin, sphere.pos), r.dir);
-	c = vec3f_len_sq(vec3f_sub(r.origin, sphere.pos)) - \
+	b = 2.0 * vec3f_dot(vec3f_sub(r.origin, sphere.base.pos), r.dir);
+	c = vec3f_len_sq(vec3f_sub(r.origin, sphere.base.pos)) - \
 		(sphere.radius * sphere.radius);
 	solution = abc(a, b, c, &solved);
 	if (!solved)
