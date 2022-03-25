@@ -21,20 +21,20 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	int			bump_y;
 	int			base_index;
 
-	which_side = vec3f_dot(plane.dir, ray_dir);
+	which_side = vec3f_dot(plane.dir_base.dir, ray_dir);
 	if (which_side > 0.)
-		normal = (vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir)));
+		normal = (vec3f_sub(vec3f_init(0, 0, 0), vec3f_unit(plane.dir_base.dir)));
 	else
-		normal = (vec3f_unit(plane.dir));
-	if (!plane.base.bump_map.data)
+		normal = (vec3f_unit(plane.dir_base.dir));
+	if (!plane.dir_base.base.bump_map.data)
 		return (normal);
-	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.base.bump_map.width)) \
-		% plane.base.bump_map.width;
-	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.base.bump_map.height)) \
-		% plane.base.bump_map.height;
-	base_index = bump_x * plane.base.texture.bytes_per_pixel + \
-		bump_y * plane.base.texture.bytes_per_row;
-	return (read_bump(plane.base.bump_map, base_index, normal));
+	bump_x = ((int)(fabsf(pos_on_plane.x) * plane.dir_base.base.bump_map.width)) \
+		% plane.dir_base.base.bump_map.width;
+	bump_y = ((int)(fabsf(pos_on_plane.y) * plane.dir_base.base.bump_map.height)) \
+		% plane.dir_base.base.bump_map.height;
+	base_index = bump_x * plane.dir_base.base.texture.bytes_per_pixel + \
+		bump_y * plane.dir_base.base.texture.bytes_per_row;
+	return (read_bump(plane.dir_base.base.bump_map, base_index, normal));
 }
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir)
