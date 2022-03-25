@@ -22,13 +22,13 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits)
 	objects = scene->objects.data;
 	while (i < scene->objects.len)
 	{
-		if (objects->base.type == PLANE)
+		if (objects[i].base.type == PLANE)
 			hit = hit_plane(objects[i].plane.dir_base.dir, objects[i].plane.dir_base.base.pos, r);
-		else if (objects->base.type == SPHERE)
+		else if (objects[i].base.type == SPHERE)
 			hit = hit_sphere(objects[i].sphere, r);
-		else if (objects->base.type == CYLINDER)
+		else if (objects[i].base.type == CYLINDER)
 			hit = hit_cylinder(objects[i].cylinder, r, &hit_side);
-		else if (objects->base.type == PARABOLOID)
+		else if (objects[i].base.type == PARABOLOID)
 			hit = hit_paraboloid(objects[i].paraboloid, r);
 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
 		{
@@ -53,13 +53,13 @@ void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 	objects = scene->objects.data;
 	while (i < scene->objects.len)
 	{
-		if (objects->base.type == PLANE)
+		if (objects[i].base.type == PLANE)
 			hit = hit_plane(objects[i].plane.dir_base.dir, objects[i].plane.dir_base.base.pos, r);
-		else if (objects->base.type == SPHERE)
+		else if (objects[i].base.type == SPHERE)
 			hit = hit_sphere(objects[i].sphere, r);
-		else if (objects->base.type == CYLINDER)
+		else if (objects[i].base.type == CYLINDER)
 			hit = hit_cylinder(objects[i].cylinder, r, &hit_side);
-		else if (objects->base.type == PARABOLOID)
+		else if (objects[i].base.type == PARABOLOID)
 			hit = hit_paraboloid(objects[i].paraboloid, r);
 		hits->hit_min = hit;
 		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
