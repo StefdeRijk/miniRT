@@ -54,11 +54,7 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r)
 {
 	hit->hit_min = 0.;
 	hit->hit_side_cylinder = 0;
-	sphere_loop(r, scene, hit);
-	plane_loop(r, scene, hit);
-	cylinder_loop(r, scene, hit);
-	if (BONUS)
-		paraboloid_loop(r, scene, hit);
+	objects_loop(r, scene, hit);
 }
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
@@ -72,17 +68,13 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 	if (hit.hit_min > 0)
 	{
 		if (hit.hit_type == SPHERE)
-			object_color = get_sphere_norm_color(hit, r, scene->spheres.data,
-					&norm_dir, scene);
+			object_color = get_sphere_norm_color(hit, r, &norm_dir, scene);
 		else if (hit.hit_type == PLANE)
-			object_color = get_plane_norm_color(hit, r, scene,
-					&norm_dir);
+			object_color = get_plane_norm_color(hit, r, scene, &norm_dir);
 		else if (BONUS && hit.hit_type == PARABOLOID)
-			object_color = get_paraboloid_norm_color(hit, r, \
-				scene->paraboloids.data, &norm_dir, scene);
+			object_color = get_paraboloid_norm_color(hit, r, &norm_dir, scene);
 		else
-			object_color = get_cylinder_norm_color(hit, r,
-					scene->cylinders.data, &norm_dir, scene);
+			object_color = get_cylinder_norm_color(hit, r, &norm_dir, scene);
 		rays.n = new_ray(r, norm_dir, hit.hit_min);
 		rays.o = r;
 		if (hit.material == MIRROR)

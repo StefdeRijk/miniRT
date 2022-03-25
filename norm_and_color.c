@@ -27,14 +27,13 @@ t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_ray r,
 	return (color);
 }
 
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
-	t_sphere *spheres, t_vec3f *norm_dir, t_scene *scene)
+t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
 {
 	t_sphere	sphere;
 	t_vec3f		color;
 	t_vec3f		sphere_norm;
 
-	sphere = spheres[hit.object_index];
+	sphere = (((t_object *)(scene->objects.data))[hit.object_index]).sphere;
 	color = sphere.base.color;
 	*norm_dir = get_normal_bump_sphere(at(r, hit.hit_min), sphere.base.pos, sphere);
 	sphere_norm = get_normal_sphere(at(r, hit.hit_min), sphere.base.pos);
@@ -80,13 +79,12 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	return (color);
 }
 
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir, t_scene *scene)
+t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
 {
 	t_cylinder	cylinder;
 	t_vec3f		color;
 
-	cylinder = cylinders[hit.object_index];
+	cylinder = (((t_object *)(scene->objects.data))[hit.object_index]).cylinder;
 	color = cylinder.dir_base.base.color;
 	if (hit.hit_side_cylinder)
 		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
@@ -100,13 +98,12 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	return (color);
 }
 
-t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
-	t_paraboloid *paraboloids, t_vec3f *norm_dir, t_scene *scene)
+t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
 {
 	t_paraboloid	paraboloid;
 	t_vec3f			color;
 
-	paraboloid = paraboloids[hit.object_index];
+	paraboloid = (((t_object *)(scene->objects.data))[hit.object_index]).paraboloid;
 	color = paraboloid.dir_base.base.color;
 	*norm_dir = paraboloid_normal(paraboloid, r, hit);
 	if (BONUS && paraboloid.dir_base.base.material == CHECKER)

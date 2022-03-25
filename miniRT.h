@@ -278,14 +278,10 @@ void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 // 	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
-	t_sphere *spheres, t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
-	t_scene *scene, t_vec3f *norm_dir);
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
-	t_paraboloid *paraboloids, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, t_scene *scene, t_vec3f *norm_dir);
+t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
