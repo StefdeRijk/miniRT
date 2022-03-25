@@ -1,4 +1,5 @@
-#include<unistd.h>
+#include <unistd.h>
+
 void	ft_putstr_fd(const char *s, int fd)
 {
 	while (*s)

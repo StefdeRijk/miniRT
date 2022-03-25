@@ -1,4 +1,4 @@
-#include<stdlib.h>
+#include <stdlib.h>
 
 void	place_num(char *res, long n, int div, int leading)
 {

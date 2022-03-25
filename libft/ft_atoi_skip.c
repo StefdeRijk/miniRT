@@ -1,4 +1,5 @@
 #include "libft.h"
+
 int	ft_atoi_skip(char **str)
 {
 	int		sign;

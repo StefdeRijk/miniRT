@@ -2,6 +2,7 @@
 #include <assert.h>
 #include <math.h>
 
+/*
 void	test_reflection(void)
 {
 	static t_vec3f	incoming = {1, -1, 1};
@@ -55,6 +56,7 @@ void	test_ray_color(void)
 	vec3f_print(color);
 	printf("\n");
 }
+*/
 
 /*
 void	test_ray_to_color(void)
@@ -69,6 +71,7 @@ void	test_ray_to_color(void)
 }
 */
 
+/*
 void	test_ray_bounce(void)
 {
 	t_ray			r;
@@ -219,6 +222,8 @@ void	test_hit_paraboloid(void)
 	normal = paraboloid_normal(paraboloid, r, hit); 
 	vec3f_print(normal);
 }
+*/
+
 /*
 void	test_cylinder_shadow(void)
 {
@@ -260,6 +265,7 @@ void	test_cylinder_shadow(void)
 }
 */
 
+/*
 void test_get_angle_to() {
 	t_angle result;
 
@@ -393,14 +399,12 @@ int main(void)
 {
 	setbuf(stdout, NULL);
 	setbuf(stderr, NULL);
-	/*
 	test_reflection();
 	test_normal();
 	test_at();
 	test_ray_color();
 	test_ray_to_color();
 	test_ray_bounce();
-	*/
 	test_rotate_ray();
 	//test_ray_in_right_dir();
 	//test_hit_top_or_bottom();
@@ -413,3 +417,4 @@ int main(void)
 	test_rodrigues_consitency();
 	test_add_bump_to_normal();
 }
+*/

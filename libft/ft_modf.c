@@ -1,6 +1,8 @@
 #include "libft.h"
+
 #define NAN_OR_INF 0x7ff
 #define EXP_BIAS 1023
+
 static double	ft_only_sign(t_modf_union u)
 {
 	u.l &= 1UL << 63;

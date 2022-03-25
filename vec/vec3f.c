@@ -47,7 +47,7 @@ t_vec3f	vec3f_unit(t_vec3f v)
 	return (vec3f_mul(v, 1 / vec3f_len(v)));
 }
 
-float vec3f_dist(t_vec3f v1, t_vec3f v2)
+float	vec3f_dist(t_vec3f v1, t_vec3f v2)
 {
 	return (vec3f_len(vec3f_sub(v1, v2)));
 }

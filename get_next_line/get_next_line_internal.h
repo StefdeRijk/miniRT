@@ -1,5 +1,5 @@
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_INTERNAL_H
+# define GET_NEXT_LINE_INTERNAL_H
 
 # include <stddef.h>
 # include <unistd.h>
