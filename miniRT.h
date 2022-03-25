@@ -264,28 +264,24 @@ float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
 void	objects_loop(t_ray r, t_scene *scene, t_hits *hits);
 void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 	float distance_to_spot);
-// void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
-// void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
-// void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
-// void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
-// void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-// 	float distance_to_spot);
-// void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-// 	float distance_to_spot);
-// void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-// 	float distance_to_spot);
-// void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-// 	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, t_scene *scene, t_vec3f *norm_dir);
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
+	t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
+	t_scene *scene, t_vec3f *norm_dir);
+t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
+	t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
+	t_vec3f *norm_dir, t_scene *scene);
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
 
+t_vec3f	checkerboard_make_squares(int x_plus_y, t_vec3f color);
+float	get_x_angle(t_vec3f rotated_hit_point);
+t_vec3f	checkerboard_x_and_y(t_ray r, float hit_min, \
+	t_directed_base dir_base, float multiplier);
 t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r, float hit_min, \
 	t_vec3f color);
 t_vec3f	get_color_checkerboard_sphere(t_vec3f norm_dir, t_vec3f color);

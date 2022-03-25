@@ -20,10 +20,11 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits)
 
 	i = 0;
 	objects = scene->objects.data;
-	while (i < scene->objects.len)
+	while (i++ < scene->objects.len)
 	{
 		if (objects[i].base.type == PLANE)
-			hit = hit_plane(objects[i].plane.dir_base.dir, objects[i].plane.dir_base.base.pos, r);
+			hit = hit_plane(objects[i].plane.dir_base.dir, \
+				objects[i].plane.dir_base.base.pos, r);
 		else if (objects[i].base.type == SPHERE)
 			hit = hit_sphere(objects[i].sphere, r);
 		else if (objects[i].base.type == CYLINDER)
@@ -34,10 +35,8 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits)
 		{
 			hits->hit_type = objects[i].base.type;
 			hits->material = objects[i].base.material;
-			if (objects[i].base.type == CYLINDER)
-				hits->hit_side_cylinder = hit_side;
+			hits->hit_side_cylinder = hit_side;
 		}
-		i++;
 	}
 }
 
@@ -54,7 +53,8 @@ void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 	while (i < scene->objects.len)
 	{
 		if (objects[i].base.type == PLANE)
-			hit = hit_plane(objects[i].plane.dir_base.dir, objects[i].plane.dir_base.base.pos, r);
+			hit = hit_plane(objects[i].plane.dir_base.dir, \
+				objects[i].plane.dir_base.base.pos, r);
 		else if (objects[i].base.type == SPHERE)
 			hit = hit_sphere(objects[i].sphere, r);
 		else if (objects[i].base.type == CYLINDER)
