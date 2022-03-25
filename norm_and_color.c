@@ -2,11 +2,13 @@
 #include <math.h>
 
 t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_ray r,
-		t_scene *scene, t_vec3f *norm_dir, t_vec3f color, t_vec3f color2)
+		t_scene *scene, t_vec3f *norm_dir, t_vec3f color)
 {
 	t_vec3f	color1;
 	float	ratio;
+	t_vec3f	color2;
 
+	color2 = (((t_object *)(scene->objects.data))[hit.object_index]).base.color;
 	color1 = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	ratio = vec3f_len_sq(color) / 3.;
 	color = vec3f_mul(color1, ratio);
@@ -31,7 +33,7 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *s
 	if (BONUS && sphere.base.material == MIRROR)
 	{
 		if (sphere.base.texture.data)
-			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, sphere.base.color);
+			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color);
 		else
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	}
@@ -59,7 +61,7 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	if (BONUS && plane.dir_base.base.material == MIRROR)
 	{
 		if (plane.dir_base.base.texture.data)
-			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, plane.dir_base.base.color);
+			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color);
 		else
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	}
