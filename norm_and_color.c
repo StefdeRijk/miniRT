@@ -59,7 +59,7 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_vec3f	plane_pos;
 	t_vec3f	color;
 
-	plane = ((t_plane *)(scene->objects.data))[hit.object_index];
+	plane = (((t_object *)(scene->objects.data))[hit.object_index]).plane;
 	color = plane.dir_base.base.color;
 	rotated_hit_point = get_rotated_hit_point(plane, r, hit.hit_min);
 	plane_pos.x = fabsf(rotated_hit_point.x);
