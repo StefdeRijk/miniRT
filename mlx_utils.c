@@ -6,8 +6,8 @@ void	init_image(t_info *info)
 	int	line_length;
 	int	endian;
 
-	info->img.data = (int *)mlx_get_data_addr(info->mlximg_ptr, &bits_per_pixel, \
-			&line_length, &endian);
+	info->img.data = (int *)mlx_get_data_addr(info->mlximg_ptr, \
+		&bits_per_pixel, &line_length, &endian);
 	info->img.size_x = line_length / sizeof(int);
 }
 
