@@ -31,7 +31,8 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 		parse_texture(&s.base.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
-	s.base.get_norm_color = get_sphere_norm_color;
+	s.base.get_color = get_sphere_color;
+	s.base.get_norm = get_sphere_norm;
 	s.base.type = SPHERE;
 	vec_push(&scene->objects, &s);
 }
@@ -60,7 +61,8 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	}
 	skip_one_or_more_char(line, '\n');
 	p.dir_base.base.type = PLANE;
-	p.dir_base.base.get_norm_color = get_plane_norm_color;
+	p.dir_base.base.get_color = get_plane_color;
+	p.dir_base.base.get_norm = get_plane_norm;
 	vec_push(&scene->objects, &p);
 }
 
@@ -89,7 +91,8 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	}
 	c.dir_base.dir = vec3f_unit(c.dir_base.dir);
 	c.dir_base.base.type = CYLINDER;
-	c.dir_base.base.get_norm_color = get_cylinder_norm_color;
+	c.dir_base.base.get_color = get_cylinder_color;
+	c.dir_base.base.get_norm = get_cylinder_norm;
 	vec_push(&scene->objects, &c);
 }
 
@@ -114,6 +117,7 @@ void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 	p.dir_base.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
 	p.dir_base.base.type = PARABOLOID;
-	p.dir_base.base.get_norm_color = get_paraboloid_norm_color;
+	p.dir_base.base.get_color = get_paraboloid_color;
+	p.dir_base.base.get_norm = get_paraboloid_norm;
 	vec_push(&scene->objects, &p);
 }

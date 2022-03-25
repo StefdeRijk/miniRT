@@ -87,7 +87,8 @@ typedef struct s_ray {
 	int		bounces;
 }	t_ray;
 
-typedef t_vec3f	(*t_get_norm_color)(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+typedef t_vec3f	(*t_get_norm)(t_hits hit, t_ray r, t_scene *scene);
+typedef t_vec3f	(*t_get_color)(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
 
 typedef struct s_base {
 	t_scene_elem_type	type;
@@ -96,7 +97,8 @@ typedef struct s_base {
 	t_material_type		material;
 	t_bmp				texture;
 	t_bmp				bump_map;
-	t_get_norm_color	get_norm_color;
+	t_get_norm			get_norm;
+	t_get_color			get_color;
 }	t_base;
 
 typedef struct s_directed_base {
@@ -277,6 +279,17 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_paraboloid_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+t_vec3f	get_paraboloid_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_cylinder_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+t_vec3f	get_cylinder_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_plane_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+t_vec3f	get_plane_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_sphere_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+t_vec3f	get_sphere_norm(t_hits hit, t_ray r, t_scene *scene);
+
+
+
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
