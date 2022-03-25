@@ -261,18 +261,21 @@ t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir);
 int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
 float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
-void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+void	objects_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 	float distance_to_spot);
-void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-	float distance_to_spot);
-void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-	float distance_to_spot);
-void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-	float distance_to_spot);
+// void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
+// void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
+// void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
+// void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \

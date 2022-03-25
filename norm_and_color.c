@@ -7,9 +7,9 @@ t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 	t_vec3f	norm_dir;
 	t_angle	angle;
 
-	norm_dir = plane_normal(plane.dir, r.dir);
+	norm_dir = plane_normal(plane.dir_base.dir, r.dir);
 	hit_point = at(r, hit_min);
-	hit_point = vec3f_sub(hit_point, plane.base.pos);
+	hit_point = vec3f_sub(hit_point, plane.dir_base.base.pos);
 	angle = get_angle(norm_dir);
 	return (ft_rodrigues(hit_point, angle.k, angle.angle));
 }
@@ -60,20 +60,20 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	t_vec3f	plane_pos;
 	t_vec3f	color;
 
-	plane = ((t_plane *)(scene->planes.data))[hit.object_index];
-	color = plane.base.color;
+	plane = ((t_plane *)(scene->objects.data))[hit.object_index];
+	color = plane.dir_base.base.color;
 	rotated_hit_point = get_rotated_hit_point(plane, r, hit.hit_min);
 	plane_pos.x = fabsf(rotated_hit_point.x);
 	plane_pos.y = fabsf(rotated_hit_point.z);
 	*norm_dir = plane_normal_bump(plane_pos, plane, r.dir);
-	if (plane.base.texture.data)
+	if (plane.dir_base.base.texture.data)
 		color = get_plane_texture(plane, plane_pos);
-	if (BONUS && plane.base.material == CHECKER)
+	if (BONUS && plane.dir_base.base.material == CHECKER)
 		color = get_color_checkerboard_plane(plane, r, hit.hit_min, color);
-	if (BONUS && plane.base.material == MIRROR)
+	if (BONUS && plane.dir_base.base.material == MIRROR)
 	{
-		if (plane.base.texture.data)
-			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, plane.base.color);
+		if (plane.dir_base.base.texture.data)
+			color = mix_diffuse_and_smooth(hit, r, scene, norm_dir, color, plane.dir_base.base.color);
 		else
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	}
@@ -87,15 +87,15 @@ t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	t_vec3f		color;
 
 	cylinder = cylinders[hit.object_index];
-	color = cylinder.base.color;
+	color = cylinder.dir_base.base.color;
 	if (hit.hit_side_cylinder)
 		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
 	else
-		*norm_dir = plane_normal(cylinder.dir, r.dir);
-	if (BONUS && cylinder.base.material == CHECKER)
+		*norm_dir = plane_normal(cylinder.dir_base.dir, r.dir);
+	if (BONUS && cylinder.dir_base.base.material == CHECKER)
 		color = get_color_checkerboard_cylinder(cylinder, r, hit.hit_min, \
 			hit.hit_side_cylinder);
-	if (BONUS && cylinder.base.material == MIRROR)
+	if (BONUS && cylinder.dir_base.base.material == MIRROR)
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	return (color);
 }
@@ -107,12 +107,12 @@ t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
 	t_vec3f			color;
 
 	paraboloid = paraboloids[hit.object_index];
-	color = paraboloid.base.color;
+	color = paraboloid.dir_base.base.color;
 	*norm_dir = paraboloid_normal(paraboloid, r, hit);
-	if (BONUS && paraboloid.base.material == CHECKER)
+	if (BONUS && paraboloid.dir_base.base.material == CHECKER)
 		color = get_color_checkerboard_paraboloid(paraboloid, r, \
 			hit.hit_min);
-	if (BONUS && paraboloid.base.material == MIRROR)
+	if (BONUS && paraboloid.dir_base.base.material == MIRROR)
 			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
 	return (color);
 }
