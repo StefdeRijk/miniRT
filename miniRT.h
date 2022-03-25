@@ -31,6 +31,17 @@ typedef struct s_bmp {
 	int				bytes_per_row;
 }	t_bmp;
 
+typedef enum e_scene_elem_type {
+	AMBIENT,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	PARABOLOID,
+	NR_ELEM_TYPES
+}	t_scene_elem_type;
+
 typedef enum e_material_type {
 	NORMAL,
 	CHECKER,
@@ -56,56 +67,53 @@ typedef struct s_light {
 	t_vec3f	color;
 }	t_light;
 
-typedef struct s_object {
-	t_vec3f			pos;
-	t_vec3f			color;
-	t_material_type	material;
-	t_bmp			texture;
-	t_bmp			bump_map;
-}	t_object;
+typedef struct s_base {
+	t_scene_elem_type	type;
+	t_vec3f				pos;
+	t_vec3f				color;
+	t_material_type		material;
+	t_bmp				texture;
+	t_bmp				bump_map;
+}	t_base;
+
+typedef struct s_directed_base {
+	t_base	base;
+	t_vec3f	dir;
+}	t_directed_base;
 
 typedef struct s_sphere {
-	t_object		base;
-	float			radius;
+	t_base	base;
+	float	radius;
 }	t_sphere;
 
 typedef struct s_plane {
-	t_object		base;
-	t_vec3f			dir;
+	t_directed_base	dir_base;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_object		base;
-	t_vec3f			dir;
+	t_directed_base	dir_base;
 	float			radius;
 	float			height;
 }	t_cylinder;
 
 typedef struct s_paraboloid{
-	t_object		base;
-	t_vec3f			dir;
+	t_directed_base	dir_base;
 	float			curvature;
 }	t_paraboloid;
 
-typedef enum e_scene_elem_type {
-	AMBIENT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER,
-	PARABOLOID,
-	NR_ELEM_TYPES
-}	t_scene_elem_type;
+typedef union u_object {
+	t_base			base;
+	t_sphere		sphere;
+	t_paraboloid	paraboloid;
+	t_plane			plane;
+	t_cylinder		cylinder;
+}	t_object;
 
 typedef struct s_scene {
-	t_ambient			*ambient;
-	t_camera			*camera;
-	t_vec				lights;
-	t_vec				spheres;
-	t_vec				planes;
-	t_vec				cylinders;
-	t_vec				paraboloids;
+	t_ambient	*ambient;
+	t_camera	*camera;
+	t_vec		lights;
+	t_vec		objects;
 }	t_scene;
 
 typedef struct s_arr2di {
