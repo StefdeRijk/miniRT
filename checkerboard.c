@@ -1,28 +1,11 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r,
-		float hit_min, t_vec3f color)
+t_vec3f	checkerboard_make_squares(int x_plus_y, t_vec3f color)
 {
-	t_vec3f	rotated_hit_point;
-	int		x_plus_z;
-
-	rotated_hit_point = get_rotated_hit_point(plane, r, hit_min);
-	x_plus_z = (int)rotated_hit_point.x + (int)rotated_hit_point.z;
-	return (checkerboard_make_squares(x_plus_z, color));
-}
-
-t_vec3f	get_color_checkerboard_sphere(t_vec3f norm_dir, t_vec3f color)
-{
-	float	x_angle;
-	float	y_angle;
-	int		x_plus_y;
-
-	get_sphere_angles(norm_dir, &x_angle, &y_angle);
-	x_angle = x_angle * 5;
-	y_angle = y_angle * 10;
-	x_plus_y = (int)x_angle + (int)y_angle;
-	return (checkerboard_make_squares(x_plus_y, color));
+	if (abs(x_plus_y) % 2 > 0)
+		return (vec3f_div(color, 7.5));
+	return (color);
 }
 
 float	get_x_angle(t_vec3f rotated_hit_point)
@@ -58,12 +41,30 @@ t_vec3f	checkerboard_x_and_y(t_ray r, float hit_min, t_directed_base dir_base, f
 	return (rotated_hit_point);
 }
 
-t_vec3f	checkerboard_make_squares(int x_plus_y, t_vec3f color)
+t_vec3f	get_color_checkerboard_plane(t_plane plane, t_ray r,
+	float hit_min, t_vec3f color)
 {
-	if (abs(x_plus_y) % 2 > 0)
-		return (vec3f_div(color, 7.5));
-	return (color);
+	t_vec3f	rotated_hit_point;
+	int		x_plus_z;
+
+	rotated_hit_point = get_rotated_hit_point(plane, r, hit_min);
+	x_plus_z = (int)rotated_hit_point.x + (int)rotated_hit_point.z;
+	return (checkerboard_make_squares(x_plus_z, color));
 }
+
+t_vec3f	get_color_checkerboard_sphere(t_vec3f norm_dir, t_vec3f color)
+{
+	float	x_angle;
+	float	y_angle;
+	int		x_plus_y;
+
+	get_sphere_angles(norm_dir, &x_angle, &y_angle);
+	x_angle = x_angle * 5;
+	y_angle = y_angle * 10;
+	x_plus_y = (int)x_angle + (int)y_angle;
+	return (checkerboard_make_squares(x_plus_y, color));
+}
+
 
 t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	float hit_min, int hit_side_cylinder)
