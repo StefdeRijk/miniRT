@@ -68,23 +68,35 @@ t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
 	return (color);
 }
 
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
+t_vec3f	get_cylinder_norm(t_hits hit, t_ray r, t_scene *scene)
+{
+	t_cylinder	cylinder;
+	cylinder = (((t_object *)(scene->objects.data))[hit.object_index]).cylinder;
+	if (hit.hit_side_cylinder)
+		return (cylinder_side_norm(at(r, hit.hit_min), cylinder));
+	else
+		return (plane_normal(cylinder.dir_base.dir, r.dir));
+}
+
+t_vec3f	get_cylinder_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene)
 {
 	t_cylinder	cylinder;
 	t_vec3f		color;
 
 	cylinder = (((t_object *)(scene->objects.data))[hit.object_index]).cylinder;
 	color = cylinder.dir_base.base.color;
-	if (hit.hit_side_cylinder)
-		*norm_dir = cylinder_side_norm(at(r, hit.hit_min), cylinder);
-	else
-		*norm_dir = plane_normal(cylinder.dir_base.dir, r.dir);
 	if (BONUS && cylinder.dir_base.base.material == CHECKER)
 		color = get_color_checkerboard_cylinder(cylinder, r, hit.hit_min, \
 			hit.hit_side_cylinder);
 	if (BONUS && cylinder.dir_base.base.material == MIRROR)
-			color = get_color_mirror(*norm_dir, r, hit.hit_min, scene);
+			color = get_color_mirror(norm_dir, r, hit.hit_min, scene);
 	return (color);
+}
+
+t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
+{
+	*norm_dir = get_cylinder_norm(hit, r, scene);
+	return (get_cylinder_color(hit, r, *norm_dir, scene));
 }
 
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
