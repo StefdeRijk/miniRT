@@ -41,7 +41,7 @@ t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *s
 }
 
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
-		t_scene *scene, t_vec3f *norm_dir)
+		t_vec3f *norm_dir, t_scene *scene)
 {
 	t_plane	plane;
 	t_vec3f	rotated_hit_point;

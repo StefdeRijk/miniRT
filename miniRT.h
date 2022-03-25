@@ -19,7 +19,7 @@
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 2560
+# define WIN_WIDTH 560
 # define MAX_BOUNCES 5
 # define AA 2
 
@@ -66,6 +66,29 @@ typedef struct s_light {
 	t_vec3f	color;
 }	t_light;
 
+typedef struct s_hits {
+	float				hit_min;
+	int					object_index;
+	t_scene_elem_type	hit_type;
+	int					hit_side_cylinder;
+	t_material_type		material;
+}	t_hits;
+
+typedef struct s_scene {
+	t_ambient	*ambient;
+	t_camera	*camera;
+	t_vec		lights;
+	t_vec		objects;
+}	t_scene;
+
+typedef struct s_ray {
+	t_vec3f	origin;
+	t_vec3f	dir;
+	int		bounces;
+}	t_ray;
+
+typedef t_vec3f	(*t_get_norm_color)(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+
 typedef struct s_base {
 	t_scene_elem_type	type;
 	t_vec3f				pos;
@@ -73,6 +96,7 @@ typedef struct s_base {
 	t_material_type		material;
 	t_bmp				texture;
 	t_bmp				bump_map;
+	t_get_norm_color	get_norm_color;
 }	t_base;
 
 typedef struct s_directed_base {
@@ -108,13 +132,6 @@ typedef union u_object {
 	t_cylinder		cylinder;
 }	t_object;
 
-typedef struct s_scene {
-	t_ambient	*ambient;
-	t_camera	*camera;
-	t_vec		lights;
-	t_vec		objects;
-}	t_scene;
-
 typedef struct s_arr2di {
 	int	*data;
 	int	size_x;
@@ -134,12 +151,6 @@ typedef struct s_info {
 	float			focal_length;
 	float			win_height;
 }	t_info;
-
-typedef struct s_ray {
-	t_vec3f	origin;
-	t_vec3f	dir;
-	int		bounces;
-}	t_ray;
 
 typedef struct s_old_new_ray {
 	t_ray	n;
@@ -161,14 +172,6 @@ typedef struct s_angle {
 	t_vec3f	k;
 	float	angle;
 }	t_angle;
-
-typedef struct s_hits {
-	float				hit_min;
-	int					object_index;
-	t_scene_elem_type	hit_type;
-	int					hit_side_cylinder;
-	t_material_type		material;
-}	t_hits;
 
 struct s_thread_data {
 	t_info			*info;
@@ -269,7 +272,7 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
-	t_scene *scene, t_vec3f *norm_dir);
+	t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
