@@ -18,7 +18,7 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits)
 	float		hit;
 	t_object	*objects;
 
-	i = 0;
+	i = -1;
 	objects = scene->objects.data;
 	while (i++ < scene->objects.len)
 	{
