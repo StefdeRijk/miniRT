@@ -139,27 +139,3 @@ t_vec3f	get_paraboloid_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *sce
 			color = get_color_mirror(norm_dir, r, hit.hit_min, scene);
 	return (color);
 }
-
-t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
-{
-	*norm_dir = get_paraboloid_norm(hit, r, scene);
-	return (get_paraboloid_color(hit, r, *norm_dir, scene));
-}
-
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
-{
-	*norm_dir = get_sphere_norm(hit, r, scene);
-	return (get_sphere_color(hit, r, *norm_dir, scene));
-}
-
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
-{
-	*norm_dir = get_cylinder_norm(hit, r, scene);
-	return (get_cylinder_color(hit, r, *norm_dir, scene));
-}
-
-t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene)
-{
-	*norm_dir = get_plane_norm(hit, r, scene);
-	return (get_plane_color(hit, r, *norm_dir, scene));
-}
