@@ -14,7 +14,7 @@ SRC_BASE = check_range.c parse_elements.c parse_general.c parse_number.c\
 	  parse_check_floats.c parse_element_type.c mlx_utils.c math_utils.c\
 	  cylinder_utils.c color_utils.c reflections.c check_hits.c norm_and_color.c\
 	  paraboloid.c read_bmp.c checkerboard.c checkerboard_utils.c get_texture.c paint_img.c\
-	  parse_texture.c mirror.c texture.c
+	  parse_texture.c mirror.c texture.c get_angle.c
 CC = gcc
 
 ifndef DEBUG

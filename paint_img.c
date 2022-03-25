@@ -33,20 +33,22 @@ t_vec3f	shoot_rays(float i, float j, t_info *info, t_scene *scene)
 	return (ray_color(r, scene));
 }
 
-t_vec3f aa_loop(struct s_thread_data *thread_data, float x, float y)
+t_vec3f	aa_loop(struct s_thread_data *thread_data, float x, float y)
 {
 	int		i;
 	int		j;
 	t_vec3f	ray_color;
 
-	ray_color = vec3f_init(0,0,0);
+	ray_color = vec3f_init(0, 0, 0);
 	i = 0;
 	while (i < AA)
 	{
 		j = 0;
 		while (j < AA)
 		{
-			ray_color = vec3f_add(ray_color, shoot_rays(x + (float)i / (float)AA, y + (float)j / (float)AA, thread_data->info, thread_data->scene));
+			ray_color = vec3f_add(ray_color, \
+				shoot_rays(x + (float)i / (float)AA, y + (float)j / (float)AA, \
+					thread_data->info, thread_data->scene));
 			j++;
 		}
 		i++;
@@ -73,9 +75,9 @@ void	*paint_pixels(void *thread_data_p)
 			break ;
 		x = next_pixel % WIN_WIDTH;
 		y = next_pixel / WIN_WIDTH;
-
 		if (x == 0)
-			printf("done: %d%%\n\033[1A", (int)((float)y/(float)thread_data->info->win_height*100.));
+			printf("done: %d%%\n\033[1A", \
+				(int)((float)y / (float)thread_data->info->win_height * 100.));
 		ray_color = aa_loop(thread_data, x, y);
 		ray_color = vec3f_div(ray_color, AA * AA);
 		pixel_put_image(&thread_data->info->img, x, \

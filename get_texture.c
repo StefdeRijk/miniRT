@@ -1,9 +1,10 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f get_texture(t_bmp texture, int base_index)
+t_vec3f	get_texture(t_bmp texture, int base_index)
 {
-	t_vec3f color;
+	t_vec3f	color;
+
 	color.x = (float)texture.data[base_index] / 255.;
 	color.y = (float)texture.data[base_index + 1] / 255.;
 	color.z = (float)texture.data[base_index + 2] / 255.;
@@ -12,7 +13,7 @@ t_vec3f get_texture(t_bmp texture, int base_index)
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 {
-	t_vec3f color;
+	t_vec3f	color;
 	int		bump_x;
 	int		bump_y;
 	int		base_index;
