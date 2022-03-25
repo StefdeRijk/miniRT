@@ -71,20 +71,17 @@ void	*paint_pixels(void *thread_data_p)
 		next_pixel = thread_data->next_pixel;
 		thread_data->next_pixel++;
 		pthread_mutex_unlock(&thread_data->pixel_mutex);
-		if (next_pixel >= thread_data->info->win_height * WIN_WIDTH)
-			break ;
 		x = next_pixel % WIN_WIDTH;
 		y = next_pixel / WIN_WIDTH;
 		if (x == 0)
 			printf("done: %d%%\n\033[1A", \
 				(int)((float)y / (float)thread_data->info->win_height * 100.));
-		ray_color = aa_loop(thread_data, x, y);
-		ray_color = vec3f_div(ray_color, AA * AA);
-		pixel_put_image(&thread_data->info->img, x, \
-			thread_data->info->win_height - y - 1, \
-			ray_to_pixel_color(ray_color));
+		if (next_pixel >= thread_data->info->win_height * WIN_WIDTH)
+			break ;
+		ray_color = vec3f_div(aa_loop(thread_data, x, y), AA * AA);
+		pixel_put_image(&thread_data->info->img, x, thread_data->info-> \
+			win_height - y - 1, ray_to_pixel_color(ray_color));
 	}
-	printf("done: 100%%\n\033[1A");
 	return (NULL);
 }
 

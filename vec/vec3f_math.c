@@ -23,7 +23,7 @@ t_vec3f	vec3f_mul(t_vec3f v, float f)
 	return (p);
 }
 
-t_vec3f vec3f_sub(t_vec3f v1, t_vec3f v2)
+t_vec3f	vec3f_sub(t_vec3f v1, t_vec3f v2)
 {
 	t_vec3f	s;
 
@@ -34,7 +34,7 @@ t_vec3f vec3f_sub(t_vec3f v1, t_vec3f v2)
 	return (s);
 }
 
-t_vec3f vec3f_add(t_vec3f v1, t_vec3f v2)
+t_vec3f	vec3f_add(t_vec3f v1, t_vec3f v2)
 {
 	v1.x += v2.x;
 	v1.y += v2.y;
@@ -42,7 +42,7 @@ t_vec3f vec3f_add(t_vec3f v1, t_vec3f v2)
 	return (v1);
 }
 
-t_vec3f vec3f_mul_v(t_vec3f v1, t_vec3f v2)
+t_vec3f	vec3f_mul_v(t_vec3f v1, t_vec3f v2)
 {
 	t_vec3f	s;
 

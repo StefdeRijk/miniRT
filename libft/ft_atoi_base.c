@@ -1,4 +1,5 @@
 #include "libft.h"
+
 int	ft_atoi_base(const char *str, int base, char ten)
 {
 	int		sign;

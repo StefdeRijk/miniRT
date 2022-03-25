@@ -1,7 +1,7 @@
 #include "libft.h"
 #include <stdlib.h>
 
-void	ft_lstremove_back(t_list **lst, void(*del)(void *))
+void	ft_lstremove_back(t_list **lst, void (*del)(void *))
 {
 	if (!*lst)
 	{
