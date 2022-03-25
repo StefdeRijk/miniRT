@@ -46,7 +46,6 @@ typedef enum e_material_type {
 	NORMAL,
 	CHECKER,
 	MIRROR,
-	GLASS,
 	NR_MATERIAL_TYPES
 }	t_material_type;
 

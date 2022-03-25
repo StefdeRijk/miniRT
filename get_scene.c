@@ -25,6 +25,7 @@ void	get_scene(char *filename, t_scene *scene)
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
 		error("Could not open file");
+	vec_init(&scene->objects, sizeof(t_object));
 	line.line = get_next_line(fd);
 	line.line_nr = 1;
 	while (line.line)
