@@ -17,13 +17,13 @@ t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos)
 	int		bump_y;
 	int		base_index;
 
-	bump_x = ((int)(fabsf(plane_pos.x) * plane.base.texture.width)) \
-		% plane.base.texture.width;
-	bump_y = ((int)(fabsf(plane_pos.y) * plane.base.texture.height)) \
-		% plane.base.texture.height;
-	base_index = bump_x * plane.base.texture.bytes_per_pixel + \
-		bump_y * plane.base.texture.bytes_per_row;
-	color = get_texture(plane.base.texture, base_index);
+	bump_x = ((int)(fabsf(plane_pos.x) * plane.dir_base.base.texture.width)) \
+		% plane.dir_base.base.texture.width;
+	bump_y = ((int)(fabsf(plane_pos.y) * plane.dir_base.base.texture.height)) \
+		% plane.dir_base.base.texture.height;
+	base_index = bump_x * plane.dir_base.base.texture.bytes_per_pixel + \
+		bump_y * plane.dir_base.base.texture.bytes_per_row;
+	color = get_texture(plane.dir_base.base.texture, base_index);
 	return (color);
 }
 

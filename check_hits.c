@@ -11,93 +11,128 @@ int	check_hit(float hit, float *hit_min, int *num, int i)
 	return (0);
 }
 
-void	plane_loop(t_ray r, t_scene *scene, t_hits *hits)
+void	objects_loop(t_ray r, t_scene *scene, t_hits *hits)
 {
 	int			i;
-	t_plane		plane;
-	t_plane		*planes;
-	float		hit;
-
-	planes = scene->planes.data;
-	i = 0;
-	while (i < scene->planes.len)
-	{
-		plane = planes[i];
-		hit = hit_plane(plane.dir, plane.base.pos, r);
-		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
-		{
-			hits->hit_type = PLANE;
-			hits->material = plane.base.material;
-		}
-		i++;
-	}
-}
-
-void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits)
-{
-	int			i;
-	t_sphere	sphere;
-	t_sphere	*spheres;
-	float		hit;
-
-	spheres = scene->spheres.data;
-	i = 0;
-	while (i < scene->spheres.len)
-	{
-		sphere = spheres[i];
-		hit = hit_sphere(sphere, r);
-		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
-		{
-			hits->hit_type = SPHERE;
-			hits->material = sphere.base.material;
-		}
-		i++;
-	}
-}
-
-void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits)
-{
-	int			i;
-	t_cylinder	cylinder;
-	t_cylinder	*cylinders;
-	float		hit;
 	int			hit_side;
+	float		hit;
+	t_object	*objects;
 
-	hit_side = 0;
-	cylinders = scene->cylinders.data;
 	i = 0;
-	while (i < scene->cylinders.len)
+	objects = scene->objects.data;
+	while (i < scene->objects.len)
 	{
-		cylinder = cylinders[i];
-		hit = hit_cylinder(cylinder, r, &hit_side);
+		if (objects[i].base.type == PLANE)
+			hit = hit_plane(objects[i].plane.dir_base.dir, objects[i].plane.dir_base.base.pos, r);
+		else if (objects[i].base.type == SPHERE)
+			hit = hit_sphere(objects[i].sphere, r);
+		else if (objects[i].base.type == CYLINDER)
+			hit = hit_cylinder(objects[i].cylinder, r, &hit_side);
+		else if (objects[i].base.type == PARABOLOID)
+			hit = hit_paraboloid(objects[i].paraboloid, r);
 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
 		{
-			hits->hit_type = CYLINDER;
-			hits->hit_side_cylinder = hit_side;
-			hits->material = cylinder.base.material;
+			hits->hit_type = objects[i].base.type;
+			hits->material = objects[i].base.material;
+			if (objects[i].base.type == CYLINDER)
+				hits->hit_side_cylinder = hit_side;
 		}
 		i++;
 	}
 }
 
-void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits)
+void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+	float distance_to_spot)
 {
-	int				i;
-	t_paraboloid	paraboloid;
-	t_paraboloid	*paraboloids;
-	float			hit;
+	int			i;
+	int			hit_side;
+	float		hit;
+	t_object	*objects;
 
-	paraboloids = scene->paraboloids.data;
 	i = 0;
-	while (i < scene->paraboloids.len)
+	objects = scene->objects.data;
+	while (i < scene->objects.len)
 	{
-		paraboloid = paraboloids[i];
-		hit = hit_paraboloid(paraboloid, r);
-		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
-		{
-			hits->hit_type = PARABOLOID;
-			hits->material = paraboloid.base.material;
-		}
+		if (objects[i].base.type == PLANE)
+			hit = hit_plane(objects[i].plane.dir_base.dir, objects[i].plane.dir_base.base.pos, r);
+		else if (objects[i].base.type == SPHERE)
+			hit = hit_sphere(objects[i].sphere, r);
+		else if (objects[i].base.type == CYLINDER)
+			hit = hit_cylinder(objects[i].cylinder, r, &hit_side);
+		else if (objects[i].base.type == PARABOLOID)
+			hit = hit_paraboloid(objects[i].paraboloid, r);
+		hits->hit_min = hit;
+		if (hits->hit_min > 0 && hits->hit_min < distance_to_spot)
+			return ;
 		i++;
 	}
 }
+
+// void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits)
+// {
+// 	int			i;
+// 	t_sphere	sphere;
+// 	t_sphere	*spheres;
+// 	float		hit;
+
+// 	spheres = scene->spheres.data;
+// 	i = 0;
+// 	while (i < scene->spheres.len)
+// 	{
+// 		sphere = spheres[i];
+// 		hit = hit_sphere(sphere, r);
+// 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+// 		{
+// 			hits->hit_type = SPHERE;
+// 			hits->material = sphere.base.material;
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits)
+// {
+// 	int			i;
+// 	t_cylinder	cylinder;
+// 	t_cylinder	*cylinders;
+// 	float		hit;
+// 	int			hit_side;
+
+// 	hit_side = 0;
+// 	cylinders = scene->cylinders.data;
+// 	i = 0;
+// 	while (i < scene->cylinders.len)
+// 	{
+// 		cylinder = cylinders[i];
+// 		hit = hit_cylinder(cylinder, r, &hit_side);
+// 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+// 		{
+// 			hits->hit_type = CYLINDER;
+// 			hits->hit_side_cylinder = hit_side;
+// 			hits->material = cylinder.dir_base.base.material;
+// 		}
+// 		i++;
+// 	}
+// }
+
+// void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits)
+// {
+// 	int				i;
+// 	t_paraboloid	paraboloid;
+// 	t_paraboloid	*paraboloids;
+// 	float			hit;
+
+// 	paraboloids = scene->paraboloids.data;
+// 	i = 0;
+// 	while (i < scene->paraboloids.len)
+// 	{
+// 		paraboloid = paraboloids[i];
+// 		hit = hit_paraboloid(paraboloid, r);
+// 		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+// 		{
+// 			hits->hit_type = PARABOLOID;
+// 			hits->material = paraboloid.dir_base.base.material;
+// 		}
+// 		i++;
+// 	}
+// }

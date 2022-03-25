@@ -31,11 +31,21 @@ typedef struct s_bmp {
 	int				bytes_per_row;
 }	t_bmp;
 
+typedef enum e_scene_elem_type {
+	AMBIENT,
+	CAMERA,
+	LIGHT,
+	SPHERE,
+	PLANE,
+	CYLINDER,
+	PARABOLOID,
+	NR_ELEM_TYPES
+}	t_scene_elem_type;
+
 typedef enum e_material_type {
 	NORMAL,
 	CHECKER,
 	MIRROR,
-	GLASS,
 	NR_MATERIAL_TYPES
 }	t_material_type;
 
@@ -56,56 +66,53 @@ typedef struct s_light {
 	t_vec3f	color;
 }	t_light;
 
-typedef struct s_object {
-	t_vec3f			pos;
-	t_vec3f			color;
-	t_material_type	material;
-	t_bmp			texture;
-	t_bmp			bump_map;
-}	t_object;
+typedef struct s_base {
+	t_scene_elem_type	type;
+	t_vec3f				pos;
+	t_vec3f				color;
+	t_material_type		material;
+	t_bmp				texture;
+	t_bmp				bump_map;
+}	t_base;
+
+typedef struct s_directed_base {
+	t_base	base;
+	t_vec3f	dir;
+}	t_directed_base;
 
 typedef struct s_sphere {
-	t_object		base;
-	float			radius;
+	t_base	base;
+	float	radius;
 }	t_sphere;
 
 typedef struct s_plane {
-	t_object		base;
-	t_vec3f			dir;
+	t_directed_base	dir_base;
 }	t_plane;
 
 typedef struct s_cylinder {
-	t_object		base;
-	t_vec3f			dir;
+	t_directed_base	dir_base;
 	float			radius;
 	float			height;
 }	t_cylinder;
 
 typedef struct s_paraboloid{
-	t_object		base;
-	t_vec3f			dir;
+	t_directed_base	dir_base;
 	float			curvature;
 }	t_paraboloid;
 
-typedef enum e_scene_elem_type {
-	AMBIENT,
-	CAMERA,
-	LIGHT,
-	SPHERE,
-	PLANE,
-	CYLINDER,
-	PARABOLOID,
-	NR_ELEM_TYPES
-}	t_scene_elem_type;
+typedef union u_object {
+	t_base			base;
+	t_sphere		sphere;
+	t_paraboloid	paraboloid;
+	t_plane			plane;
+	t_cylinder		cylinder;
+}	t_object;
 
 typedef struct s_scene {
-	t_ambient			*ambient;
-	t_camera			*camera;
-	t_vec				lights;
-	t_vec				spheres;
-	t_vec				planes;
-	t_vec				cylinders;
-	t_vec				paraboloids;
+	t_ambient	*ambient;
+	t_camera	*camera;
+	t_vec		lights;
+	t_vec		objects;
 }	t_scene;
 
 typedef struct s_arr2di {
@@ -254,28 +261,27 @@ t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir);
 int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
 float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
-void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+void	objects_loop(t_ray r, t_scene *scene, t_hits *hits);
+void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
 	float distance_to_spot);
-void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-	float distance_to_spot);
-void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-	float distance_to_spot);
-void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
-	float distance_to_spot);
+// void	plane_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	sphere_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	cylinder_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	paraboloid_loop(t_ray r, t_scene *scene, t_hits *hits);
+// void	plane_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
+// void	sphere_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
+// void	cylinder_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
+// void	paraboloid_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+// 	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
-	t_sphere *spheres, t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
-	t_scene *scene, t_vec3f *norm_dir);
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
-	t_cylinder *cylinders, t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
-	t_paraboloid *paraboloids, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, t_scene *scene, t_vec3f *norm_dir);
+t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
+t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, t_vec3f *norm_dir, t_scene *scene);
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);

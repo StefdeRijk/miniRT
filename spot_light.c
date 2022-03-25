@@ -11,21 +11,9 @@ int	get_hit_shadow(t_light light, t_ray r, t_vec3f pos, t_scene *scene)
 	hit.hit_min = 0.;
 	hit.hit_side_cylinder = 0;
 	distance_to_spot = vec3f_len(vec3f_sub(light.pos, pos));
-	sphere_loop_shadow(r, scene, &hit, distance_to_spot);
+	objects_loop_shadow(r, scene, &hit, distance_to_spot);
 	if (hit.hit_min > 0 && hit.hit_min < distance_to_spot)
 		return (1);
-	plane_loop_shadow(r, scene, &hit, distance_to_spot);
-	if (hit.hit_min > 0 && hit.hit_min < distance_to_spot)
-		return (1);
-	cylinder_loop_shadow(r, scene, &hit, distance_to_spot);
-	if (hit.hit_min > 0 && hit.hit_min < distance_to_spot)
-		return (1);
-	if (BONUS)
-	{
-		paraboloid_loop_shadow(r, scene, &hit, distance_to_spot);
-		if (hit.hit_min > 0 && hit.hit_min < distance_to_spot)
-			return (1);
-	}
 	return (0);
 }
 

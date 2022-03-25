@@ -5,23 +5,19 @@ t_material_type	parse_check_material(t_parse_line *line)
 	char		material;
 
 	skip_one_or_more_char(line, ' ');
-	parse_check_char(line, &material, "cnmg");
+	parse_check_char(line, &material, "cnm");
 	if (material == 'c')
 		return (CHECKER);
-	if (material == 'n')
+	else if (material == 'n')
 		return (NORMAL);
-	if (material == 'm')
-		return (MIRROR);
 	else
-		return (GLASS);
+		return (MIRROR);
 }
 
 void	parse_sphere(t_parse_line *line, t_scene *scene)
 {
 	t_sphere	s;
 
-	if (!scene->spheres.data)
-		vec_init(&scene->spheres, sizeof(t_sphere));
 	parse_vec3f(line, &s.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &s.radius);
@@ -35,87 +31,85 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 		parse_texture(&s.base.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
-	vec_push(&scene->spheres, &s);
+	s.base.type = SPHERE;
+	vec_push(&scene->objects, &s);
 }
 
 void	parse_plane(t_parse_line *line, t_scene *scene)
 {
 	t_plane	p;
 
-	if (!scene->planes.data)
-		vec_init(&scene->planes, sizeof(t_plane));
-	parse_vec3f(line, &p.base.pos);
+	parse_vec3f(line, &p.dir_base.base.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_check_vec3f(line, &p.dir, -1, 1);
-	if (vec3f_len_sq(p.dir) == 0)
+	parse_check_vec3f(line, &p.dir_base.dir, -1, 1);
+	if (vec3f_len_sq(p.dir_base.dir) == 0)
 	{
 		printf("Plane direction at line %d is a null vector, "
 			"cannot be normalized.", line->line_nr);
 		exit(1);
 	}
-	p.dir = vec3f_unit(p.dir);
+	p.dir_base.dir = vec3f_unit(p.dir_base.dir);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &p.base.color, 0, 255);
+	parse_check_color(line, &p.dir_base.base.color, 0, 255);
 	if (BONUS)
 	{
-		p.base.material = parse_check_material(line);
-		parse_texture(&p.base.texture, line);
-		parse_texture(&p.base.bump_map, line);
+		p.dir_base.base.material = parse_check_material(line);
+		parse_texture(&p.dir_base.base.texture, line);
+		parse_texture(&p.dir_base.base.bump_map, line);
 	}
 	skip_one_or_more_char(line, '\n');
-	vec_push(&scene->planes, &p);
+	p.dir_base.base.type = PLANE;
+	vec_push(&scene->objects, &p);
 }
 
 void	parse_cylinder(t_parse_line *line, t_scene *scene)
 {
 	t_cylinder	c;
 
-	if (!scene->cylinders.data)
-		vec_init(&scene->cylinders, sizeof(t_cylinder));
-	parse_vec3f(line, &c.base.pos);
+	parse_vec3f(line, &c.dir_base.base.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_check_vec3f(line, &c.dir, -1, 1);
+	parse_check_vec3f(line, &c.dir_base.dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &c.radius);
 	c.radius /= 2;
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &c.height);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &c.base.color, 0, 255);
+	parse_check_color(line, &c.dir_base.base.color, 0, 255);
 	if (BONUS)
-		c.base.material = parse_check_material(line);
+		c.dir_base.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
-	if (vec3f_len_sq(c.dir) == 0)
+	if (vec3f_len_sq(c.dir_base.dir) == 0)
 	{
 		printf("Cylinder direction at line %d is a null vector, "
 			"cannot be normalized.", line->line_nr);
 		exit(1);
 	}
-	c.dir = vec3f_unit(c.dir);
-	vec_push(&scene->cylinders, &c);
+	c.dir_base.dir = vec3f_unit(c.dir_base.dir);
+	c.dir_base.base.type = CYLINDER;
+	vec_push(&scene->objects, &c);
 }
 
 void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 {
 	t_paraboloid	p;
 
-	if (!scene->paraboloids.data)
-		vec_init(&scene->paraboloids, sizeof(t_paraboloid));
-	parse_vec3f(line, &p.base.pos);
+	parse_vec3f(line, &p.dir_base.base.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_check_vec3f(line, &p.dir, -1, 1);
-	if (vec3f_len_sq(p.dir) == 0)
+	parse_check_vec3f(line, &p.dir_base.dir, -1, 1);
+	if (vec3f_len_sq(p.dir_base.dir) == 0)
 	{
 		printf("Paraboloid direction at line %d is a null vector, "
 			"cannot be normalized.", line->line_nr);
 		exit(1);
 	}
-	p.dir = vec3f_unit(p.dir);
+	p.dir_base.dir = vec3f_unit(p.dir_base.dir);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &p.curvature);
 	skip_one_or_more_char(line, ' ');
-	parse_check_color(line, &p.base.color, 0, 255);
-	p.base.material = parse_check_material(line);
+	parse_check_color(line, &p.dir_base.base.color, 0, 255);
+	p.dir_base.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
-	vec_push(&scene->paraboloids, &p);
+	p.dir_base.base.type = PARABOLOID;
+	vec_push(&scene->objects, &p);
 }
