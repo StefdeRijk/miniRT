@@ -55,8 +55,8 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	int		x_plus_y;
 
 	hit_point = at(r, hit_min);
-	hit_point = vec3f_sub(hit_point, cylinder.base.pos);
-	angle = get_angle(cylinder.dir);
+	hit_point = vec3f_sub(hit_point, cylinder.dir_base.base.pos);
+	angle = get_angle(cylinder.dir_base.dir);
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
 	x_angle = get_x_angle(rotated_hit_point);
 	rotated_hit_point.y = rotated_hit_point.y / cylinder.height * 10;
@@ -67,8 +67,8 @@ t_vec3f	get_color_checkerboard_cylinder(t_cylinder cylinder, t_ray r, \
 	else
 		x_plus_y = (int)x_angle;
 	if (abs(x_plus_y) % 2 > 0)
-		return (vec3f_div(cylinder.base.color, 7.5));
-	return (cylinder.base.color);
+		return (vec3f_div(cylinder.dir_base.base.color, 7.5));
+	return (cylinder.dir_base.base.color);
 }
 
 t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
@@ -81,8 +81,8 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 	int		x_plus_y;
 
 	hit_point = at(r, hit_min);
-	hit_point = vec3f_sub(hit_point, paraboloid.base.pos);
-	angle = get_angle(paraboloid.dir);
+	hit_point = vec3f_sub(hit_point, paraboloid.dir_base.base.pos);
+	angle = get_angle(paraboloid.dir_base.dir);
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
 	x_angle = get_x_angle(rotated_hit_point);
 	rotated_hit_point.y = rotated_hit_point.y / paraboloid.curvature * 10;
@@ -90,6 +90,6 @@ t_vec3f	get_color_checkerboard_paraboloid(t_paraboloid paraboloid, t_ray r, \
 		rotated_hit_point.y -= 1;
 	x_plus_y = (int)x_angle + (int)rotated_hit_point.y;
 	if (abs(x_plus_y) % 2 > 0)
-		return (vec3f_div(paraboloid.base.color, 7.5));
-	return (paraboloid.base.color);
+		return (vec3f_div(paraboloid.dir_base.base.color, 7.5));
+	return (paraboloid.dir_base.base.color);
 }
