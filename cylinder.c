@@ -6,12 +6,9 @@ t_angle	get_angle_to(t_vec3f dir, t_vec3f to)
 	t_vec3f	rot_plane;
 	float	len_rot_plane;
 
-	if (vec3f_equal(dir, to))
-	{
-		s_angle.angle = 0;
-		s_angle.k = vec3f_init(0, 0, 0);
-	}
-	else if (vec3f_equal(dir, vec3f_mul(to, -1)))
+	s_angle.angle = 0;
+	s_angle.k = vec3f_init(0, 0, 0);
+	if (vec3f_equal(dir, vec3f_mul(to, -1)))
 	{
 		s_angle.angle = M_PI;
 		if (to.y == 0 && to.z == 0)
@@ -24,7 +21,8 @@ t_angle	get_angle_to(t_vec3f dir, t_vec3f to)
 		rot_plane = vec3f_cross(dir, to);
 		len_rot_plane = vec3f_len(rot_plane);
 		s_angle.angle = asin(len_rot_plane);
-		if (vec3f_dot(dir, to) < 0) {
+		if (vec3f_dot(dir, to) < 0)
+		{
 			if (s_angle.angle < 0)
 				s_angle.angle = -M_PI - s_angle.angle;
 			else

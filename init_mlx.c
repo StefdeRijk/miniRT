@@ -1,9 +1,7 @@
 #include "miniRT.h"
 #include "mlx/mlx.h"
 #include "vec/vec.h"
-#include <stdlib.h>
 #include <math.h>
-#include <pthread.h>
 
 #define ASPECT_RATIO 1.7777777777
 #define DESTROY_NOTIFY 17

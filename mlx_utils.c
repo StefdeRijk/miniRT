@@ -6,7 +6,7 @@ void	init_image(t_info *info)
 	int	line_length;
 	int	endian;
 
-	info->img.data = (int *)mlx_get_data_addr(info->mlximg_ptr, &bits_per_pixel,
+	info->img.data = (int *)mlx_get_data_addr(info->mlximg_ptr, &bits_per_pixel, \
 			&line_length, &endian);
 	info->img.size_x = line_length / sizeof(int);
 }
@@ -27,13 +27,13 @@ int	handle_destroy(void *param)
 
 int	draw_to_window(t_info *info)
 {
-	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, info->mlximg_ptr,
+	mlx_put_image_to_window(info->mlx_ptr, info->win_ptr, info->mlximg_ptr, \
 		0, 0);
 	return (0);
 }
 
 void	pixel_put_image(t_arr2di *image, int x, int y, int color)
 {
-	*(unsigned int *)(image->data + x + y * image->size_x)
+	*(unsigned int *)(image->data + x + y * image->size_x) \
 		= color;
 }
