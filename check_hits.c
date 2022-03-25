@@ -34,7 +34,7 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits)
 		{
 			hits->hit_type = objects[i].base.type;
 			hits->material = objects[i].base.material;
-			if (objects->base.type == CYLINDER)
+			if (objects[i].base.type == CYLINDER)
 				hits->hit_side_cylinder = hit_side;
 		}
 		i++;
