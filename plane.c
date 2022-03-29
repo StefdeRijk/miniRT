@@ -15,18 +15,12 @@ float	hit_plane(t_vec3f plane_dir, t_vec3f plane_pos, t_ray r)
 
 t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 {
-	float		which_side;
 	t_vec3f		normal;
 	int			bump_x;
 	int			bump_y;
 	int			base_index;
 
-	which_side = vec3f_dot(plane.dir_base.dir, ray_dir);
-	if (which_side > 0.)
-		normal = (vec3f_sub(vec3f_init(0, 0, 0), \
-			vec3f_unit(plane.dir_base.dir)));
-	else
-		normal = (vec3f_unit(plane.dir_base.dir));
+	normal = plane_normal(plane.dir_base.dir, ray_dir);
 	if (!BONUS || !plane.dir_base.base.bump_map.data)
 		return (normal);
 	bump_x = ((int)(fabsf(pos_on_plane.x) * \
