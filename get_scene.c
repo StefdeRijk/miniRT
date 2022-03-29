@@ -30,8 +30,7 @@ void	get_scene(char *filename, t_scene *scene)
 	line.line_nr = 1;
 	while (line.line)
 	{
-		line.i = 0; // should start printing at one, but then the indexing needs to be fixed
-		// printf("line: %s", line.line);
+		line.i = 0;
 		if (ft_strcmp(line.line, "\n"))
 			parse_line(line, scene);
 		free(line.line);

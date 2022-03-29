@@ -3,7 +3,7 @@
 void	digit_error(t_parse_line *line)
 {
 	printf("Expected digit at line %d, column %d, found '%c'\n",
-		line->line_nr, line->i, line->line[line->i]);
+		line->line_nr, line->i + 1, line->line[line->i]);
 	error("Parse error");
 }
 
