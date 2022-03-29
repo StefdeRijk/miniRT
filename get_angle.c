@@ -37,8 +37,3 @@ t_angle	get_angle_to(t_vec3f dir, t_vec3f to)
 	}
 	return (s_angle);
 }
-
-t_angle	get_angle(t_vec3f dir)
-{
-	return (get_angle_to(dir, vec3f_init(0, 1, 0)));
-}

@@ -9,7 +9,7 @@ t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir)
 	t_ray	rot_ray;
 	t_angle	angle;
 
-	angle = get_angle(dir);
+	angle = get_angle_to(dir, vec3f_init(0, 1, 0));
 	rotated_dir = ft_rodrigues(r.dir, angle.k, angle.angle);
 	rotated_origin = ft_rodrigues(r.origin, angle.k, angle.angle);
 	rotated_object = ft_rodrigues(pos, angle.k, angle.angle);

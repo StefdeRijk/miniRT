@@ -33,7 +33,7 @@ t_vec3f	checkerboard_x_and_y(t_ray r, float hit_min, \
 
 	hit_point = at(r, hit_min);
 	hit_point = vec3f_sub(hit_point, dir_base.base.pos);
-	angle = get_angle(dir_base.dir);
+	angle = get_angle_to(dir_base.dir, vec3f_init(0, 1, 0));
 	rotated_hit_point = ft_rodrigues(hit_point, angle.k, angle.angle);
 	rotated_hit_point.x = get_x_angle(rotated_hit_point);
 	rotated_hit_point.y *= multiplier;
