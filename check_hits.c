@@ -43,7 +43,8 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits, \
 		if (distance_to_spot && hits->hit_min > 0 && \
 			hits->hit_min < distance_to_spot)
 			return ;
-		if (check_hit(hit, &hits->hit_min, &hits->object_index, i))
+		if (!distance_to_spot && \
+			check_hit(hit, &hits->hit_min, &hits->object_index, i))
 		{
 			hits->hit_type = objects[i].base.type;
 			hits->material = objects[i].base.material;

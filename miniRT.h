@@ -19,7 +19,7 @@
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 2560
+# define WIN_WIDTH 1560
 # define MAX_BOUNCES 5
 # define AA 2
 
@@ -160,6 +160,12 @@ typedef struct s_old_new_ray {
 	t_ray	o;
 }	t_old_new_ray;
 
+typedef struct s_colors {
+	t_vec3f	color_1;
+	t_vec3f	color_2;
+	t_vec3f	ratio_color;
+}	t_colors;
+
 typedef enum e_error {
 	MRT_SUCCESS,
 	MRT_ERROR
@@ -232,6 +238,8 @@ t_vec3f	ray_color(t_ray r, t_scene *scene);
 t_ray	new_ray(t_ray r, t_vec3f norm_dir, float hit_min);
 int		ray_to_pixel_color(t_vec3f ray_colour);
 
+t_vec3f	spot_and_ambient(t_old_new_ray rays, t_vec3f object_color, \
+	t_scene *scene, t_vec3f norm_dir);
 t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, \
 	t_light light, t_scene *scene);
 t_vec3f	spot_light_specular(t_vec3f normal, t_light light, \

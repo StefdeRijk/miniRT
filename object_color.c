@@ -1,41 +1,42 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_scene *scene, \
-	t_vec3f color1, t_vec3f base_color)
+t_vec3f	mix_diffuse_and_smooth(t_colors colors)
 {
 	float	ratio;
 	t_vec3f	color;
-	t_vec3f	color2;
 
-	color2 = (((t_object *)(scene->objects.data))[hit.object_index]).base.color;
-	ratio = vec3f_len_sq(base_color) / 3.;
-	color = vec3f_mul(color1, ratio);
-	color = vec3f_add(color, vec3f_mul(color2, 1 - ratio));
+	ratio = vec3f_len_sq(colors.ratio_color) / 3.;
+	color = vec3f_mul(colors.color_1, ratio);
+	color = vec3f_add(color, vec3f_mul(colors.color_2, 1 - ratio));
 	return (color);
 }
 
 t_vec3f	get_sphere_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene)
 {
-	t_sphere	sphere;
-	t_vec3f		final_color;
-	t_vec3f		base_color;
-	t_vec3f		sphere_norm;
+	t_sphere		sphere;
+	t_vec3f			final_color;
+	t_old_new_ray	rays;
+	t_colors		colors;
 
 	sphere = (((t_object *)(scene->objects.data))[hit.object_index]).sphere;
 	final_color = sphere.base.color;
-	sphere_norm = get_normal_sphere(at(r, hit.hit_min), sphere.base.pos);
 	if (BONUS && sphere.base.texture.data)
 		final_color = get_sphere_texture(sphere, r, hit);
 	if (BONUS && sphere.base.material == CHECKER)
-		final_color = get_color_checkerboard_sphere(sphere_norm, final_color);
+		final_color = get_color_checkerboard_sphere(get_normal_sphere(\
+			at(r, hit.hit_min), sphere.base.pos), final_color);
 	if (BONUS && sphere.base.material == MIRROR)
 	{
-		base_color = final_color;
+		rays.n = new_ray(r, norm_dir, hit.hit_min);
+		rays.o = r;
+		colors.ratio_color = final_color;
+		colors.color_2 = spot_and_ambient(rays, sphere.base.color, \
+			scene, norm_dir);
 		final_color = get_color_mirror(norm_dir, r, hit.hit_min, scene);
+		colors.color_1 = final_color;
 		if (sphere.base.texture.data)
-			final_color = mix_diffuse_and_smooth(hit, scene, \
-				final_color, base_color);
+			final_color = mix_diffuse_and_smooth(colors);
 	}
 	return (final_color);
 }
@@ -43,26 +44,29 @@ t_vec3f	get_sphere_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene)
 t_vec3f	get_plane_color(t_hits hit, t_ray r, \
 		t_vec3f norm_dir, t_scene *scene)
 {
-	t_plane	plane;
-	t_vec3f	plane_pos;
-	t_vec3f	base_color;
-	t_vec3f	final_color;
+	t_plane			plane;
+	t_vec3f			final_color;
+	t_old_new_ray	rays;
+	t_colors		colors;
 
 	plane = (((t_object *)(scene->objects.data))[hit.object_index]).plane;
-	plane_pos = get_plane_pos(hit, r, plane);
 	final_color = plane.dir_base.base.color;
 	if (BONUS && plane.dir_base.base.texture.data)
-		final_color = get_plane_texture(plane, plane_pos);
+		final_color = get_plane_texture(plane, get_plane_pos(hit, r, plane));
 	if (BONUS && plane.dir_base.base.material == CHECKER)
 		final_color = get_color_checkerboard_plane(plane, r, \
 			hit.hit_min, final_color);
 	if (BONUS && plane.dir_base.base.material == MIRROR)
 	{
-		base_color = final_color;
+		rays.n = new_ray(r, norm_dir, hit.hit_min);
+		rays.o = r;
+		colors.ratio_color = final_color;
+		colors.color_2 = spot_and_ambient(rays, plane.dir_base.base.color, \
+			scene, norm_dir);
 		final_color = get_color_mirror(norm_dir, r, hit.hit_min, scene);
+		colors.color_1 = final_color;
 		if (plane.dir_base.base.texture.data)
-			final_color = mix_diffuse_and_smooth(hit, scene, \
-				final_color, base_color);
+			final_color = mix_diffuse_and_smooth(colors);
 	}
 	return (final_color);
 }
