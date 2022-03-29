@@ -117,14 +117,6 @@ t_vec3f	get_cylinder_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene
 	return (color);
 }
 
-t_vec3f	get_paraboloid_norm(t_hits hit, t_ray r, t_scene *scene)
-{
-	t_paraboloid	paraboloid;
-
-	paraboloid = (((t_object *)(scene->objects.data))[hit.object_index]).paraboloid;
-	return(paraboloid_normal(paraboloid, r, hit));
-}
-
 t_vec3f	get_paraboloid_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene)
 {
 	t_paraboloid	paraboloid;

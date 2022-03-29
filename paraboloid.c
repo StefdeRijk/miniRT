@@ -61,14 +61,16 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r)
  * the hit point to the focal point
  */
 
-t_vec3f	paraboloid_normal(t_paraboloid paraboloid, t_ray r, t_hits hit)
+t_vec3f	get_paraboloid_norm(t_hits hit, t_ray r, t_scene *scene)
 {
 	t_ray	rot_r;
 	t_vec3f	hit_to_focal;
 	t_vec3f	norm_dir;
 	t_angle	angle;
 	float	focal_point;
+	t_paraboloid paraboloid;
 
+	paraboloid = (((t_object *)(scene->objects.data))[hit.object_index]).paraboloid;
 	rot_r = rotate_ray(r, paraboloid.dir_base.base.pos, \
 		paraboloid.dir_base.dir);
 	focal_point = paraboloid.curvature / 4;
