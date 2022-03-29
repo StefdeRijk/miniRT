@@ -91,7 +91,8 @@ t_bmp	read_bmp(char *file)
 		error("file corrupted!");
 	while (skip--)
 		checked_read(fd, &header, 1);
-	image.data = ft_malloc_or_exit(image.bytes_per_row * image.height * sizeof(char));
+	image.data = ft_malloc_or_exit(image.bytes_per_row * image.height * \
+		sizeof(char));
 	checked_read(fd, image.data, \
 		image.bytes_per_row * image.height * sizeof(char));
 	bgr_to_rgb(image.data, image.bytes_per_row * image.height * sizeof(char), \

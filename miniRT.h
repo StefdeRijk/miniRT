@@ -88,7 +88,8 @@ typedef struct s_ray {
 }	t_ray;
 
 typedef t_vec3f	(*t_get_normal)(t_hits hit, t_ray r, t_scene *scene);
-typedef t_vec3f	(*t_get_color)(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+typedef t_vec3f	(*t_get_color)(t_hits hit, t_ray r, t_vec3f norm_dir, \
+	t_scene *scene);
 
 typedef struct s_base {
 	t_scene_elem_type	type;
@@ -277,17 +278,16 @@ t_vec3f	get_cylinder_normal_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_paraboloid_normal_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_paraboloid_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+t_vec3f	get_paraboloid_color(t_hits hit, t_ray r, t_vec3f norm_dir, \
+	t_scene *scene);
 t_vec3f	get_paraboloid_normal(t_hits hit, t_ray r, t_scene *scene);
-t_vec3f	get_cylinder_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
+t_vec3f	get_cylinder_color(t_hits hit, t_ray r, t_vec3f norm_dir, \
+	t_scene *scene);
 t_vec3f	get_cylinder_normal(t_hits hit, t_ray r, t_scene *scene);
 t_vec3f	get_plane_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
 t_vec3f	get_plane_normal(t_hits hit, t_ray r, t_scene *scene);
 t_vec3f	get_sphere_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
 t_vec3f	get_sphere_normal(t_hits hit, t_ray r, t_scene *scene);
-
-
-
 
 t_vec3f	get_plane_texture(t_plane plane, t_vec3f plane_pos);
 t_vec3f	get_sphere_texture(t_sphere sphere, t_ray r, t_hits hit);
