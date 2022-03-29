@@ -33,6 +33,13 @@ void	parse_camera(t_parse_line *line, t_scene *scene)
 	parse_vec3f(line, &c->pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &c->dir, -1, 1);
+	if (vec3f_len_sq(c->dir) == 0)
+	{
+		printf("Camera direction at line %d is a null vector, "
+			"cannot be normalized.", line->line_nr);
+		exit(1);
+	}
+	c->dir = vec3f_unit(c->dir);
 	skip_one_or_more_char(line, ' ');
 	parse_check_float_exc(line, &c->fov, 0, 180);
 	skip_one_or_more_char(line, '\n');
