@@ -24,7 +24,7 @@ float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder)
 	return (-1.0);
 }
 
-t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder)
+t_vec3f	cylinder_side_normal(t_vec3f hit_pos, t_cylinder cylinder)
 {
 	float		distance_to_cylinder_plane;
 	t_vec3f		hit_pos_in_cylinder_plane;

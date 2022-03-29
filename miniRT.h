@@ -87,7 +87,7 @@ typedef struct s_ray {
 	int		bounces;
 }	t_ray;
 
-typedef t_vec3f	(*t_get_norm)(t_hits hit, t_ray r, t_scene *scene);
+typedef t_vec3f	(*t_get_normal)(t_hits hit, t_ray r, t_scene *scene);
 typedef t_vec3f	(*t_get_color)(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
 
 typedef struct s_base {
@@ -97,7 +97,7 @@ typedef struct s_base {
 	t_material_type		material;
 	t_bmp				texture;
 	t_bmp				bump_map;
-	t_get_norm			get_norm;
+	t_get_normal		get_normal;
 	t_get_color			get_color;
 }	t_base;
 
@@ -242,7 +242,7 @@ float	hit_sphere(t_sphere sphere, t_ray r);
 float	hit_plane(t_vec3f plane_dir, t_vec3f plane_pos, t_ray r);
 float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side);
 float	hit_paraboloid(t_paraboloid paraboloid, t_ray r);
-t_vec3f	cylinder_side_norm(t_vec3f hit_pos, t_cylinder cylinder);
+t_vec3f	cylinder_side_normal(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir);
 t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, \
@@ -271,22 +271,22 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits, \
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 t_vec3f	get_plane_pos(t_hits hit, t_ray r, t_plane plane);
 
-t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
+t_vec3f	get_sphere_normal_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_plane_norm_color(t_hits hit, t_ray r, \
+t_vec3f	get_plane_normal_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_cylinder_norm_color(t_hits hit, t_ray r, \
+t_vec3f	get_cylinder_normal_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
-t_vec3f	get_paraboloid_norm_color(t_hits hit, t_ray r, \
+t_vec3f	get_paraboloid_normal_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
 t_vec3f	get_paraboloid_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
-t_vec3f	get_paraboloid_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_paraboloid_normal(t_hits hit, t_ray r, t_scene *scene);
 t_vec3f	get_cylinder_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
-t_vec3f	get_cylinder_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_cylinder_normal(t_hits hit, t_ray r, t_scene *scene);
 t_vec3f	get_plane_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
-t_vec3f	get_plane_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_plane_normal(t_hits hit, t_ray r, t_scene *scene);
 t_vec3f	get_sphere_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene);
-t_vec3f	get_sphere_norm(t_hits hit, t_ray r, t_scene *scene);
+t_vec3f	get_sphere_normal(t_hits hit, t_ray r, t_scene *scene);
 
 
 

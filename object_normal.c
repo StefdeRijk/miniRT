@@ -1,7 +1,7 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f	get_sphere_norm(t_hits hit, t_ray r, t_scene *scene)
+t_vec3f	get_sphere_normal(t_hits hit, t_ray r, t_scene *scene)
 {
 	t_sphere	sphere;
 
@@ -20,7 +20,7 @@ t_vec3f	get_plane_pos(t_hits hit, t_ray r, t_plane plane)
 	return (plane_pos);
 }
 
-t_vec3f	get_plane_norm(t_hits hit, t_ray r, t_scene *scene)
+t_vec3f	get_plane_normal(t_hits hit, t_ray r, t_scene *scene)
 {
 	t_plane	plane;
 	t_vec3f	plane_pos;
@@ -30,12 +30,12 @@ t_vec3f	get_plane_norm(t_hits hit, t_ray r, t_scene *scene)
 	return (plane_normal_bump(plane_pos, plane, r.dir));
 }
 
-t_vec3f	get_cylinder_norm(t_hits hit, t_ray r, t_scene *scene)
+t_vec3f	get_cylinder_normal(t_hits hit, t_ray r, t_scene *scene)
 {
 	t_cylinder	cylinder;
 	cylinder = (((t_object *)(scene->objects.data))[hit.object_index]).cylinder;
 	if (hit.hit_side_cylinder)
-		return (cylinder_side_norm(at(r, hit.hit_min), cylinder));
+		return (cylinder_side_normal(at(r, hit.hit_min), cylinder));
 	else
 		return (plane_normal(cylinder.dir_base.dir, r.dir));
 }

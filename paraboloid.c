@@ -61,7 +61,7 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r)
  * the hit point to the focal point
  */
 
-t_vec3f	get_paraboloid_norm(t_hits hit, t_ray r, t_scene *scene)
+t_vec3f	get_paraboloid_normal(t_hits hit, t_ray r, t_scene *scene)
 {
 	t_ray	rot_r;
 	t_vec3f	hit_to_focal;
