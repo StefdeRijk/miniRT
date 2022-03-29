@@ -19,6 +19,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	int			bump_x;
 	int			bump_y;
 	int			base_index;
+	t_vec3f		bump;
 
 	normal = plane_normal(plane.dir_base.dir, ray_dir);
 	if (!BONUS || !plane.dir_base.base.bump_map.data)
@@ -31,7 +32,12 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 			plane.dir_base.base.bump_map.height;
 	base_index = bump_x * plane.dir_base.base.bump_map.bytes_per_pixel + \
 		bump_y * plane.dir_base.base.bump_map.bytes_per_row;
-	return (read_bump(plane.dir_base.base.bump_map, base_index, normal));
+	bump = read_bump(plane.dir_base.base.bump_map, base_index, normal);
+	if (pos_on_plane.x > 0) //cannot be the correct fix, sphere still broken
+		bump.x *= -1;
+	if (pos_on_plane.y > 0)
+		bump.y *= -1;
+	return (bump);
 }
 
 t_vec3f	plane_normal(t_vec3f plane_dir, t_vec3f ray_dir)
