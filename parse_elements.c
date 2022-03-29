@@ -14,7 +14,7 @@ void	parse_ambient(t_parse_line *line, t_scene *scene)
 
 	if (scene->ambient)
 		error("Found multiple ambient sources in file");
-	scene->ambient = malloc(sizeof(*scene->ambient));
+	scene->ambient = ft_malloc_or_exit(sizeof(*scene->ambient));
 	a = scene->ambient;
 	parse_check_float(line, &a->brightness, 0.0, 1.0);
 	skip_one_or_more_char(line, ' ');
@@ -28,7 +28,7 @@ void	parse_camera(t_parse_line *line, t_scene *scene)
 
 	if (scene->camera)
 		error("Found multiple camera sources in file");
-	scene->camera = malloc(sizeof(*scene->camera));
+	scene->camera = ft_malloc_or_exit(sizeof(*scene->camera));
 	c = scene->camera;
 	parse_vec3f(line, &c->pos);
 	skip_one_or_more_char(line, ' ');

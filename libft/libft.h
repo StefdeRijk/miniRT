@@ -75,5 +75,7 @@ void	ft_print_bits(long a);
 double	ft_modf(double a, double *intpart);
 int		ft_sign(long a);
 int		ft_atoi_skip(char **str);
+void	*ft_malloc_or_exit(size_t size);
+void	*ft_realloc_or_exit(void *p, size_t size, size_t old_size);
 
 #endif
