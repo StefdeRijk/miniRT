@@ -29,8 +29,8 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	bump_y = ((int)(fabsf(pos_on_plane.y) * \
 		plane.dir_base.base.bump_map.height)) % \
 			plane.dir_base.base.bump_map.height;
-	base_index = bump_x * plane.dir_base.base.texture.bytes_per_pixel + \
-		bump_y * plane.dir_base.base.texture.bytes_per_row;
+	base_index = bump_x * plane.dir_base.base.bump_map.bytes_per_pixel + \
+		bump_y * plane.dir_base.base.bump_map.bytes_per_row;
 	return (read_bump(plane.dir_base.base.bump_map, base_index, normal));
 }
 
