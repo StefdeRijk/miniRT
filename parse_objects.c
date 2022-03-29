@@ -14,6 +14,16 @@ t_material_type	parse_check_material(t_parse_line *line)
 		return (MIRROR);
 }
 
+void check_can_be_normalized(t_vec3f dir, t_parse_line *line, char *name)
+{
+	if (vec3f_len_sq(dir) == 0)
+	{
+		printf("%s at line %d is a null vector, "
+			"cannot be normalized.", name, line->line_nr);
+		exit(1);
+	}
+}
+
 void	parse_sphere(t_parse_line *line, t_scene *scene)
 {
 	t_object	o;
@@ -48,12 +58,7 @@ void	parse_plane(t_parse_line *line, t_scene *scene)
 	parse_vec3f(line, &p->dir_base.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &p->dir_base.dir, -1, 1);
-	if (vec3f_len_sq(p->dir_base.dir) == 0)
-	{
-		printf("Plane direction at line %d is a null vector, "
-			"cannot be normalized.", line->line_nr);
-		exit(1);
-	}
+	check_can_be_normalized(p->dir_base.dir, line, "Plane direction");
 	p->dir_base.dir = vec3f_unit(p->dir_base.dir);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &p->dir_base.base.color, 0, 255);
@@ -89,12 +94,7 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	if (BONUS)
 		c->dir_base.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
-	if (vec3f_len_sq(c->dir_base.dir) == 0)
-	{
-		printf("Cylinder direction at line %d is a null vector, "
-			"cannot be normalized.", line->line_nr);
-		exit(1);
-	}
+	check_can_be_normalized(c->dir_base.dir, line, "Cylinder direction");
 	c->dir_base.dir = vec3f_unit(c->dir_base.dir);
 	c->dir_base.base.type = CYLINDER;
 	c->dir_base.base.get_color = get_cylinder_color;
@@ -111,12 +111,7 @@ void	parse_paraboloid(t_parse_line *line, t_scene *scene)
 	parse_vec3f(line, &p->dir_base.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &p->dir_base.dir, -1, 1);
-	if (vec3f_len_sq(p->dir_base.dir) == 0)
-	{
-		printf("Paraboloid direction at line %d is a null vector, "
-			"cannot be normalized.", line->line_nr);
-		exit(1);
-	}
+	check_can_be_normalized(p->dir_base.dir, line, "Paraboloid direction");
 	p->dir_base.dir = vec3f_unit(p->dir_base.dir);
 	skip_one_or_more_char(line, ' ');
 	parse_float(line, &p->curvature);

@@ -190,6 +190,7 @@ void	skip_zero_or_more_char(t_parse_line *line, char c);
 void	skip_one_or_more_char(t_parse_line *line, char c);
 char	line_next(t_parse_line *line);
 
+void	check_can_be_normalized(t_vec3f dir, t_parse_line *line, char *name);
 void	parse_elem_type(t_parse_line *line, t_scene_elem_type *t);
 void	parse_ambient(t_parse_line *line, t_scene *scene);
 void	parse_camera(t_parse_line *line, t_scene *scene);
