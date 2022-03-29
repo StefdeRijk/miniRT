@@ -5,3 +5,5 @@ Check what happens when you hit things from the inside, or when your camera or s
 golf ball bumps seem in and out?
 
 check non bonus, test_plane fails at the moment.
+
+protect all mallocs
