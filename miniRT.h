@@ -266,8 +266,7 @@ t_ray	rotate_ray(t_ray r, t_vec3f pos, t_vec3f dir);
 int		ray_in_right_dir(t_ray r, t_cylinder cylinder);
 float	hit_top_or_bottom(t_ray ray, t_cylinder cylinder);
 float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
-void	objects_loop(t_ray r, t_scene *scene, t_hits *hits);
-void	objects_loop_shadow(t_ray r, t_scene *scene, t_hits *hits, \
+void	objects_loop(t_ray r, t_scene *scene, t_hits *hits, \
 	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
 
