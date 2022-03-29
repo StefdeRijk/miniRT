@@ -6,7 +6,7 @@ void	check_range_i(t_parse_line *line, int i, int min, int max)
 	{
 		printf(
 			"Expected int between %d and %d at line %d, column %d, found %d",
-			min, max, line->line_nr, line->i, i);
+			min, max, line->line_nr, line->i + 1, i);
 		error("int not in range");
 		exit(1);
 	}
@@ -18,7 +18,7 @@ void	check_range_f_exc(t_parse_line *line, float f, float min, float max)
 	{
 		printf(
 			"Expected float between %f and %f (excluding endpoints) at line %d "
-			", column %d, found %f", min, max, line->line_nr, line->i, f);
+			", column %d, found %f", min, max, line->line_nr, line->i + 1, f);
 		error("Float not in range");
 		exit(1);
 	}
@@ -30,7 +30,7 @@ void	check_range_f(t_parse_line *line, float f, float min, float max)
 	{
 		printf(
 			"Expected float between %f and %f at line %d, column %d, found %f",
-			min, max, line->line_nr, line->i, f);
+			min, max, line->line_nr, line->i + 1, f);
 		error("Float not in range");
 		exit(1);
 	}
@@ -50,7 +50,7 @@ void	check_range_vec3i(t_parse_line *line, t_vec3i v, int min, int max)
 			printf(
 				"Expected three ints between %d and %d at line %d, "
 				"before column %d, found %d for int number %d",
-				min, max, line->line_nr, line->i, j, i);
+				min, max, line->line_nr, line->i + 1, j, i);
 			error("Int not in range");
 			exit(1);
 		}
@@ -72,7 +72,7 @@ void	check_range_vec3f(t_parse_line *line, t_vec3f v, float min, float max)
 			printf(
 				"Expected three floats between %f and %f at line %d, "
 				"before column %d, found %f for float number %d",
-				min, max, line->line_nr, line->i, f, i);
+				min, max, line->line_nr, line->i + 1, f, i);
 			error("Float not in range");
 			exit(1);
 		}
