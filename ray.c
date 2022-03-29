@@ -54,7 +54,7 @@ void	get_hit(t_hits *hit, t_scene *scene, t_ray r)
 {
 	hit->hit_min = 0.;
 	hit->hit_side_cylinder = 0;
-	objects_loop(r, scene, hit);
+	objects_loop(r, scene, hit, 0);
 }
 
 t_vec3f	ray_color(t_ray r, t_scene *scene)
