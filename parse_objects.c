@@ -14,16 +14,6 @@ t_material_type	parse_check_material(t_parse_line *line)
 		return (MIRROR);
 }
 
-void check_can_be_normalized(t_vec3f dir, t_parse_line *line, char *name)
-{
-	if (vec3f_len_sq(dir) == 0)
-	{
-		printf("%s at line %d is a null vector, "
-			"cannot be normalized.", name, line->line_nr);
-		exit(1);
-	}
-}
-
 void	parse_sphere(t_parse_line *line, t_scene *scene)
 {
 	t_object	o;

@@ -27,3 +27,13 @@ void	check_in_set(t_parse_line *line, char *c, char *set)
 		exit(1);
 	}
 }
+
+void	check_can_be_normalized(t_vec3f dir, t_parse_line *line, char *name)
+{
+	if (vec3f_len_sq(dir) == 0)
+	{
+		printf("%s at line %d is a null vector, "
+			"cannot be normalized.", name, line->line_nr);
+		exit(1);
+	}
+}
