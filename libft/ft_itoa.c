@@ -44,10 +44,8 @@ char	*ft_itoa(int n)
 {
 	char	*res;
 	char	*res_copy;
-	int		i;
 	long	nl;
 
-	i = 0;
 	nl = n;
 	res = my_alloc(nl);
 	res_copy = res;
