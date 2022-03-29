@@ -27,7 +27,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 			vec3f_unit(plane.dir_base.dir)));
 	else
 		normal = (vec3f_unit(plane.dir_base.dir));
-	if (!plane.dir_base.base.bump_map.data)
+	if (!BONUS || !plane.dir_base.base.bump_map.data)
 		return (normal);
 	bump_x = ((int)(fabsf(pos_on_plane.x) * \
 		plane.dir_base.base.bump_map.width)) % \
