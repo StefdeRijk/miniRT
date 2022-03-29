@@ -245,8 +245,6 @@ float	hit_paraboloid(t_paraboloid paraboloid, t_ray r);
 t_vec3f	cylinder_side_normal(t_vec3f hit_pos, t_cylinder cylinder);
 
 t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir);
-t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center, \
-	t_sphere sphere);
 void	get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle);
 int		get_sphere_base_index(t_bmp texture, t_vec3f normal);
 

@@ -16,19 +16,6 @@ void	get_sphere_angles(t_vec3f normal, float *x_angle, float *y_angle)
 	*y_angle = 1 - *y_angle / M_PI;
 }
 
-t_vec3f	get_normal_bump_sphere(t_vec3f hit_point, t_vec3f sphere_center,
-		t_sphere sphere)
-{
-	t_vec3f	normal;
-	int		index;
-
-	normal = get_normal_sphere(hit_point, sphere_center);
-	if (!BONUS || !sphere.base.bump_map.data)
-		return (normal);
-	index = get_sphere_base_index(sphere.base.bump_map, normal);
-	return (read_bump(sphere.base.bump_map, index, normal));
-}
-
 t_vec3f	get_normal_sphere(t_vec3f hit_point, t_vec3f sphere_center)
 {
 	return (vec3f_unit(vec3f_sub(hit_point, sphere_center)));

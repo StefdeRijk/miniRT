@@ -4,9 +4,15 @@
 t_vec3f	get_sphere_normal(t_hits hit, t_ray r, t_scene *scene)
 {
 	t_sphere	sphere;
+	t_vec3f		normal;
+	int			index;
 
 	sphere = (((t_object *)(scene->objects.data))[hit.object_index]).sphere;
-	return (get_normal_bump_sphere(at(r, hit.hit_min), sphere.base.pos, sphere));
+	normal = get_normal_sphere(at(r, hit.hit_min), sphere.base.pos);
+	if (!BONUS || !sphere.base.bump_map.data)
+		return (normal);
+	index = get_sphere_base_index(sphere.base.bump_map, normal);
+	return (read_bump(sphere.base.bump_map, index, normal));
 }
 
 t_vec3f	get_plane_pos(t_hits hit, t_ray r, t_plane plane)
