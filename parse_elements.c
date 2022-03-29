@@ -19,7 +19,7 @@ void	parse_ambient(t_parse_line *line, t_scene *scene)
 	parse_check_float(line, &a->brightness, 0.0, 1.0);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &a->color, 0, 255);
-	skip_one_char(line, '\n');
+	skip_one_or_more_char(line, '\n');
 }
 
 void	parse_camera(t_parse_line *line, t_scene *scene)
@@ -35,7 +35,7 @@ void	parse_camera(t_parse_line *line, t_scene *scene)
 	parse_check_vec3f(line, &c->dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
 	parse_check_float_exc(line, &c->fov, 0, 180);
-	skip_one_char(line, '\n');
+	skip_one_or_more_char(line, '\n');
 }
 
 void	parse_light(t_parse_line *line, t_scene *scene)

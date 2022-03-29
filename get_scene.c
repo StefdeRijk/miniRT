@@ -31,6 +31,8 @@ void	get_scene(char *filename, t_scene *scene)
 	while (line.line)
 	{
 		line.i = 0;
+		if (!ft_strrchr(line.line, '\n'))
+			ft_strjoin_free(&line.line, "\n");
 		if (ft_strcmp(line.line, "\n"))
 			parse_line(line, scene);
 		free(line.line);

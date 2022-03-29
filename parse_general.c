@@ -12,7 +12,8 @@ void	skip_one_char(t_parse_line *line, char c)
 	{
 		printf("Expected '%c' (as number: %d) at line %d, \
 		column %d, found '%c' (as number: %d) \n", \
-		c, c, line->line_nr, line->i + 1, line->line[line->i], line->line[line->i]);
+		c, c, line->line_nr, line->i + 1, \
+			line->line[line->i], line->line[line->i]);
 		error("Parse error");
 	}
 	line->i++;
