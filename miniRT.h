@@ -269,6 +269,7 @@ float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder);
 void	objects_loop(t_ray r, t_scene *scene, t_hits *hits, \
 	float distance_to_spot);
 void	get_hit(t_hits *hit, t_scene *scene, t_ray r);
+t_vec3f	get_plane_pos(t_hits hit, t_ray r, t_plane plane);
 
 t_vec3f	get_sphere_norm_color(t_hits hit, t_ray r, \
 	t_vec3f *norm_dir, t_scene *scene);
