@@ -25,9 +25,11 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 NAME = libft.a
 
 ifndef DEBUG
-	FLAGS = -Wall -Wextra -Werror
+	FLAGS = -Wall -Wextra -Werror -O3
+	CC = gcc
 else
-	FLAGS = -Wall -Wextra
+	FLAGS = -Wall -Wextra -fsanitize=address -g -O3
+	CC = clang
 endif
 
 all: $(NAME)
@@ -36,7 +38,7 @@ $(NAME): $(OBJ)
 	ar rcs $@ $^
 
 %.o: %.c
-	gcc $(FLAGS) -c $^ -o $@
+	$(CC) $(FLAGS) -c $^ -o $@
 
 clean:
 	rm -f $(OBJ) $(OBJ_BONUS)

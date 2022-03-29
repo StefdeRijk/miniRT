@@ -7,9 +7,11 @@ NAME = vec.a
 
 ifndef FLAGS
 ifndef DEBUG
-	FLAGS = -Wall -Wextra -Werror
+	FLAGS = -Wall -Wextra -Werror -O3
+	CC = gcc
 else
-	FLAGS = -Wall -Wextra
+	FLAGS = -Wall -Wextra -fsanitize=address -g -O3
+	CC = clang
 endif
 endif
 
@@ -19,7 +21,7 @@ $(NAME): $(OBJ)
 	ar rcs $@ $^
 
 %.o: %.c
-	gcc $(FLAGS) -c $^ -o $@ -I..
+	$(CC) $(FLAGS) -c $^ -o $@ -I..
 
 clean:
 	rm -f $(OBJ)
