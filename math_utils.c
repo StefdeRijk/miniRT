@@ -10,7 +10,7 @@ t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min)
 	norm_dir = plane_normal(plane.dir_base.dir, r.dir);
 	hit_point = at(r, hit_min);
 	hit_point = vec3f_sub(hit_point, plane.dir_base.base.pos);
-	angle = get_angle(norm_dir);
+	angle = get_angle_to(norm_dir, vec3f_init(0, 1, 0));
 	return (ft_rodrigues(hit_point, angle.k, angle.angle));
 }
 

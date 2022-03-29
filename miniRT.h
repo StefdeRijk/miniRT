@@ -313,7 +313,6 @@ t_vec3f	ft_rodrigues(t_vec3f v, t_vec3f k, float angle);
 t_vec3f	get_rotated_hit_point(t_plane plane, t_ray r, float hit_min);
 float	signf(float a);
 t_vec3f	at(t_ray r, float t);
-t_angle	get_angle(t_vec3f dir);
 t_angle	get_angle_to(t_vec3f dir, t_vec3f to);
 
 void	error(char *str);

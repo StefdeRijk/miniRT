@@ -78,7 +78,7 @@ t_vec3f	get_paraboloid_normal(t_hits hit, t_ray r, t_scene *scene)
 		at(rot_r, hit.hit_min)));
 	norm_dir = vec3f_unit(vec3f_add(norm_dir, vec3f_init(0, 1, 0)));
 	norm_dir = vec3f_mul(norm_dir, -1.);
-	angle = get_angle(paraboloid.dir_base.dir);
+	angle = get_angle_to(paraboloid.dir_base.dir, vec3f_init(0, 1, 0));
 	norm_dir = ft_rodrigues(norm_dir, angle.k, -angle.angle);
 	return (norm_dir);
 }
