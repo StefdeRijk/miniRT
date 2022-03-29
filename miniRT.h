@@ -19,7 +19,7 @@
 # endif
 
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 560
+# define WIN_WIDTH 2560
 # define MAX_BOUNCES 5
 # define AA 2
 
