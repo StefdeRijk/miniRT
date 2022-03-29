@@ -2,13 +2,14 @@
 #include <math.h>
 
 t_vec3f	mix_diffuse_and_smooth(t_hits hit, t_scene *scene, \
-	t_vec3f color1, t_vec3f color)
+	t_vec3f color1, t_vec3f base_color)
 {
 	float	ratio;
+	t_vec3f	color;
 	t_vec3f	color2;
 
 	color2 = (((t_object *)(scene->objects.data))[hit.object_index]).base.color;
-	ratio = vec3f_len_sq(color) / 3.;
+	ratio = vec3f_len_sq(base_color) / 3.;
 	color = vec3f_mul(color1, ratio);
 	color = vec3f_add(color, vec3f_mul(color2, 1 - ratio));
 	return (color);
@@ -34,7 +35,7 @@ t_vec3f	get_sphere_color(t_hits hit, t_ray r, t_vec3f norm_dir, t_scene *scene)
 		final_color = get_color_mirror(norm_dir, r, hit.hit_min, scene);
 		if (sphere.base.texture.data)
 			final_color = mix_diffuse_and_smooth(hit, scene, \
-				base_color, final_color);
+				final_color, base_color);
 	}
 	return (final_color);
 }
@@ -61,7 +62,7 @@ t_vec3f	get_plane_color(t_hits hit, t_ray r, \
 		final_color = get_color_mirror(norm_dir, r, hit.hit_min, scene);
 		if (plane.dir_base.base.texture.data)
 			final_color = mix_diffuse_and_smooth(hit, scene, \
-				base_color, final_color);
+				final_color, base_color);
 	}
 	return (final_color);
 }
