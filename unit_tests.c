@@ -265,7 +265,6 @@ void	test_cylinder_shadow(void)
 }
 */
 
-/*
 void test_get_angle_to() {
 	t_angle result;
 
@@ -291,87 +290,80 @@ void test_rodrigues() {
 }
 
 void print_bump_test(t_vec3f bump, t_vec3f normal) {
-	printf("\nAdd ");
-	vec3f_print(bump);
-	printf(" to ");
+	t_vec3f result;
+
+	printf("\nnormal: ");
 	vec3f_print(normal);
+	printf("bump: ");
+	vec3f_print(bump);
+	printf("result: ");
+	result = add_bump_to_normal(bump, normal);
+	vec3f_print(result);
 }
 
 void test_add_bump_to_normal() {
-	t_vec3f result;
-
 	printf("------ Add bump to normal ----\n");
 	t_vec3f normal = vec3f_init(0, 0, -1);
 	t_vec3f bump_normal = vec3f_init(0, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_init(0, 0, 1);
 	bump_normal = vec3f_init(0, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(1, 0, 0));
 	bump_normal = vec3f_init(0, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(1, 0, 1));
 	bump_normal = vec3f_init(0, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(1, 0, -1));
 	bump_normal = vec3f_init(0, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
-	normal = vec3f_unit(vec3f_init(1, 0, -1));
-	bump_normal = vec3f_init(0, 0, 1);
+	normal = vec3f_unit(vec3f_init(1, 0, 0));
+	bump_normal = vec3f_init(1, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
-	normal = vec3f_unit(vec3f_init(1, 0, 1));
-	bump_normal = vec3f_init(0, 0, 1);
+	normal = vec3f_unit(vec3f_init(0.001, 0, 1));
+	bump_normal = vec3f_init(1, 0, -1);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
+	normal = vec3f_unit(vec3f_init(-0.001, 0, 1));
+	bump_normal = vec3f_init(1, 0, -1);
+	print_bump_test(bump_normal, normal);
+
+	normal = vec3f_unit(vec3f_init(0, 0.001, 1));
+	bump_normal = vec3f_init(1, 0, -1);
+	print_bump_test(bump_normal, normal);
+
+	normal = vec3f_unit(vec3f_init(0, -0.001, 1));
+	bump_normal = vec3f_init(1, 0, -1);
+	print_bump_test(bump_normal, normal);
+
+	/*
 	normal = vec3f_unit(vec3f_init(0, 0, -1));
 	bump_normal = vec3f_init(1, 0, 0);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(0, 0, -1));
 	bump_normal = vec3f_init(0, 1, 0);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(0, 0, 1));
 	bump_normal = vec3f_init(0, 1, 0);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(0, 0, -1));
 	bump_normal = vec3f_init(1, 0, 0);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
 
 	normal = vec3f_unit(vec3f_init(0, 0, 1));
 	bump_normal = vec3f_init(1, 0, 0);
 	print_bump_test(bump_normal, normal);
-	result = add_bump_to_normal(bump_normal, normal);
-	vec3f_print(result);
+	*/
 }
 
 void test_rodrigues_consitency() {
@@ -399,22 +391,21 @@ int main(void)
 {
 	setbuf(stdout, NULL);
 	setbuf(stderr, NULL);
-	test_reflection();
-	test_normal();
-	test_at();
-	test_ray_color();
-	test_ray_to_color();
-	test_ray_bounce();
-	test_rotate_ray();
+	//test_reflection();
+	//test_normal();
+	//test_at();
+	//test_ray_color();
+	//test_ray_to_color();
+	//test_ray_bounce();
+	//test_rotate_ray();
 	//test_ray_in_right_dir();
 	//test_hit_top_or_bottom();
-	test_hit_infinite_cylinder();
-	test_hit_cylinder();
+	//test_hit_infinite_cylinder();
+	//test_hit_cylinder();
 	//test_cylinder_shadow();
-	test_hit_paraboloid();
+	//test_hit_paraboloid();
 	test_get_angle_to();
 	test_rodrigues();
 	test_rodrigues_consitency();
 	test_add_bump_to_normal();
 }
-*/
