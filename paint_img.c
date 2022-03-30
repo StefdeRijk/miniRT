@@ -82,7 +82,7 @@ void	*paint_pixels(void *thread_data_p)
 		pixel_put_image(&thread_data->info->img, x, thread_data->info-> \
 			win_height - y - 1, ray_to_pixel_color(ray_color));
 	}
-	return (NULL);
+	return ((void *)(long)printf("done: %d%%\n\033[1A", 100));
 }
 
 void	paint_img(t_info *info, t_scene *scene)
