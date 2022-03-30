@@ -13,8 +13,8 @@ t_vec3f	get_sphere_normal(t_hits hit, t_ray r, t_scene *scene)
 	if (!BONUS || !sphere.base.bump_map.data)
 		return (normal);
 	index = get_sphere_base_index(sphere.base.bump_map, normal);
-	bump = (read_bump(sphere.base.bump_map, index, normal));
-	bump = add_bump_to_normal(bump, normal);
+	bump = (read_bump(sphere.base.bump_map, index));
+	bump = rotate_bump_to_sphere_normal(bump, normal);
 	return (bump);
 }
 

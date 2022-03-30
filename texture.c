@@ -1,28 +1,28 @@
 #include "miniRT.h"
 #include <math.h>
 
-t_vec3f	add_bump_to_normal(t_vec3f bump_normal, t_vec3f normal)
+t_vec3f	rotate_bump_to_sphere_normal(t_vec3f bump_normal, t_vec3f normal)
 {
-	t_angle	angle;
-	t_vec3f	added_normal;
-	t_vec3f	unit;
-	float	x_angle;
-	float	y_angle;
+	t_vec3f	t;
+	t_vec3f	b;
+	t_vec3f	c[3];
+	t_vec3f	result;
+	t_vec3f	p;
 
-	t_vec3f	p = normal;
+	p = normal;
 	p.y = 0;
 	p = vec3f_unit(p);
-	t_vec3f	t = vec3f_unit(vec3f_init(-p.z, 0, p.x));
-	t_vec3f b = vec3f_cross(normal, t);
-	t_vec3f c1 = vec3f_mul(t, bump_normal.x);
-	t_vec3f c2 = vec3f_mul(b, bump_normal.y);
-	t_vec3f c3 = vec3f_mul(normal, bump_normal.z);
-	t_vec3f result = (vec3f_unit((vec3f_add(c1, vec3f_add(c2, c3)))));
+	t = vec3f_unit(vec3f_init(-p.z, 0, p.x));
+	b = vec3f_cross(normal, t);
+	c[0] = vec3f_mul(t, bump_normal.x);
+	c[1] = vec3f_mul(b, bump_normal.y);
+	c[2] = vec3f_mul(normal, bump_normal.z);
+	result = (vec3f_unit((vec3f_add(c[0], vec3f_add(c[1], c[2])))));
 	result = vec3f_mul(result, -1);
 	return (result);
 }
 
-t_vec3f	read_bump(t_bmp bump_map, int index, t_vec3f normal)
+t_vec3f	read_bump(t_bmp bump_map, int index)
 {
 	t_vec3f	bump_normal;
 
