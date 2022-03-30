@@ -29,5 +29,5 @@ t_vec3f	read_bump(t_bmp bump_map, int index, t_vec3f normal)
 	bump_normal.x = (float)bump_map.data[index] / 128. - 1.;
 	bump_normal.y = (float)bump_map.data[index + 1] / 128. - 1.;
 	bump_normal.z = -((float)bump_map.data[index + 2] / 128. - 1.);
-	return (add_bump_to_normal(bump_normal, normal));
+	return (bump_normal);
 }

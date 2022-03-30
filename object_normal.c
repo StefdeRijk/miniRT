@@ -6,13 +6,16 @@ t_vec3f	get_sphere_normal(t_hits hit, t_ray r, t_scene *scene)
 	t_sphere	sphere;
 	t_vec3f		normal;
 	int			index;
+	t_vec3f		bump;
 
 	sphere = (((t_object *)(scene->objects.data))[hit.object_index]).sphere;
 	normal = get_normal_sphere(at(r, hit.hit_min), sphere.base.pos);
 	if (!BONUS || !sphere.base.bump_map.data)
 		return (normal);
 	index = get_sphere_base_index(sphere.base.bump_map, normal);
-	return (read_bump(sphere.base.bump_map, index, normal));
+	bump = (read_bump(sphere.base.bump_map, index, normal));
+	bump = add_bump_to_normal(bump, normal);
+	return (bump);
 }
 
 t_vec3f	get_plane_pos(t_hits hit, t_ray r, t_plane plane)
@@ -21,8 +24,8 @@ t_vec3f	get_plane_pos(t_hits hit, t_ray r, t_plane plane)
 	t_vec3f	rotated_hit_point;
 
 	rotated_hit_point = get_rotated_hit_point(plane, r, hit.hit_min);
-	plane_pos.x = fabsf(rotated_hit_point.x);
-	plane_pos.y = fabsf(rotated_hit_point.z);
+	plane_pos.x = rotated_hit_point.x;
+	plane_pos.y = rotated_hit_point.z;
 	return (plane_pos);
 }
 
