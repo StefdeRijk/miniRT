@@ -20,6 +20,7 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	int			bump_y;
 	int			base_index;
 	t_vec3f		bump;
+	t_angle		angle;
 
 	normal = plane_normal(plane.dir_base.dir, ray_dir);
 	if (!BONUS || !plane.dir_base.base.bump_map.data)
@@ -33,6 +34,8 @@ t_vec3f	plane_normal_bump(t_vec3f pos_on_plane, t_plane plane, t_vec3f ray_dir)
 	base_index = bump_x * plane.dir_base.base.bump_map.bytes_per_pixel + \
 		bump_y * plane.dir_base.base.bump_map.bytes_per_row;
 	bump = read_bump(plane.dir_base.base.bump_map, base_index, normal);
+	angle = get_angle_to(vec3f_init(0, 0, -1), normal);
+	bump = ft_rodrigues(bump, angle.k, angle.angle);
 	if (pos_on_plane.x > 0) //cannot be the correct fix, sphere still broken
 		bump.x *= -1;
 	if (pos_on_plane.y > 0)
