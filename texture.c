@@ -6,15 +6,20 @@ t_vec3f	add_bump_to_normal(t_vec3f bump_normal, t_vec3f normal)
 	t_angle	angle;
 	t_vec3f	added_normal;
 	t_vec3f	unit;
+	float	x_angle;
+	float	y_angle;
 
-	angle = get_angle_to(vec3f_init(0, 0, -1), normal);
-	bump_normal = ft_rodrigues(bump_normal, angle.k, angle.angle);
-	return (bump_normal);
-	added_normal = vec3f_add(normal, bump_normal);
-	if (vec3f_almost_equal(added_normal, vec3f_init(0., 0., 0.)))
-		added_normal = normal;
-	unit = vec3f_unit(added_normal);
-	return (unit);
+	t_vec3f	p = normal;
+	p.y = 0;
+	p = vec3f_unit(p);
+	t_vec3f	t = vec3f_unit(vec3f_init(-p.z, 0, p.x));
+	t_vec3f b = vec3f_cross(normal, t);
+	t_vec3f c1 = vec3f_mul(t, bump_normal.x);
+	t_vec3f c2 = vec3f_mul(b, bump_normal.y);
+	t_vec3f c3 = vec3f_mul(normal, bump_normal.z);
+	t_vec3f result = (vec3f_unit((vec3f_add(c1, vec3f_add(c2, c3)))));
+	result = vec3f_mul(result, -1);
+	return (result);
 }
 
 t_vec3f	read_bump(t_bmp bump_map, int index, t_vec3f normal)
