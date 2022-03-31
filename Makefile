@@ -71,6 +71,9 @@ vec:
 $(MLX):
 	$(MAKE) -C $(MLX_DIR)
 
+test:
+	(cd tests && ./run_tests)
+
 miniclean:
 	rm -f $(OBJ)
 
