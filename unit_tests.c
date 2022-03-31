@@ -386,6 +386,23 @@ void test_rodrigues_consitency() {
 	assert(vec3f_almost_equal(result, to));
 }
 
+void	test_plane_reflection()
+{
+	t_plane	plane;
+	t_ray	r;
+	t_vec3f	reflection;
+	
+	printf("------ Plane reflection ----\n");
+	printf("reflecting (0, -0.5, -1) on (0, 1, 0)\n");
+
+	plane.dir_base.dir = vec3f_init(0.00, -1, 0.00);
+	plane.dir_base.base.pos = vec3f_init(0, 0, 0);
+	r.origin = vec3f_init(0, 1, 0);
+	r.dir = vec3f_init(2, 1.5, -1);
+
+	reflection = f_reflection(r.dir, plane.dir_base.dir);
+	vec3f_print(reflection);
+}
 
 int main(void)
 {
@@ -404,8 +421,9 @@ int main(void)
 	//test_hit_cylinder();
 	//test_cylinder_shadow();
 	//test_hit_paraboloid();
-	test_get_angle_to();
-	test_rodrigues();
-	test_rodrigues_consitency();
-	test_add_bump_to_normal();
+	// test_get_angle_to();
+	// test_rodrigues();
+	// test_rodrigues_consitency();
+	// test_add_bump_to_normal();
+	test_plane_reflection();
 }
