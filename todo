@@ -1,3 +1,5 @@
 Check what happens when you hit things from the inside, or when your camera or spotlight is inside an object.
 
 lots of checks
+
+segfault with lots of mirrors and bounces?
