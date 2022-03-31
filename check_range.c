@@ -8,7 +8,6 @@ void	check_range_i(t_parse_line *line, int i, int min, int max)
 			"Expected int between %d and %d at line %d, column %d, found %d",
 			min, max, line->line_nr, line->i + 1, i);
 		error("int not in range");
-		exit(1);
 	}
 }
 
@@ -20,7 +19,6 @@ void	check_range_f_exc(t_parse_line *line, float f, float min, float max)
 			"Expected float between %f and %f (excluding endpoints) at line %d "
 			", column %d, found %f", min, max, line->line_nr, line->i + 1, f);
 		error("Float not in range");
-		exit(1);
 	}
 }
 
@@ -32,7 +30,6 @@ void	check_range_f(t_parse_line *line, float f, float min, float max)
 			"Expected float between %f and %f at line %d, column %d, found %f",
 			min, max, line->line_nr, line->i + 1, f);
 		error("Float not in range");
-		exit(1);
 	}
 }
 

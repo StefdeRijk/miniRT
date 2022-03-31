@@ -22,7 +22,7 @@ void	parse_sphere(t_parse_line *line, t_scene *scene)
 	s = &o.sphere;
 	parse_vec3f(line, &s->base.pos);
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &s->radius);
+	parse_check_float_pos(line, &s->radius);
 	s->radius /= 2;
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &s->base.color, 0, 255);
@@ -75,10 +75,10 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &c->dir_base.dir, -1, 1);
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &c->radius);
+	parse_check_float_pos(line, &c->radius);
 	c->radius /= 2;
 	skip_one_or_more_char(line, ' ');
-	parse_float(line, &c->height);
+	parse_check_float_pos(line, &c->height);
 	skip_one_or_more_char(line, ' ');
 	parse_check_color(line, &c->dir_base.base.color, 0, 255);
 	if (BONUS)
