@@ -40,7 +40,7 @@ void	objects_loop(t_ray r, t_scene *scene, t_hits *hits, \
 	while (i < scene->objects.len)
 	{
 		hit = get_hit_distance(objects[i], r, &hit_side);
-		if (distance_to_spot && hits->hit_min > 0 && \
+		if (distance_to_spot > 0 && hits->hit_min > 0 && \
 			hits->hit_min < distance_to_spot)
 			return ;
 		if (!distance_to_spot && \

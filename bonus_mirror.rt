@@ -8,7 +8,7 @@ L 1.5,1.7,-2.5 0.12 255,255,200
 pl 10.5,8,-4.4 0,0,1      38,117,141   m
 pl 0,0,0    0,0,1       38,117,141  m Dirty_surface_light.bmp
 pl 5,0,0 -1,0,0      58,187,201   m
-pl 0,-0.2,0 0,1,0.000001      237,83,20   m Dirty_surface_light.bmp
+pl 0,-0.2,0 0,1,0      237,83,20   m Dirty_surface_light.bmp
 
 
 

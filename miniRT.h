@@ -28,7 +28,7 @@
 # else
 #  define WIN_WIDTH 1560
 # endif
-# define MAX_BOUNCES 5
+# define MAX_BOUNCES 15
 # define AA 2
 
 typedef struct s_bmp {
@@ -166,6 +166,7 @@ typedef struct s_info {
 typedef struct s_old_new_ray {
 	t_ray	n;
 	t_ray	o;
+	float	hit_dist;
 }	t_old_new_ray;
 
 typedef struct s_colors {
@@ -254,8 +255,8 @@ t_vec3f	spot_light(t_old_new_ray rays, t_vec3f normal, \
 	t_light light, t_scene *scene);
 t_vec3f	spot_light_specular(t_vec3f normal, t_light light, \
 	t_old_new_ray rays, t_scene *scene);
-int		in_shadow(t_vec3f pos, t_light light, t_ray r, t_scene *scene);
-int		get_hit_shadow(t_light light, t_ray r, t_vec3f pos, t_scene *scene);
+int		in_shadow(t_vec3f pos, t_light light, t_old_new_ray rays, t_scene *scene);
+int		get_hit_shadow(t_light light, t_old_new_ray rays, t_vec3f pos, t_scene *scene);
 void	get_scene(char *filename, t_scene *scene);
 
 float	hit_sphere(t_sphere sphere, t_ray r);

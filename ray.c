@@ -73,6 +73,7 @@ t_vec3f	ray_color(t_ray r, t_scene *scene)
 			[hit.object_index]).base.get_color(hit, r, norm_dir, scene);
 		rays.n = new_ray(r, norm_dir, hit.hit_min);
 		rays.o = r;
+		rays.hit_dist = hit.hit_min;
 		if (hit.material == MIRROR)
 			return (object_color);
 		return (spot_and_ambient(rays, object_color, scene, norm_dir));
