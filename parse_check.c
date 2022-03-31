@@ -24,7 +24,7 @@ void	check_in_set(t_parse_line *line, char *c, char *set)
 	{
 		printf("Expected char in \"%s\" at line %d, at column %d, found %c", \
 		set, line->line_nr, line->i + 1, *c);
-		exit(1);
+		error("Parse error");
 	}
 }
 
@@ -34,6 +34,6 @@ void	check_can_be_normalized(t_vec3f dir, t_parse_line *line, char *name)
 	{
 		printf("%s at line %d is a null vector, "
 			"cannot be normalized.", name, line->line_nr);
-		exit(1);
+		error("Parse error");
 	}
 }
