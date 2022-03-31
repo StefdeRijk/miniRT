@@ -7,10 +7,12 @@ set -x
 #diff test_output correct_test_output
 
 (cd .. && make minire DEBUG=1 HEADLESS=1)
-../miniRT test_no_spot.rt
-../miniRT empty.rt 2> empty_output || true; diff empty_output empty_correct_output
+(cd .. && ./miniRT tests/test_no_spot.rt)
+(cd .. && ./miniRT mandatory.rt)
+(cd .. && ./miniRT tests/empty.rt 2> tests/empty_output) || true; diff empty_output empty_correct_output
 
 make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
+(cd .. && ./miniRT bonus.rt)
 ../miniRT empty.rt 2> empty_output || true; diff empty_output empty_correct_output
 
 
