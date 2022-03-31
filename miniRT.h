@@ -18,8 +18,16 @@
 #  define PROFILE 0
 # endif
 
+# ifndef HEADLESS
+#  define HEADLESS 0
+# endif
+
 # define MAX_TEXTURE_FILE_SIZE 50
-# define WIN_WIDTH 1560
+# if HEADLESS
+#  define WIN_WIDTH 10
+# else
+#  define WIN_WIDTH 1560
+# endif
 # define MAX_BOUNCES 5
 # define AA 2
 

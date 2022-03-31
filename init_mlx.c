@@ -47,6 +47,6 @@ void	init_mlx(t_scene *scene)
 	mlx_hook(info.win_ptr, DESTROY_NOTIFY, 0, handle_destroy, NULL);
 	mlx_expose_hook(info.win_ptr, draw_to_window, &info);
 	mlx_key_hook(info.win_ptr, handle_key, &info);
-	if (!PROFILE)
+	if (!PROFILE && !HEADLESS)
 		mlx_loop(info.mlx_ptr);
 }

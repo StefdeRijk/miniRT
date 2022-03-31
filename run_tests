@@ -2,5 +2,13 @@
 set -e
 set -x
 
-make minire BONUS=1 TEST=1 DEBUG=1 && ./tester > test_output
+make minire BONUS=1 TEST=1 DEBUG=1 HEADLESS=1 && ./tester > test_output
 diff test_output correct_test_output
+
+make minire DEBUG=1 HEADLESS=1
+./miniRT test_no_spot.rt
+
+make minire BONUS=1 DEBUG=1 HEADLESS=1
+./miniRT bump.rt
+
+

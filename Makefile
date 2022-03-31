@@ -30,6 +30,10 @@ ifdef PROFILE
 	CC = clang
 endif
 
+ifdef HEADLESS
+	FLAGS := $(FLAGS) -DHEADLESS=1
+endif
+
 ifndef TEST
 	NAME = miniRT
 	SRC = $(SRC_BASE) miniRT.c

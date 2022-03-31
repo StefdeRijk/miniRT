@@ -297,7 +297,7 @@ void print_bump_test(t_vec3f bump, t_vec3f normal) {
 	printf("bump: ");
 	vec3f_print(bump);
 	printf("result: ");
-	result = add_bump_to_normal(bump, normal);
+	result = rotate_bump_to_sphere_normal(bump, normal);
 	vec3f_print(result);
 }
 
