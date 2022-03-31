@@ -1,4 +1,5 @@
 export
+OBJDIR = obj
 MLX_DIR = mlx
 MLX = $(MLX_DIR)/libmlx.a
 GNL_DIR = get_next_line
@@ -41,10 +42,18 @@ ifdef BONUS
 	FLAGS := $(FLAGS) -DBONUS=1
 endif
 
+OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
+
 all: libft get_next_line vec $(NAME)
 
-$(NAME): $(SRC) $(GNL) $(LIBFT) $(MLX) miniRT.h
-	$(CC) $(FLAGS) -I. $(SRC) $(LIBFT) $(VEC) $(GNL) $(INCLUDES) -o $(NAME)
+$(OBJDIR)/%.o: %.c miniRT.h
+	$(CC) $(FLAGS) -c -o $@ $<
+
+$(NAME): $(OBJDIR) $(OBJ) $(GNL) $(LIBFT) $(MLX)
+	$(CC) $(FLAGS) -I. $(OBJ) $(LIBFT) $(VEC) $(GNL) $(INCLUDES) -o $(NAME)
+
+$(OBJDIR):
+	mkdir $(OBJDIR)
 
 libft:
 	$(MAKE) bonus -C $(LIBFT_DIR)
@@ -58,7 +67,13 @@ vec:
 $(MLX):
 	$(MAKE) -C $(MLX_DIR)
 
-clean:
+miniclean:
+	rm -f $(OBJ)
+
+minifclean: miniclean
+	rm -f $(NAME)
+
+clean: miniclean
 	$(MAKE) clean -C $(LIBFT_DIR)
 	$(MAKE) clean -C $(GNL_DIR)
 	$(MAKE) clean -C $(VEC_DIR)
@@ -68,11 +83,6 @@ fclean: clean
 	$(MAKE) fclean -C $(LIBFT_DIR)
 	$(MAKE) fclean -C $(GNL_DIR)
 	$(MAKE) fclean -C $(VEC_DIR)
-	rm -f $(NAME)
-
-miniclean:
-
-minifclean: miniclean
 	rm -f $(NAME)
 
 re: fclean all
