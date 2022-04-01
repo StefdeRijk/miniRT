@@ -22,3 +22,5 @@ make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
 (cd .. && ./miniRT tests/bonus_multiple_cameras.rt 2> tests/output) || true; diff output multiple_cameras_correct_output
 (cd .. && ./miniRT tests/bonus_multiple_ambients.rt 2> tests/output) || true; diff output multiple_ambients_correct_output
 (cd .. && ./miniRT tests/bonus_wrong_object.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_missing_entry_in_vec3f.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_float_starts_with_dot.rt)

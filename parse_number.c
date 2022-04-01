@@ -64,7 +64,7 @@ void	parse_float(t_parse_line *line, float *f)
 		sign = -1;
 	if (c == '-' || c == '+')
 		c = line_next(line);
-	if (!ft_isdigit(c))
+	if (!ft_isdigit(c) && !(c == '.' && ft_isdigit(line->line[line->i + 1])))
 		digit_error(line);
 	while (ft_isdigit(c))
 	{
