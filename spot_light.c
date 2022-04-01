@@ -3,7 +3,8 @@
 
 #define SPOT_BRIGHTNESS 70
 
-int	get_hit_shadow(t_light light, t_old_new_ray rays, t_vec3f pos, t_scene *scene)
+int	get_hit_shadow(t_light light, t_old_new_ray rays, t_vec3f pos,
+		t_scene *scene)
 {
 	t_hits	hit;
 	float	distance_to_spot;
