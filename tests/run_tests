@@ -36,4 +36,7 @@ make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
 (cd .. && ./miniRT tests/bonus_no_ambient.rt)
 (cd .. && ./miniRT tests/bonus_no_camera.rt 2> tests/output) || true; diff output empty_correct_output
 (cd .. && ./miniRT tests/bonus_cylinder_cannot_be_normalized.rt 2> tests/output) || true; diff output parse_error_correct_output
+
+norminette $(find .. -path ../mlx -prune -o -name '*.c' -print)
+norminette $(find .. -path ../mlx -prune -o -name '*.h' -print)
 echo done!
