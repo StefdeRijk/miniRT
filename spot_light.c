@@ -8,7 +8,7 @@ int	get_hit_shadow(t_light light, t_old_new_ray rays, t_vec3f pos, t_scene *scen
 	t_hits	hit;
 	float	distance_to_spot;
 
-	hit.hit_min = rays.hit_dist;
+	hit.hit_min = 0;
 	hit.hit_side_cylinder = 0;
 	distance_to_spot = vec3f_len(vec3f_sub(light.pos, pos));
 	objects_loop(rays.n, scene, &hit, distance_to_spot);
