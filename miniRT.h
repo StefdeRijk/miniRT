@@ -29,7 +29,7 @@
 #  define WIN_WIDTH 1560
 # endif
 # define MAX_BOUNCES 15
-# define AA 2
+# define AA 1
 
 typedef struct s_bmp {
 	unsigned char	*data;
