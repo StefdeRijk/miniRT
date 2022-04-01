@@ -74,6 +74,7 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	parse_vec3f(line, &c->dir_base.base.pos);
 	skip_one_or_more_char(line, ' ');
 	parse_check_vec3f(line, &c->dir_base.dir, -1, 1);
+	check_can_be_normalized(c->dir_base.dir, line, "Cylinder direction");
 	skip_one_or_more_char(line, ' ');
 	parse_check_float_pos(line, &c->radius);
 	c->radius /= 2;
@@ -84,7 +85,6 @@ void	parse_cylinder(t_parse_line *line, t_scene *scene)
 	if (BONUS)
 		c->dir_base.base.material = parse_check_material(line);
 	skip_one_or_more_char(line, '\n');
-	check_can_be_normalized(c->dir_base.dir, line, "Cylinder direction");
 	c->dir_base.dir = vec3f_unit(c->dir_base.dir);
 	c->dir_base.base.type = CYLINDER;
 	c->dir_base.base.get_color = get_cylinder_color;

@@ -11,6 +11,11 @@ set -x
 (cd .. && ./miniRT mandatory.rt)
 (cd .. && ./miniRT tests/empty.rt 2> tests/output) || true; diff output empty_correct_output
 (cd .. && ./miniRT tests/mandatory_multiple_spotlights.rt 2> tests/output) || true; diff output multiple_spotlights_correct_output
+(cd .. && ./miniRT tests/mandatory_has_material.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/mandatory_has_paraboloid.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/mandatory_no_space_after_object.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/mandatory_negative_color.rt 2> tests/output) || true; diff output int_out_of_range_correct_output
+(cd .. && ./miniRT tests/mandatory_color_too_high.rt 2> tests/output) || true; diff output int_out_of_range_correct_output
 
 make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
 (cd .. && ./miniRT bonus.rt)
@@ -23,4 +28,12 @@ make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
 (cd .. && ./miniRT tests/bonus_multiple_ambients.rt 2> tests/output) || true; diff output multiple_ambients_correct_output
 (cd .. && ./miniRT tests/bonus_wrong_object.rt 2> tests/output) || true; diff output parse_error_correct_output
 (cd .. && ./miniRT tests/bonus_missing_entry_in_vec3f.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_missing_entry_in_vec3i.rt 2> tests/output) || true; diff output parse_error_correct_output
 (cd .. && ./miniRT tests/bonus_float_starts_with_dot.rt)
+(cd .. && ./miniRT tests/bonus_float_ends_with_dot.rt)
+(cd .. && ./miniRT tests/bonus_float_ends_with_dot.rt)
+(cd .. && ./miniRT tests/bonus_material_does_not_exist.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_no_ambient.rt)
+(cd .. && ./miniRT tests/bonus_no_camera.rt 2> tests/output) || true; diff output empty_correct_output
+(cd .. && ./miniRT tests/bonus_cylinder_cannot_be_normalized.rt 2> tests/output) || true; diff output parse_error_correct_output
+echo done!
