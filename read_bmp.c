@@ -5,10 +5,13 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-void	checked_read(int fd, void *buffer, long size)
+void	checked_read(int fd, void *buffer, long size, char *file)
 {
 	if (read(fd, buffer, size) != size)
+	{
+		printf("%s\n", file);
 		error("read error");
+	}
 }
 
 static void	bgr_to_rgb(unsigned char *image, uint32_t size, int bytes_per_pixel)
@@ -44,7 +47,7 @@ int	open_file(char *file)
 	if (fd == -1)
 	{
 		printf("%s\n", file);
-		error("file not found");
+		error("could not open file");
 	}
 	return (fd);
 }
@@ -58,23 +61,23 @@ t_bmp	read_bmp(char *file)
 	int						skip;
 
 	fd = open_file(file);
-	checked_read(fd, &header, sizeof(header));
+	checked_read(fd, &header, sizeof(header), file);
 	if (header.file_type != 0x4D42)
 	{
 		printf("file %s\n", file);
 		error("no bmp!");
 	}
-	checked_read(fd, &infoheader, sizeof(infoheader));
+	checked_read(fd, &infoheader, sizeof(infoheader), file);
 	init_bmp_image(&image, infoheader);
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
 	if (skip < 0)
 		error("file corrupted!");
 	while (skip--)
-		checked_read(fd, &header, 1);
+		checked_read(fd, &header, 1, file);
 	image.data = ft_malloc_or_exit(image.bytes_per_row * image.height * \
 		sizeof(char));
 	checked_read(fd, image.data, \
-		image.bytes_per_row * image.height * sizeof(char));
+		image.bytes_per_row * image.height * sizeof(char), file);
 	bgr_to_rgb(image.data, image.bytes_per_row * image.height * sizeof(char), \
 		image.bytes_per_pixel);
 	close(fd);
