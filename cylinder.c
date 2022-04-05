@@ -42,7 +42,7 @@ float	hit_infinite_cylinder(t_ray r, t_cylinder cylinder)
 
 int	inside_cylinder(t_vec3f pos, t_cylinder cylinder)
 {
-	if (vec3f_dist(pos, cylinder.dir_base.base.pos) < cylinder.radius)
+	if (powf(pos.x, 2) + powf(pos.z, 2) < powf(cylinder.radius, 2) && fabsf(pos.y) < cylinder.height)
 		return (1);
 	return (0);
 }
@@ -56,7 +56,7 @@ float	hit_cylinder(t_cylinder cylinder, t_ray r, int *hit_side)
 
 	*hit_side = 0;
 	rot_ray = rotate_ray(r, cylinder.dir_base.base.pos, cylinder.dir_base.dir);
-	if (!ray_in_right_dir(rot_ray, cylinder) || inside_cylinder(r.origin, cylinder))
+	if (!ray_in_right_dir(rot_ray, cylinder) || inside_cylinder(rot_ray.origin, cylinder))
 		return (-1.0);
 	t_plane = hit_top_or_bottom(rot_ray, cylinder);
 	t = hit_infinite_cylinder(rot_ray, cylinder);
