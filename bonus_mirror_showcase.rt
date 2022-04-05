@@ -13,7 +13,6 @@ pl -10,-0.2,0 0,1,0       99,205,215   m Water_texture.bmp Water_normal.bmp
 pl -10,55.2,0 0,1,0       102,109,203   m Dirty_surface_light.bmp
 
 
-
 sp 2.5,0,-5 5           58,187,201   m Dirty_surface_extra_light.bmp
 sp 0,1,-5 2             237,83,20  m Dirty_surface_light.bmp
 
@@ -32,7 +31,6 @@ sp -0.5,0,-3.5 0.7      102,109,203   c white.bmp golf_ball.bmp
 L -0.7,0.7,-3.2 0.02 255,255,200
 
 sp 0.8,0,-1.6 0.9      237,83,20   n Earth_texture.bmp Earth_normal.bmp
-sp 0.8,-0.2,-1.175 0.4      237,83,20   n
 
 
 pa 1,2,-3  0.3,1,0  1.0  255,185,42  m
