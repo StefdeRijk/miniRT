@@ -360,6 +360,7 @@ t_angle	get_angle_to(t_vec3f dir, t_vec3f to);
 void	error(char *str);
 void	digit_error(t_parse_line *line);
 
+void	check_magic(uint16_t file_type, char *file);
 void	checked_read(int fd, void *buffer, long size, char *file);
 int		open_file(char *file);
 void	init_bmp_image(t_bmp *image, struct s_BMPInfoHeader infoheader);

@@ -2,6 +2,8 @@
 #include <assert.h>
 #include <math.h>
 
+#ifdef 0
+
 /*
 void	test_reflection(void)
 {
@@ -265,6 +267,7 @@ void	test_cylinder_shadow(void)
 }
 */
 
+/*
 void test_get_angle_to() {
 	t_angle result;
 
@@ -342,7 +345,7 @@ void test_add_bump_to_normal() {
 	normal = vec3f_unit(vec3f_init(0, -0.001, 1));
 	bump_normal = vec3f_init(1, 0, -1);
 	print_bump_test(bump_normal, normal);
-
+*/
 	/*
 	normal = vec3f_unit(vec3f_init(0, 0, -1));
 	bump_normal = vec3f_init(1, 0, 0);
@@ -363,7 +366,6 @@ void test_add_bump_to_normal() {
 	normal = vec3f_unit(vec3f_init(0, 0, 1));
 	bump_normal = vec3f_init(1, 0, 0);
 	print_bump_test(bump_normal, normal);
-	*/
 }
 
 void test_rodrigues_consitency() {
@@ -403,7 +405,6 @@ void	test_plane_reflection()
 	reflection = f_reflection(r.dir, plane.dir_base.dir);
 	vec3f_print(reflection);
 }
-/*
 int main(void)
 {
 	setbuf(stdout, NULL);
@@ -429,5 +430,7 @@ int main(void)
 }
 
 */
-int main() {
+
+int	main(void)
+{
 }

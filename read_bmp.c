@@ -62,11 +62,7 @@ t_bmp	read_bmp(char *file)
 
 	fd = open_file(file);
 	checked_read(fd, &header, sizeof(header), file);
-	if (header.file_type != 0x4D42)
-	{
-		printf("file %s\n", file);
-		error("no bmp!");
-	}
+	check_magic(header.file_type, file);
 	checked_read(fd, &infoheader, sizeof(infoheader), file);
 	init_bmp_image(&image, infoheader);
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
