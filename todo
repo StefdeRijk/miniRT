@@ -1,12 +1,8 @@
-Check what happens when you hit things from the inside, or when your camera or spotlight is inside an object.
-
 lots of checks
-
-camera in mirror and camera in cylinder don't show the same result
-
-object in paraboloid doesn't work
 
 handle corrupted bmp's correctly
 - already checked:
 -- truncated files 
 -- files with a bunch of FF at the start, which will mess with the `skip`
+
+black holes in water
