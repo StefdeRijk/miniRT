@@ -7,3 +7,6 @@ camera in mirror and camera in cylinder don't show the same result
 object in paraboloid doesn't work
 
 handle corrupted bmp's correctly
+- already checked:
+-- truncated files 
+-- files with a bunch of FF at the start, which will mess with the `skip`
