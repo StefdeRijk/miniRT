@@ -28,7 +28,7 @@ ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror -O3
 	CC = gcc
 else
-	FLAGS = -Wall -Wextra -fsanitize=address -g -O3
+	FLAGS = -Wall -Wextra -fsanitize=address,undefined -g -O3
 	CC = clang
 endif
 

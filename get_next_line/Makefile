@@ -12,9 +12,11 @@ OBJ_BONUS = $(SRC_BONUS:.c=.o)
 NAME = get_next_line.a
 
 ifndef DEBUG
-	FLAGS = -Wall -Wextra -Werror
+	CC = gcc
+	FLAGS = -Wall -Wextra -Werror -O3
 else
-	FLAGS = -Wall -Wextra
+	CC = clang
+	FLAGS = -Wall -Wextra -fsanitize=address,undefined -g -O3
 endif
 
 all: $(NAME)
@@ -23,7 +25,7 @@ $(NAME): $(OBJ)
 	ar rcs $@ $^
 
 %.o: %.c
-	gcc $(FLAGS) -c $^ -o $@ -DBUFFER_SIZE=10000
+	$(CC) $(FLAGS) -c $^ -o $@ -DBUFFER_SIZE=10000
 
 clean:
 	rm -f $(OBJ) $(OBJ_BONUS)
