@@ -31,6 +31,29 @@
 # define MAX_BOUNCES 15
 # define AA 1
 
+struct	__attribute__((packed)) s_BMPFileHeader
+{
+	uint16_t	file_type;
+	uint32_t	file_size;
+	uint16_t	reserved1;
+	uint16_t	reserved2;
+	uint32_t	offset_data;
+};
+
+struct	__attribute__((packed)) s_BMPInfoHeader {
+	uint32_t	size;
+	int32_t		width;
+	int32_t		height;
+	uint16_t	planes;
+	uint16_t	bit_count;
+	uint32_t	compression;
+	uint32_t	size_image;
+	int32_t		x_pixels_per_meter;
+	int32_t		y_pixels_per_meter;
+	uint32_t	colors_used;
+	uint32_t	colors_important;
+};
+
 typedef struct s_bmp {
 	unsigned char	*data;
 	int				width;
@@ -337,6 +360,9 @@ t_angle	get_angle_to(t_vec3f dir, t_vec3f to);
 void	error(char *str);
 void	digit_error(t_parse_line *line);
 
+void	checked_read(int fd, void *buffer, long size);
+int		open_file(char *file);
+void	init_bmp_image(t_bmp *image, struct s_BMPInfoHeader infoheader);
 t_bmp	read_bmp(char *file);
 t_vec3f	read_bump(t_bmp bump_map, int index);
 t_vec3f	rotate_bump_to_sphere_normal(t_vec3f bump_normal, t_vec3f normal);

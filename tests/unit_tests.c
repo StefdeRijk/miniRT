@@ -403,7 +403,7 @@ void	test_plane_reflection()
 	reflection = f_reflection(r.dir, plane.dir_base.dir);
 	vec3f_print(reflection);
 }
-
+/*
 int main(void)
 {
 	setbuf(stdout, NULL);
@@ -426,4 +426,8 @@ int main(void)
 	// test_rodrigues_consitency();
 	// test_add_bump_to_normal();
 	test_plane_reflection();
+}
+
+*/
+int main() {
 }

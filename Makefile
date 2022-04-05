@@ -43,6 +43,11 @@ else
 	SRC = $(SRC_BASE) unit_tests.c
 endif
 
+ifdef SCALE_BMP
+	NAME = scale_bmp
+	SRC = $(SRC_BASE) scale_down_bump.c
+endif
+
 ifdef BONUS
 	FLAGS := $(FLAGS) -DBONUS=1
 endif

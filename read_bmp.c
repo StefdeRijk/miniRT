@@ -5,30 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-struct	__attribute__((packed)) s_BMPFileHeader
-{
-	uint16_t	file_type;
-	uint32_t	file_size;
-	uint16_t	reserved1;
-	uint16_t	reserved2;
-	uint32_t	offset_data;
-};
-
-struct	__attribute__((packed)) s_BMPInfoHeader {
-	uint32_t	size;
-	int32_t		width;
-	int32_t		height;
-	uint16_t	planes;
-	uint16_t	bit_count;
-	uint32_t	compression;
-	uint32_t	size_image;
-	int32_t		x_pixels_per_meter;
-	int32_t		y_pixels_per_meter;
-	uint32_t	colors_used;
-	uint32_t	colors_important;
-};
-
-static void	checked_read(int fd, void *buffer, long size)
+void	checked_read(int fd, void *buffer, long size)
 {
 	if (read(fd, buffer, size) != size)
 		error("read error");
@@ -83,7 +60,10 @@ t_bmp	read_bmp(char *file)
 	fd = open_file(file);
 	checked_read(fd, &header, sizeof(header));
 	if (header.file_type != 0x4D42)
+	{
+		printf("file %s\n", file);
 		error("no bmp!");
+	}
 	checked_read(fd, &infoheader, sizeof(infoheader));
 	init_bmp_image(&image, infoheader);
 	skip = header.offset_data - sizeof(header) - sizeof(infoheader);
@@ -97,5 +77,6 @@ t_bmp	read_bmp(char *file)
 		image.bytes_per_row * image.height * sizeof(char));
 	bgr_to_rgb(image.data, image.bytes_per_row * image.height * sizeof(char), \
 		image.bytes_per_pixel);
+	close(fd);
 	return (image);
 }
