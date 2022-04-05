@@ -38,6 +38,10 @@ make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
 (cd .. && ./miniRT tests/bonus_cylinder_cannot_be_normalized.rt 2> tests/output) || true; diff output parse_error_correct_output
 (cd .. && ./miniRT tests/bonus_corrupted_green.rt 2> tests/output) || true; diff output corrupted_bmp_correct_output
 (cd .. && ./miniRT tests/bonus_truncated_green.rt 2> tests/output) || true; diff output read_error_correct_output
+(cd .. && ./miniRT tests/bonus_int_too_large.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_int_too_small.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_float_too_large.rt 2> tests/output) || true; diff output parse_error_correct_output
+(cd .. && ./miniRT tests/bonus_float_too_small.rt 2> tests/output) || true; diff output parse_error_correct_output
 
 norminette $(find .. -path ../mlx -prune -o -name '*.c' -print)
 norminette $(find .. -path ../mlx -prune -o -name '*.h' -print)

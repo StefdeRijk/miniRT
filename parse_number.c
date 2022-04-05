@@ -1,4 +1,6 @@
 #include "miniRT.h"
+#include <limits.h>
+#include <float.h>
 
 void	digit_error(t_parse_line *line)
 {
@@ -17,8 +19,9 @@ void	parse_int(t_parse_line *line, int *i)
 {
 	int		sign;
 	char	c;
+	long	l;
 
-	*i = 0;
+	l = 0;
 	sign = 1;
 	c = line->line[line->i];
 	if (c == '-')
@@ -29,12 +32,23 @@ void	parse_int(t_parse_line *line, int *i)
 		digit_error(line);
 	while (ft_isdigit(c))
 	{
-		*i = *i * 10 + sign * (c - '0');
+		l = l * 10 + sign * (c - '0');
 		c = line_next(line);
+		if (l > INT_MAX || l < INT_MIN)
+		{
+			if (l > INT_MAX)
+				printf("Integer too large at line %d, column %d.",
+						line->line_nr, line->i + 1);
+			if (l < INT_MIN)
+				printf("Integer too small at line %d, column %d.",
+						line->line_nr, line->i + 1);
+			error("Parse error");
+		}
 	}
+	*i = l;
 }
 
-void	parse_decimals(t_parse_line *line, float *f, float sign)
+void	parse_decimals(t_parse_line *line, double *f, float sign)
 {
 	char	c;
 	float	after_dot;
@@ -56,8 +70,9 @@ void	parse_float(t_parse_line *line, float *f)
 {
 	float	sign;
 	char	c;
+	double	d;
 
-	*f = 0;
+	d = 0;
 	sign = 1;
 	c = line->line[line->i];
 	if (c == '-')
@@ -68,9 +83,20 @@ void	parse_float(t_parse_line *line, float *f)
 		digit_error(line);
 	while (ft_isdigit(c))
 	{
-		*f = *f * 10 + sign * (c - '0');
+		d = d * 10 + sign * (c - '0');
 		c = line_next(line);
+		if (d > FLT_MAX || d < -FLT_MAX)
+		{
+			if (d > FLT_MAX)
+				printf("Float too large at line %d, column %d.",
+						line->line_nr, line->i + 1);
+			if (d < -FLT_MAX)
+				printf("Float too small at line %d, column %d.",
+						line->line_nr, line->i + 1);
+			error("Parse error");
+		}
 	}
 	if (c == '.')
-		parse_decimals(line, f, sign);
+		parse_decimals(line, &d, sign);
+	*f = d;
 }
