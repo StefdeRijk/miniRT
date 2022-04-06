@@ -16,7 +16,7 @@ SRC_BASE = check_range.c parse_elements.c parse_general.c parse_number.c\
 	  cylinder_utils.c color_utils.c check_hits.c paraboloid.c \
 	  read_bmp.c checkerboard.c checkerboard_utils.c get_texture.c paint_img.c\
 	  parse_texture.c mirror.c texture.c get_angle.c object_color.c object_normal.c\
-	  check_positive.c bmp_utils.c
+	  check_positive.c bmp_utils.c parse_number_utils.c
 
 ifndef DEBUG
 	FLAGS = -Wall -Wextra -Werror -O3

@@ -1,6 +1,4 @@
 #include "miniRT.h"
-#include <limits.h>
-#include <float.h>
 
 void	digit_error(t_parse_line *line)
 {
@@ -34,16 +32,7 @@ void	parse_int(t_parse_line *line, int *i)
 	{
 		l = l * 10 + sign * (c - '0');
 		c = line_next(line);
-		if (l > INT_MAX || l < INT_MIN)
-		{
-			if (l > INT_MAX)
-				printf("Integer too large at line %d, column %d.",
-						line->line_nr, line->i + 1);
-			if (l < INT_MIN)
-				printf("Integer too small at line %d, column %d.",
-						line->line_nr, line->i + 1);
-			error("Parse error");
-		}
+		check_long_over_int(l, line);
 	}
 	*i = l;
 }
@@ -85,16 +74,7 @@ void	parse_float(t_parse_line *line, float *f)
 	{
 		d = d * 10 + sign * (c - '0');
 		c = line_next(line);
-		if (d > FLT_MAX || d < -FLT_MAX)
-		{
-			if (d > FLT_MAX)
-				printf("Float too large at line %d, column %d.",
-						line->line_nr, line->i + 1);
-			if (d < -FLT_MAX)
-				printf("Float too small at line %d, column %d.",
-						line->line_nr, line->i + 1);
-			error("Parse error");
-		}
+		check_double_over_float(d, line);
 	}
 	if (c == '.')
 		parse_decimals(line, &d, sign);

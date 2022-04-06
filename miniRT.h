@@ -263,6 +263,8 @@ void	parse_check_vec3f(t_parse_line *line, t_vec3f *f, float min, float max);
 void	parse_check_vec3i(t_parse_line *line, t_vec3i *i, int min, int max);
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max);
 void	parse_check_char(t_parse_line *line, char *c, char *set);
+void	check_long_over_int(long l, t_parse_line *line);
+void	check_double_over_float(double d, t_parse_line *line);
 
 int		trgb_to_int(int t, int r, int g, int b);
 int		rgb_to_color(t_vec3i color);
