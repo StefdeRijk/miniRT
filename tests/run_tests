@@ -8,7 +8,7 @@ set -x
 
 (cd .. && make minire DEBUG=1 HEADLESS=1)
 (cd .. && ./miniRT tests/test_no_spot.rt)
-(cd .. && ./miniRT mandatory.rt)
+(cd .. && ./miniRT rt_files/mandatory.rt)
 (cd .. && ./miniRT tests/empty.rt 2> tests/output) || true; diff output empty_correct_output
 (cd .. && ./miniRT tests/mandatory_multiple_spotlights.rt 2> tests/output) || true; diff output multiple_spotlights_correct_output
 (cd .. && ./miniRT tests/mandatory_has_material.rt 2> tests/output) || true; diff output parse_error_correct_output
@@ -18,7 +18,7 @@ set -x
 (cd .. && ./miniRT tests/mandatory_color_too_high.rt 2> tests/output) || true; diff output int_out_of_range_correct_output
 
 make -C .. minire BONUS=1 DEBUG=1 HEADLESS=1
-(cd .. && ./miniRT bonus.rt)
+(cd .. && ./miniRT rt_files/bonus.rt)
 ../miniRT empty.rt 2> output || true; diff output empty_correct_output
 (cd .. && ./miniRT tests/space_missing.rt 2> tests/output) || true; diff output parse_error_correct_output
 (cd .. && ./miniRT tests/bonus_negative_cylinder_radius.rt 2> tests/output) || true; diff output float_not_in_range_correct_output
