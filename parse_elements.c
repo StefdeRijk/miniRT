@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse_elements.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dnoom <marvin@codam.nl>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/06 11:25:33 by dnoom         #+#    #+#                 */
+/*   Updated: 2022/04/06 11:25:33 by dnoom         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
 void	parse_check_color(t_parse_line *line, t_vec3f *color, int min, int max)

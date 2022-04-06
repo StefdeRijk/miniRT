@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        ::::::::            */
+/*   parse_element_type.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: dnoom <marvin@codam.nl>                      +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/04/06 11:25:33 by dnoom         #+#    #+#                 */
+/*   Updated: 2022/04/06 11:25:33 by dnoom         ########   odam.nl         */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "miniRT.h"
 
 void	set_element(t_parse_line *line, char c, char c2, t_scene_elem_type *t)
